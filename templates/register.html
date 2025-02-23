@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ tournament.name }}</h2>
+<p>{{ tournament.description }}</p>
+<p>Start Date: {{ tournament.start_date }}</p>
+<p>End Date: {{ tournament.end_date }}</p>
+
+{% if team %}
+    <h3>Your Team</h3>
+    <p>Team Name: {{ team.name }}</p>
+{% else %}
+    <p>You haven't created a team yet.</p>
+{% endif %}
+
+{% endblock %}

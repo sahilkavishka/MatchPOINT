@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+   .namepic {
+       display: flex;
+       align-items: center;
+       gap: 30px;
+       margin: 30px;
+   }
+
+   .teamlogo {
+       width: 100px;
+       height: 100px;
+       border-radius: 50%;
+       object-fit: cover;
+       border: 3px solid rgb(255, 255, 255);
+       box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+   }
+
+   .teambody {
+       background-color: rgb(129, 209, 127);
+       width: 100%;
+       max-width: 600px;
+       border-radius: 10px;
+       box-shadow: 0px 5px 5px rgba(6, 39, 13, 0.822);
+       padding: 15px;
+       font-family: Arial, sans-serif;
+       margin: 100px auto 250px;
+   }
+
+   h1 {
+       font-size: 35px;
+   }
+
+   .details {
+       margin-top: 70px;
+       text-align: left;
+       line-height: 2;
+       padding: 0 20px;
+   }
+
+   .membercard {
+       max-width: 500px;
+       display: flex;
+       flex-direction: column;
+       margin-top: 20px;
+   }
+
+   .membercard ul {
+       list-style: none;
+       
+       
+       border-radius: 20px;
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+
+   .membercard li {
+       margin: 10px 0;
+       border-radius: 20px;
+       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       text-align: center;
+       border: solid 2px rgb(53, 245, 15);
+       background: rgb(38, 172, 38);
+   }
+
+   .membercard img {
+       width: 200px;
+       height: 200px;
+       border-radius: 20px;
+       border: 2px solid rgb(0, 255, 55);
+       margin-bottom: 10px;
+       margin-top: 10px;
+   }
+
+   .membercard i {
+       color: rgb(204, 21, 21);
+   }
+</style>
+
+<div class="teambody">
+    {% if team %}
+        <div class="namepic">
+            {% if team.logo %}
+                <img class="teamlogo" src="{{ team.logo.url }}" alt="{{ team.name }}">
+            {% endif %}
+            <h1>{{ team.name }}</h1>
+        </div>
+        <hr>
+
+        <div class="details">
+            <div><strong>Sport:</strong> {{ team.sport.name }}</div>
+            <div><strong>City:</strong> {{ team.city.name }}</div>
+            <div><strong>Contact Details:</strong> {{ team.contact_details|default:"N/A" }}</div>
+            <div><strong>Members:</strong> {{ team.capacity }} players</div>
+            <div><strong>Created By:</strong> {{ team.created_by.username }}</div>
+            <div><strong>Created Date:</strong> {{ team.created_date }}</div>
+            <div><strong>Rules:</strong> <p>{{ team.rules }}</p></div>
+
+            <a href="{% url 'add_team_member' team.id %}" class="btn btn-success"><i class="material-icons">add</i>Add Member</a>
+
+            <!-- ✅ Members List -->
+            <h3>Team Members</h3>
+            <div class="membercard">
+                {% if members %}
+                    <ul>
+                        {% for member in members %}
+                            <li>
+                                {% if member.memberpic %}
+                                    <img src="{{ member.memberpic.url }}" alt="Profile Pic">
+                                {% else %}
+                                    <p>No Image</p>
+                                {% endif %}
+                                
+                                <strong>{{ member.name }}</strong>
+                                <span>{{ member.age }} years old</span>
+                                <span>{{ member.height }} tall</span>
+                                <span>Position: {{ member.position }}</span>
+                                {% if request.user == team.created_by %}
+                                <a href="{% url 'delete_team_member' member.id %}" onclick="return confirm('Are you sure you want to remove this member?');">
+                                    <i class="material-icons">delete</i>
+                                </a>
+                                {%endif%}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No members in this team yet.</p>
+                {% endif %}
+
+                
+                <form action="{% url 'delete_team' team.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this team?');">
+                    {% csrf_token %}
+                    {% if request.user == team.created_by %}
+                        <button type="submit"><i class="material-icons">delete</i></button>
+                    {% endif %}
+                </form>
+                
+                
+            </div>
+        </div>
+    {% else %}
+        <p>Team not found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>add tournament</title>
+        <style type="text/css">
+           /* General body styling */
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(43, 41, 41);
+    margin: 0;
+    padding: 0;
+}
+
+/* Center the form on the page */
+form {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgb(25, 105, 42);
+    color: white;
+    border-radius: 35px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+/* Form heading */
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Paragraph text */
+p {
+    text-align: left;
+    color: rgb(255, 255, 255);
+}
+
+/* Form input fields */
+input[type="text"],
+input[type="date"],
+input[type="Number"],
+select,
+input[type="file"] {
+    width: 50%; /* Make input fields 100% width of the form */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid rgb(12, 12, 12);
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-right:auto;
+    
+}
+
+/* Submit button */
+button[type="submit"] {
+    width: 100%; /* Make button 100% width of the form */
+    padding: 12px;
+    background-color: rgb(31, 196, 31);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+/* Add spacing between form elements */
+form > p {
+    margin-bottom: 15px;
+    margin-left: 150px;
+}
+form h2{
+    color:rgb(252, 252, 252)
+}
+
+        </style>
+    </head>
+    <body> 
+
+    <form method="POST" enctype="multipart/form-data">
+      <h2> Add tournament </h2>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>

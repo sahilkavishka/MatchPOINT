@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+    {% if  user.role == "Player" %}
+    <h2>Add Team Member</h2>  
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}  
+            <button type="submit" class="btn btn-primary">Add Member</button>
+        </form>
+    {% else %}
+        <p style="color: red;">Only players can add team members.</p>
+    {% endif %}
+    <a href="{% url 'team_detail' team.id %}" class="btn btn-secondary">Back</a>
+{% endif %}
+
+{% endblock %}
+

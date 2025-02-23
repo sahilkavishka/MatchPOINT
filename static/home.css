@@ -1,0 +1,308 @@
+.allhome{
+    display: flex;
+}
+/* Tournament Card Styling */
+.tournament {
+    background-color: rgb(129, 209, 127); /* Alternative: darkolivegreen */
+    width: 100%;
+    max-width: 500px; /* Increased for better layout */ 
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px rgba(6, 39, 13, 0.822);
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    margin: auto;
+    margin-bottom: 25;
+    margin-left: 60;
+    
+   
+}
+.tournament span {
+    margin-right: auto;
+    font-size: 24px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: normal;
+}
+
+.namepic {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+   
+}
+
+/* Tournament Heading */
+.tournament h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #0a0a0a;
+    text-align: center;
+}
+
+/* Tournament Details */
+.tournament p {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #0c0c0c;
+}
+
+.tournament-container {
+    display: flex;
+    align-items: stretch; /* Ensures both items have the same height */
+    gap: 20px; /* Space between image and content */
+}
+
+.tournament-image {
+    width: 50%; 
+    max-width: 400px; /* Adjust as needed */
+    height: 50%;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px rgba(1, 19, 5, 0.822);
+    margin-top: 20px;
+    margin-bottom: 70px;
+
+}
+
+.content {
+    flex-grow: 1; /* Fills remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align content vertically */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tournament-container {
+        flex-direction: column; /* Stack image and content on small screens */
+    }
+
+    .tournament-image {
+        width: 500px; /* Make it responsive */
+        max-width: 500px; /* Increase the width */
+        height: 100%;
+        border-radius: 10px; /* Optional: Rounded corners */
+    }
+    
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-start; /* Center buttons */
+    align-items: center; /* Align vertically */
+    gap: 15px; /* Space between buttons */
+    margin-top: 15px;
+}
+
+.button-group button {
+    text-align: center;
+    border-radius: 50%;
+    object-fit: cover;
+    width: 40px;
+    height: 40px;
+    cursor:pointer;
+    background-color: #13b913;
+    color: rgb(248, 250, 248);
+    border: solid 1px rgb(22, 185, 22);
+}
+
+.button-group button:hover,
+.button-group a:hover {
+    background-color: #fcfdfc;
+    color: rgb(45, 182, 40);
+    
+}
+
+.button-group a{
+    padding: 8px 8px;
+    
+    color: white;
+    text-decoration: none;
+    border-radius: 17px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 18;
+    font-size: 14px;
+}
+.button-group textarea{
+    border-radius: 20px;
+    border: solid 1px  #0da53a ;
+    
+}
+
+
+
+
+/* General Layout */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Select Container */
+.select-container {
+    display: flex;
+    flex-wrap: wrap; /* Prevents overlap on small screens */
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Individual Select Styling */
+select {
+    background-color: #ffffff;
+    border: 2px solid #26cc20;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    min-width: 150px; /* Prevents layout issues */
+    text-align: center;
+    scroll-behavior: smooth;
+    
+}
+
+/* Hover Effect */
+select:hover {
+    border-color: #06f84e;
+    color: white;
+    background-color: #0da53a;
+    
+    box-shadow: 0 4px 8px rgba(32, 139, 41, 0.2);
+}
+
+/* Focus Effect */
+select:focus {
+    outline: none;
+    border-color: #00ff40;
+    box-shadow: 0 0 10px rgba(13, 92, 3, 0.2);
+
+}
+
+/* Option Styling */
+option {
+    font-size: 16px;
+    padding: 10px;
+    background-color: white;
+    color:#0a0a0a
+}
+option:hover {
+    
+    accent-color: #0da53a;
+}
+/* Form Wrapper */
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Profile Picture */
+.profile {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Ensure width and height are the same */
+    border-radius: 50%; /* Makes it circular */
+    object-fit: cover; /* Ensures the image fits within the circle */
+    border: 2px solid #ddd; /* Optional: Adds a border */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a shadow */
+    margin-top: 10;
+}
+
+
+
+
+.comments-section {
+    
+    gap: 10px; /* Space between input and button */
+    margin: 20px auto; /* Center the search bar and add spacing */
+    width: auto;
+    height: auto;
+    max-width: 400px; /* Limit the width */
+    text-align: center;
+    
+}
+
+.comment {
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    text-align: center;
+    
+    
+}
+
+.see-more-btn {
+    background-color: #0b9128;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: -10px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    margin-left:  380px;
+    border-radius: 17px;
+}
+
+.see-more-btn:hover {
+    background-color: #f6f7f8;
+    color: #0db637;
+    border:1px solid #00ff40;
+}
+
+.likecomment{
+    margin-top: -50px;
+}
+
+.commentpic {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Ensure width and height are the same */
+    border-radius: 50%; /* Makes it circular */
+    object-fit:cover; /* Ensures the image fits within the circle */
+    margin-bottom: -10;
+    
+    
+    
+}
+
+
+.hometeam{
+        
+        gap: 10px;
+        justify-content: left;
+        flex-wrap: wrap;
+        margin-bottom: 5px;
+        
+        
+}
+.homecard{
+    background: rgb(129, 209, 127);
+        border-radius: 10px;
+        box-shadow: 0px 5px 5px rgba(6, 39, 13, 0.822);
+        padding: 5px;
+        text-align: left;
+        width:350px;
+        margin: auto;
+        margin-bottom: 25;
+        margin-left: 60;
+        
+}
+
+.homecard img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgb(255, 255, 255);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    margin-left:2px;
+}
+.homecard a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin: center;
+    font-weight: bold;
+}
