@@ -31,7 +31,7 @@
     <div class="hometeam">
         {% for team in teams %}
             <div class="homecard">
-                <a href="{% url 'team_detail' team.id %}">
+                <a href="{% url 'team' team.id %}">
                     {% if team.logo %}
                         <img src="{{ team.logo.url }}" alt="{{ team.name }}">
                     {% endif %}

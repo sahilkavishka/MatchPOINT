@@ -1,3 +1,4 @@
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -6,36 +7,26 @@ from django.contrib import messages
 from django.db.models import Q
 from .forms import  UserRegistrationForm, TournamentForm,TeamMemberForm 
 from .models import City, CreateTeam, Like,  Tournament, Registration, Sport, Comment  ,TeamMembers
-
-
 from django.shortcuts import render
-from django.db.models import Q
 from .models import Tournament, Sport, City, CreateTeam
 
 def home_view(request):
-    tournaments = Tournament.objects.all().order_by('-date')
-    sports = Sport.objects.all()
-    cities = City.objects.all()
-
     search_query = request.GET.get('q', '')  
-    sport = request.GET.get('sport', '')  
-    city = request.GET.get('city', '')  
+    sport_id = request.GET.get('sport', '')  
+    city_id = request.GET.get('city', '')  
 
-    # Search in Tournaments
+    tournaments = Tournament.objects.all().order_by('-date')
     if search_query:
         tournaments = tournaments.filter(
             Q(name__icontains=search_query) |
             Q(city__name__icontains=search_query) |
             Q(sport__name__icontains=search_query)
         ).distinct()
+    if sport_id:
+        tournaments = tournaments.filter(sport__id=sport_id)
+    if city_id:
+        tournaments = tournaments.filter(city__id=city_id)
 
-    if sport:
-        tournaments = tournaments.filter(sport__id=sport).order_by('-date')
-    
-    if city:
-        tournaments = tournaments.filter(city__id=city).order_by('-date')
-
-    # 🔹 Search in Teams (CreateTeam model)
     teams = CreateTeam.objects.filter(
         Q(name__icontains=search_query) |
         Q(city__name__icontains=search_query) |
@@ -44,41 +35,29 @@ def home_view(request):
 
     return render(request, 'home.html', {
         'tournaments': tournaments,
-        'teams': teams,  # Pass teams to the template
-        'sports': sports,
-        'cities': cities,
+        'teams': teams,
+        'sports': Sport.objects.all(),
+        'cities': City.objects.all(),
         'search_query': search_query,
-        'selected_city': city
+        'selected_city': city_id
     })
 
-
-
-# Registration View
 def register_view(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Account created successfully! You can now log in.')
-            return redirect('login')
-    else:
-        form = UserRegistrationForm()
+    form = UserRegistrationForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Account created successfully! You can now log in.')
+        return redirect('login')
     return render(request, 'signup.html', {'form': form})
 
-
-# Login View
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user:
             login(request, user)
             return redirect('home')
-        else:
-            messages.error(request, 'Invalid username or password.')
+        messages.error(request, 'Invalid username or password.')
     return render(request, 'login.html')
-
 
 # Logout View
 def logout_view(request):
@@ -103,7 +82,7 @@ def add_tournament(request):
 @login_required
 def create_team(request):
     if request.method == 'POST':
-        # Get the form data
+       
         name = request.POST['name']
         sport = Sport.objects.get(id=request.POST['sport'])
         city = City.objects.get(id=request.POST['city'])
@@ -181,84 +160,66 @@ def team_detail_view(request, team_id):
 
 
 def team_detail(request, team_id=None):
-    teams = CreateTeam.objects.all()  # ✅ Use the actual model name
-    team = get_object_or_404(CreateTeam, id=team_id)
-    members = None
-    if team_id:
-        team = get_object_or_404(CreateTeam, id=team_id)
-        members = team.members.all()  # Assuming a ForeignKey or ManyToMany relation
+    teams = CreateTeam.objects.all()  
+    team = get_object_or_404(CreateTeam, id=team_id) if team_id else None
+    members = team.members.all() if team else None  
 
     return render(request, 'team.html', {'teams': teams, 'team': team, 'members': members})
 
 
-@login_required
+
 def register_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
     registration, created = Registration.objects.get_or_create(user=request.user, tournament=tournament)
-
-    # Fetch the user's team if they have one
-    team = CreateTeam.objects.filter(created_by=request.user).first()
+    user_team = CreateTeam.objects.filter(created_by=request.user).first()
+    registered_teams = CreateTeam.objects.filter(created_by__in=Registration.objects.filter(tournament=tournament).values_list('user', flat=True)).distinct()
 
     return render(request, 'register.html', {
         'tournament': tournament,
-        'team': team  # Pass the team details to the template
+        'team': user_team,
+        'registration': registration,
+        'registered_teams': registered_teams,
+        'created': created,
     })
-
 
 
 
 def delete_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-    
-    # Optional: Ensure only the creator can delete the tournament
     if request.user != tournament.created_by:
         messages.error(request, "You are not authorized to delete this tournament.")
-        return redirect("home")  # Redirect to the tournament list page
-    
+        return redirect("home")
     tournament.delete()
     messages.success(request, "Tournament deleted successfully!")
-    return redirect("home")  # Redirect after deletion
+    return redirect("home")
 
 
-@login_required
 def like_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-    # Check if the user has already liked the tournament
     if not Like.objects.filter(user=request.user, tournament=tournament).exists():
         Like.objects.create(user=request.user, tournament=tournament)
     return redirect(request.META.get("HTTP_REFERER", "home"))
 
 def team_list(request):
-    """View to display all teams."""
     teams = CreateTeam.objects.all()
     return render(request, 'team.html', {'teams': teams})
 
 
 
-@login_required
 def comment_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
     if request.method == 'POST':
         content = request.POST.get('content')
-        if content:  # Ensure the comment is not empty
+        if content:
             Comment.objects.create(user=request.user, tournament=tournament, content=content)
-    
-    return redirect('home')  # Redirect to refresh the page and show the new comment
+    return redirect('home')
 
 
 def load_more_comments(request, tournament_id):
-    """ Load more comments via AJAX when the user clicks 'See More' """
     if request.method == "GET" and request.headers.get("X-Requested-With") == "XMLHttpRequest":
         tournament = get_object_or_404(Tournament, id=tournament_id)
-        comments = tournament.comment_set.all()[3:]  # Fetch comments **AFTER** the first 3
-
-        comments_data = [
-            {"user": comment.user.username, "content": comment.content}
-            for comment in comments
-        ]
-
-        return JsonResponse({"comments": comments_data})  # Send JSON response
-    
+        comments_data = [{"user": c.user.username, "content": c.content} for c in tournament.comment_set.all()[3:]]
+        return JsonResponse({"comments": comments_data})
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 

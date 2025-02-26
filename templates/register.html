@@ -1,16 +1,67 @@
-{% extends 'base.html' %}
-
+{% extends 'base.html' %}  <!-- Ensure 'base.html' exists -->
 {% block content %}
-<h2>{{ tournament.name }}</h2>
-<p>{{ tournament.description }}</p>
-<p>Start Date: {{ tournament.start_date }}</p>
-<p>End Date: {{ tournament.end_date }}</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Register for Tournament</title>
+    <style>
+        .reglogo{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+        box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .regteam{
+            background: rgb(25, 165, 37);
+            border-radius: 10px;
+            box-shadow: 2px 4px 3px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: left;
+            width:500px;
+            margin-bottom:10px;
+            
+            
 
-{% if team %}
-    <h3>Your Team</h3>
-    <p>Team Name: {{ team.name }}</p>
-{% else %}
-    <p>You haven't created a team yet.</p>
-{% endif %}
+        }
+    </style>
+</head>
+<body>
+    <img class="reglogo" src="{{team.logo.url}}" alt="{{team.name}}" >
+    <h1>Register for {{ tournament.name }}</h1>
+    <p>{{ tournament.description }}</p>
+    
+
+    {% if created %}
+        <p>You have successfully registered for this tournament.</p>
+    {% else %}
+        <p>You are already registered.</p>
+    {% endif %}
+
+    {% if team %}
+        <p>
+            <img class="reglogo" src="{{team.logo.url}}" alt="{{team.name}}" >Your Team: {{ team.name }}</p>
+            
+    {% else %}
+        <p>You have not created a team yet.</p>
+    {% endif %}
+
+    <h2>Registered Teams</h2>
+    <div class="regteam">
+    <ul>
+        {% for team in registered_teams %}
+            <img class="reglogo" src="{{team.logo.url}}" alt="{{team.name}}" ><li>{{ team.name }}</li>
+            
+        {% empty %}
+            <li>No teams registered yet.</li>
+        {% endfor %}
+    </ul>
+    </div>
+    <a href="{% url 'home' %}">Back</a>
+</body>
+</html>
+
 
 {% endblock %}

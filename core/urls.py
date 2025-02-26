@@ -19,14 +19,13 @@ urlpatterns = [
     path('comment_tournament/<int:tournament_id>/', views.comment_tournament, name='comment_tournament'),
     path('load_more_comments/<int:tournament_id>/', load_more_comments, name='load_more_comments'),
     path('team/<int:team_id>/', views.team_detail_view , name='team_detail'),
+    path('team/<int:team_id>/', views.team_detail, name='team'),
     path('team/<int:team_id>/add_member/', views.add_team_member, name='add_team_member'),
     path('member/<int:member_id>/delete/', views.delete_team_member, name='delete_team_member'),
     path('teams/',views.team_list, name='team_list'),
     path('register/<int:tournament_id>/', register_tournament, name='register_tournament'),
     path('team/delete/<int:team_id>/',views.delete_team, name='delete_team'),
 
-
-    # Password Management
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset.html'), name='password_reset'),
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset.html'), name='password_reset_confirm'),

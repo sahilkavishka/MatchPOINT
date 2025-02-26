@@ -56,8 +56,8 @@ ROOT_URLCONF = 'sports_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR,'templates'],
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / "templates"],  # Ensure this points to your templates folder
+        'APP_DIRS': True,  # This must be True
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -68,7 +68,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'sports_manager.wsgi.application'
 
 

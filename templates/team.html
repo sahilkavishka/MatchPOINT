@@ -3,7 +3,7 @@
 {% load static %}
 
 <style>
-    /* Styles for all teams */
+    
     .teams-container {
         display: flex;
         gap: 20px;
@@ -89,13 +89,13 @@
 <!-- All Teams List -->
 <h1 style="text-align: center;">Select a Team</h1>
 <div class="teams-container">
-    {% for t in teams %}
+    {% for team in teams %}
         <div class="team-card">
-            <a href="{% url 'team_detail' t.id %}">
-                {% if t.logo %}
-                    <img src="{{ t.logo.url }}" alt="{{ t.name }}">
+            <a href="{% url 'team_detail' team.id %}">
+                {% if team.logo %}
+                    <img src="{{ team.logo.url }}" alt="{{ team.name }}">
                 {% endif %}
-                <span>{{ t.name }}</span>
+                <span>{{ team.name }}</span>
             </a>
         </div>
     {% endfor %}
