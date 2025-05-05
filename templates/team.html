@@ -3,15 +3,12 @@
 {% load static %}
 
 <style>
-    
     .teams-container {
         display: flex;
-        gap: 20px;
         justify-content: center;
+        gap: 10px;
         flex-wrap: wrap;
         padding: 20px;
-        
-        
     }
 
     .team-card {
@@ -19,140 +16,48 @@
         border-radius: 10px;
         box-shadow: 2px 4px 3px rgba(0, 0, 0, 0.1);
         padding: 15px;
-        text-align: left;
-        width:500px;
-        
+        text-align: center;
+        width: 200px;
+        transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .team-card img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid rgb(255, 255, 255);
-        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
-        margin-left:10px;
+    .team-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.7);
+        background: rgb(5, 80, 18);
     }
 
-    .team-card a {
-        display: block;
-        text-decoration: none;
-        color: black;
-        margin-top: 10px;
-        font-weight: bold;
-    }
-
-    /* Styles for selected team details */
-    .teambody {
-        background-color: rgb(129, 209, 127);
-        width: 100%;
-        max-width: 600px;
-        border-radius: 30px;
-        box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.82);
-        padding: 15px;
-        font-family: Arial, sans-serif;
-        margin: 50px auto;
-    }
-
-    .namepic {
-     
-        
-        align-items: center;
-        gap: 10px;
-   
-    }
-
-  
-    
     .teamlogo {
-        width: 100px;
-        height: 100px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         object-fit: cover;
         border: 3px solid white;
         box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
     }
-    
-    .team-card  h1 {
-        margin-left: 15px; /* Add space between the image and text */
-        font-size: 24px;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
+
+    .team-card a {
+        display: block;
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
         font-weight: bold;
-        
-        align-items: center; /* Align text vertically */
-        
-       color: rgb(189, 44, 44)
+        margin-top: 10px;
+        transition: color 0.3s;
     }
-    
 </style>
 
-<!-- All Teams List -->
-<h1 style="text-align: center;">Select a Team</h1>
 <div class="teams-container">
     {% for team in teams %}
         <div class="team-card">
             <a href="{% url 'team_detail' team.id %}">
                 {% if team.logo %}
-                    <img src="{{ team.logo.url }}" alt="{{ team.name }}">
+                    <img class="teamlogo" src="{{ team.logo.url }}" alt="{{ team.name }}">
                 {% endif %}
-                <span>{{ team.name }}</span>
+                {{ team.name }}
             </a>
         </div>
     {% endfor %}
 </div>
-
-<!-- Selected Team Details -->
-{% if team %}
-    <div class="teambody">
-        <div class="namepic">
-            {% if team.logo %}
-                <img class="teamlogo" src="{{ team.logo.url }}" alt="{{ team.name }}">
-            {% endif %}
-            <h1>{{ team.name }}</h1>
-        </div>
-
-        <hr>
-
-        <div class="details">
-            <div><strong>Sport:</strong> {{ team.sport.name }}</div>
-            <div><strong>City:</strong> {{ team.city.name }}</div>
-            <div><strong>Contact:</strong> {{ team.contact_details|default:"N/A" }}</div>
-            <div><strong>Members:</strong> {{ team.capacity }} players</div>
-            <div><strong>Created By:</strong> {{ team.created_by.username }}</div>
-            <div><strong>Created Date:</strong> {{ team.created_date }}</div>
-            <div><strong>Rules:</strong> <p>{{ team.rules }}</p></div>
-
-            <a href="{% url 'add_team_member' team.id %}" class="btn btn-success">Add Member</a>
-            
-            <h3>Team Members</h3>
-            <div class="membercard">
-                {% if members %}
-                    <ul>
-                        {% for member in members %}
-                            <li>
-                                {% if member.memberpic %}
-                                    <img src="{{ member.memberpic.url }}" alt="Profile Pic">
-                                {% else %}
-                                    <p>No Image</p>
-                                {% endif %}
-                                
-                                <strong>{{ member.name }}</strong>
-                                <span>{{ member.age }} years old</span>
-                                <span>{{ member.height }} tall</span>
-                                <span>Position: {{ member.position }}</span>
-
-                                <a href="{% url 'delete_team_member' member.id %}">
-                                    <i class="material-icons">delete</i>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No members in this team yet.</p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-{% endif %}
 
 {% endblock %}

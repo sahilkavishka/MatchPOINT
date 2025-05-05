@@ -22,14 +22,14 @@ class User(AbstractUser):
 
 
 class Sport(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)  # Prevent duplicate sports
 
     def __str__(self):
         return self.name
 
 
 class City(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)  # Prevent duplicate cities
 
     def __str__(self):
         return self.name
@@ -46,9 +46,12 @@ class Tournament(models.Model):
     runners_up_prize = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     date = models.DateField(blank=True, null=True)
     rules = models.TextField()
-    capacity = models.IntegerField(default=0)
+    capacity = models.PositiveIntegerField(default=1)  # Prevent negative values
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="created_tournaments")
     image = models.ImageField(upload_to='tournaments/', null=True, blank=True)
+
+    class Meta:
+        ordering = ['-date']  # Default order: newest tournaments first
 
     def __str__(self):
         return f"{self.name} ({self.city}) ({self.sport})"
@@ -60,10 +63,13 @@ class CreateTeam(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="create_team")
     contact_details = models.CharField(max_length=200, null=True, blank=True)
     rules = models.TextField()
-    capacity = models.IntegerField(default=0)
+    capacity = models.PositiveIntegerField(default=1)  # Prevent negative values
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="create_team")
     created_date = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to='team/', null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_date']  # Default order: newest teams first
 
     def __str__(self):
         return f"{self.name} ({self.city}) ({self.sport})"
@@ -73,18 +79,25 @@ class TeamMembers(models.Model):
     team = models.ForeignKey(CreateTeam, on_delete=models.CASCADE, related_name="members")
     memberpic = models.ImageField(upload_to='member/', null=True, blank=True)
     name = models.CharField(max_length=200)
-    age = models.IntegerField()
-    height = models.FloatField()
+    age = models.PositiveIntegerField()  # Ensures a valid age (no negatives)
+    height = models.FloatField()  # Consider adding `validators=[MinValueValidator(1.0)]` if needed
     position = models.CharField(max_length=200)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="team_members")
 
     def __str__(self):
         return f"{self.name} ({self.city})"
 
+
 class Registration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     registered_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['user', 'tournament'], name='unique_registration')
+        ]
+        ordering = ['-registered_at']  # Default order: newest registrations first
 
     def __str__(self):
         return f"{self.user.username} - {self.tournament.name}"
@@ -99,6 +112,7 @@ class Like(models.Model):
         constraints = [
             UniqueConstraint(fields=['user', 'tournament'], name='unique_like')
         ]
+        ordering = ['-created_at']  # Default order: newest likes first
 
 
 class Comment(models.Model):
@@ -107,5 +121,8 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        ordering = ['-created_at']  # Default order: newest comments first
+
     def __str__(self):
-        return f"{self.user.username}: {self.content[:20]}"
+        return f"{self.user.username}: {self.content[:30]}{'...' if len(self.content) > 30 else ''}"

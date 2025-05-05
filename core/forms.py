@@ -31,22 +31,26 @@ class CreateTeamForm(forms.ModelForm):
             'capacity': forms.NumberInput(attrs={'placeholder': 'Maximum team'}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        if cleaned_data.get('capacity', 0) < 0:
-            raise forms.ValidationError({"capacity": "Capacity cannot be negative."})
-        return cleaned_data
+    def clean_capacity(self):
+        capacity = self.cleaned_data.get('capacity')
+        if capacity is not None and capacity < 1:
+            raise forms.ValidationError("Capacity must be at least 1.")
+        return capacity
 
 
 class TeamMemberForm(forms.ModelForm):
+    memberpic = forms.ImageField(required=False)  # Ensuring it's optional
+
     class Meta:
         model = TeamMembers
         fields = ['memberpic', 'name', 'age', 'height', 'position', 'city']
+
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = Registration
         fields = []
+
 
 class UserRegistrationForm(UserCreationForm):
     ROLE_CHOICES = [
@@ -65,14 +69,23 @@ class UserRegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, placeholder in {
+        field_placeholders = {
             'username': 'Enter your username',
             'email': 'Enter your email',
             'password1': 'Enter your password',
             'password2': 'Confirm your password',
             'contact_number': 'Enter your contact number'
-        }.items():
+        }
+        for field_name, placeholder in field_placeholders.items():
             self.fields[field_name].widget.attrs.update({'placeholder': placeholder, 'class': 'form-control'})
-        
+
         self.fields['role'].widget.attrs.update({'class': 'form-control'})
         self.fields['profile_picture'].widget.attrs.update({'class': 'form-control'})
+
+    def clean_contact_number(self):
+        contact_number = self.cleaned_data.get('contact_number')
+        if contact_number and not contact_number.isdigit():
+            raise forms.ValidationError("Contact number should contain only digits.")
+        if contact_number and len(contact_number) not in [10, 11, 12]:  
+            raise forms.ValidationError("Enter a valid contact number.")
+        return contact_number

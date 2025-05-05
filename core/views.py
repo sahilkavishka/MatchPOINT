@@ -91,7 +91,7 @@ def create_team(request):
         capacity = request.POST['capacity']
         logo = request.FILES.get('logo', None)
         
-        # Create the team
+        
         team = CreateTeam.objects.create(
             name=name,
             sport=sport,
@@ -103,10 +103,10 @@ def create_team(request):
             logo=logo
         )
 
-        # Redirect to the team detail page or success page
+       
         return redirect('team_detail', team_id=team.id)
     
-    # Pass the sports and cities to the template
+    
     sports = Sport.objects.all()
     cities = City.objects.all()
     
@@ -131,27 +131,24 @@ def add_team_member(request, team_id):
 
 def delete_team_member(request, member_id):
     member = get_object_or_404(TeamMembers, id=member_id)
-    
-    # Optional: Check if the user has permission to delete
     if request.user == member.team.created_by:
         member.delete()
-        messages.success(request, "Member removed successfully.")
+        messages.success(request,"Member removed successfully.")
     else:
         messages.error(request, "You are not authorized to remove this member.")
     
-    return redirect('team_detail')  # Change to the correct redirect URL
+    return redirect('team_detail')  
 
 def delete_team(request, team_id):
-    team = get_object_or_404(CreateTeam, id=team_id)  # Corrected: 'Team' instead of 'team'
+    team = get_object_or_404(CreateTeam, id=team_id)  
 
-    # Ensure only the team creator can delete the team
+   
     if request.user == team.created_by:
         team.delete()
         messages.success(request, "Team deleted successfully.")
     else:
         messages.error(request, "You are not authorized to delete this team.")
-
-    return redirect('home')  # Redirect to the home page
+    return redirect('home') 
 
 def team_detail_view(request, team_id):
     team = get_object_or_404(CreateTeam, id=team_id)
@@ -163,26 +160,37 @@ def team_detail(request, team_id=None):
     teams = CreateTeam.objects.all()  
     team = get_object_or_404(CreateTeam, id=team_id) if team_id else None
     members = team.members.all() if team else None  
-
     return render(request, 'team.html', {'teams': teams, 'team': team, 'members': members})
 
 
 
 def register_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-    registration, created = Registration.objects.get_or_create(user=request.user, tournament=tournament)
-    user_team = CreateTeam.objects.filter(created_by=request.user).first()
-    registered_teams = CreateTeam.objects.filter(created_by__in=Registration.objects.filter(tournament=tournament).values_list('user', flat=True)).distinct()
 
-    return render(request, 'register.html', {
-        'tournament': tournament,
-        'team': user_team,
-        'registration': registration,
-        'registered_teams': registered_teams,
-        'created': created,
-    })
+    if request.method == 'POST':
+        team_name = request.POST.get('team_name')
+        members = request.POST.get('members')  # comma-separated
+
+        team = CreateTeam.objects.create(
+            name=team_name,
+            tournament=tournament,
+            created_by=request.user
+        )
+
+        # Optional: Store members as text or create separate TeamMember model
+        team.members = members
+        team.save()
+
+        return redirect('tournament_detail', tournament.id)  # Or wherever
+
+    return render(request, 'register.html', {'tournament': tournament})
 
 
+
+
+def registered_teams_list(request):
+    registered_teams = Registration.objects.filter(user=request.user)
+    return render(request, 'registered_teams.html', {'registered_teams': registered_teams})
 
 def delete_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)

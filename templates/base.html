@@ -74,6 +74,11 @@
 
                     
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> team</a></li>
+                    {% if tournaments.exists %}
+                    
+{% endif %}
+
+
                     <li>Extra Item B</li>
                 </ul>
             {% else %}
@@ -86,11 +91,11 @@
 
         <div class="content">
             {% block content %}
-            <!-- Content from child templates will go here -->
+            
             {% endblock %}
         </div>
 
-        <!-- Footer -->
+        
         <footer class="footer">
             <p>&copy; 2025 SportsSite. All rights reserved.</p>
         </footer>
