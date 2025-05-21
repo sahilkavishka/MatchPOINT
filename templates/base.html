@@ -1,86 +1,81 @@
-
 {% load static %}
 
-<html>
-    <head>
-        <link rel="stylesheet" href="{% static 'base.css' %}">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MatchPOINT</title>
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="NavBarBox" id="navbar">
+        <div class="NavBarLeft">
+            <span class="logo">MatchPOINT</span>
+        </div>
+        <div class="NavBarCenter">
+            <form method="get" class="searchbar">
+                <input type="text" name="q" placeholder="Search" value="{{ search_query }}">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="NavBarRight">
+            <ul class="nav-links">
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'logout' %}">
+                            <i class="material-icons">logout</i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Signup</a></li>
+                {% endif %}
+            </ul>
 
-    </head>
-    <body>
-        <nav class="NavBarBox" id="navbar">
-            
-                <div class="NavBarLeft">
-                    <span class="logo">MatchPOINT</span>
-                </div>
-                <div class="NavBarCenter">
-                    <form method="get" class="searchbar">
-                        <input type="text" name="q" placeholder="Search" value="{{ search_query }}">
-                        <button type="submit">Search</button>
-                    </form>
-                </div>
-                <div class="NavBarRight">
-                    <ul class="nav-links">
-                        
-                        {% if user.is_authenticated %}
-                        <li>
-                            <a href="{% url 'logout' %}">
-                              <i class="material-icons">logout</i> 
-                            </a>
-                          </li>
-                        {% else %}
-                            <li><a href="{% url 'login' %}">Login</a></li>
-                            <li><a href="{% url 'register' %}">Signup</a></li>
-                        {% endif %}
-                    </ul>
-                    
+            <div class="pic">
+                <img class="propic" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}https://www.w3schools.com/w3images/avatar2.png{% endif %}" alt="Profile Picture" width="100">
+            </div>
+        </div>
+    </nav>
 
-                    <div class="pic">
-                        <img class="propic" src="{% if User.profile_picture %}{{ User.profile_picture.url }}{% else %}https://www.w3schools.com/w3images/avatar2.png{% endif %}" alt="Profile Picture" width="100">
-
-                    </div>
-                </div>
-            
-        </nav>
-        <!-- Toggle Button -->
+    <!-- Toggle Button -->
     <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         {% if user.is_authenticated %}
-            {% if user.role and user.role == "Organizer" %}
+            {% if user.role == "Organizer" %}
                 <h3>Organizer Features</h3>
                 <ul>
-                    <li><a href="{% url 'home' %}"><i class="material-icons">home</i>   home</a></li>
+                    <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'add_tournament' %}"><i class="material-icons">add</i> Add Tournament</a></li>
-                    <li><a href="{% url 'team_list' %}"><i class="material-icons">team</i> team</a></li>
-                    <li>Match Details</li>
-                    <li>Extra Item 1</li>
-                    <li>Extra Item 2</li>
+                    <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
                 </ul>
-            {% elif user.role and user.role == "Player" %}
+            {% elif user.role == "Player" %}
                 <h3>Player Features</h3>
                 <ul>
-                    <li><a href="{% url 'home' %}"><i class="material-icons">home</i>   home</a></li>
+                    <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'create_team' %}"><i class="material-icons">create</i> Create Team</a></li>
+                    <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
                     {% if user.create_team.exists %}
-                     <li>
-                      <a href="{% url 'team_detail' team_id=user.create_team.first.id %}">
-                      <i class="material-icons">group_add</i> My Team </a>
-                     </li>
+                    <li>
+                        <a href="{% url 'team_detail' team_id=user.create_team.first.id %}">
+                            <i class="material-icons">group_add</i> My Team
+                        </a>
+                    </li>
                     {% endif %}
-
-
-                    
-                    <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> team</a></li>
-                    {% if tournaments.exists %}
-                    
-{% endif %}
-
-
-                    <li>Extra Item B</li>
                 </ul>
+            {% elif user.role == "Spectator" %}
+                <h3>Spectator Features</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
+                    <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
+                </ul>
+                {% if tournaments.exists %}
+                    <!-- Optional: Add tournament links or display -->
+                {% endif %}
             {% else %}
                 <p>Role not recognized.</p>
             {% endif %}
@@ -89,33 +84,28 @@
         {% endif %}
     </div>
 
-        <div class="content">
-            {% block content %}
-            
-            {% endblock %}
-        </div>
+    <!-- Main Content Area -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-        
-        <footer class="footer">
-            <p>&copy; 2025 SportsSite. All rights reserved.</p>
-        </footer>
-    </body>
-</html>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 SportsSite. All rights reserved.</p>
+    </footer>
 
-    
+    <!-- JavaScript -->
     <script>
-        {% comment %}  JavaScript for Toggle  {% endcomment %}
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("open");
         }
 
-    {% comment %} <!--nav bar-->> {% endcomment %}
         let lastScrollTop = 0;
         const navbar = document.getElementById("navbar");
 
         window.addEventListener("scroll", function () {
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
-
             if (scrollTop > lastScrollTop) {
                 // Scrolling down
                 navbar.classList.add("show");
@@ -126,3 +116,5 @@
             lastScrollTop = scrollTop;
         });
     </script>
+</body>
+</html>

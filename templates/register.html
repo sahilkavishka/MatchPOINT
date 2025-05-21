@@ -1,20 +1,98 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<style>
+.formm {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color:rgba(24, 146, 30, 0.59);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(12, 12, 12, 0.93);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#members-area {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px dashed #bbb;
+    margin-top: 10px;
+}
+.reg {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    background-color:rgb(16, 119, 25);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color:rgb(20, 189, 57);
+}
+</style>
+
 <h2>Register for {{ tournament.name }}</h2>
-
-<form method="POST">
+{% if user.role == "Player" %}
+<form class="formm" method="POST">
     {% csrf_token %}
-    <label for="team_name">Team Name:</label>
-    <input type="text" name="team_name" required><br><br>
 
-    <label for="members">Team Members (comma-separated):</label>
-    <input type="text" name="members" required><br><br>
-    <select name="team" id="team.id">
-        {%for team in teams}
-        
-    </select>
+    <label for="team">Team Name:</label>
+    <select name="team" id="team" required onchange="loadTeamMembers()">
+        <option value="">Select</option>
+        {% for team in teams %}
+            <option value="{{ team.id }}">{{ team.name }}</option>
+        {% endfor %}
+    </select><br><br>
 
-    <button type="submit">Register</button>
+    <label for="members">Team Members:</label>
+    <div id="members-area">
+        <p>Select a team to load members...</p>
+    </div>
+
+    <button class="reg" type="submit">Register</button>
 </form>
+{%endif%}
+<script>
+function loadTeamMembers() {
+    const teamId = document.getElementById("team").value;
+    const membersArea = document.getElementById("members-area");
+
+    if (teamId) {
+        fetch(`/get-team-members/${teamId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.members.length > 0) {
+                    membersArea.innerHTML = data.members.map(member =>
+                        `<label><input type="checkbox" name="members" value="${member}"> ${member}</label><br>`
+                    ).join('');
+                } else {
+                    membersArea.innerHTML = "<p>No members found.</p>";
+                }
+            });
+    } else {
+        membersArea.innerHTML = "<p>Select a team to load members...</p>";
+    }
+}
+</script>
+
 {% endblock %}

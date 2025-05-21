@@ -139,6 +139,13 @@ def delete_team_member(request, member_id):
     
     return redirect('team_detail')  
 
+
+def get_team_members(request, team_id):
+    team = get_object_or_404(CreateTeam, id=team_id)
+    members = team.members.values_list('name', flat=True)
+    return JsonResponse({'members': list(members)})
+
+
 def delete_team(request, team_id):
     team = get_object_or_404(CreateTeam, id=team_id)  
 
@@ -164,34 +171,46 @@ def team_detail(request, team_id=None):
 
 
 
+@login_required
 def register_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
 
+    # ✅ Get all teams 
+    teams = CreateTeam.objects.all()
+
+
     if request.method == 'POST':
-        team_name = request.POST.get('team_name')
-        members = request.POST.get('members')  # comma-separated
+        team_id = request.POST.get('team')
+        members = request.POST.get('members')
 
-        team = CreateTeam.objects.create(
-            name=team_name,
-            tournament=tournament,
-            created_by=request.user
-        )
+        if team_id and members:
+            team = get_object_or_404(CreateTeam, id=team_id)
 
-        # Optional: Store members as text or create separate TeamMember model
-        team.members = members
-        team.save()
+            # Save the registration
+            Registration.objects.create(
+                user=request.user,
+                team=team,
+                tournament=tournament,
+                members=members
+            )
 
-        return redirect('tournament_detail', tournament.id)  # Or wherever
+            return redirect("home")
+    return render(request, 'register.html', {
+        'tournament': tournament,
+        'teams': teams
+    })
 
-    return render(request, 'register.html', {'tournament': tournament})
 
 
 
+def tournament_registrations(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id)
+    registrations = Registration.objects.filter(tournament=tournament)
 
-def registered_teams_list(request):
-    registered_teams = Registration.objects.filter(user=request.user)
-    return render(request, 'registered_teams.html', {'registered_teams': registered_teams})
-
+    return render(request, 'tournament_registrations.html', {
+        'tournament': tournament,
+        'registrations': registrations
+    })
 def delete_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
     if request.user != tournament.created_by:
@@ -226,8 +245,20 @@ def comment_tournament(request, tournament_id):
 def load_more_comments(request, tournament_id):
     if request.method == "GET" and request.headers.get("X-Requested-With") == "XMLHttpRequest":
         tournament = get_object_or_404(Tournament, id=tournament_id)
-        comments_data = [{"user": c.user.username, "content": c.content} for c in tournament.comment_set.all()[3:]]
-        return JsonResponse({"comments": comments_data})
+        comments = tournament.comment_set.all()[3:]
+
+        comments_data = []
+        for c in comments:
+            profile_picture_url = c.user.profile_picture.url if c.user.profile_picture else None
+            comments_data.append({
+                "user": c.user.username,
+                "content": c.content,
+                "user_profile_picture": profile_picture_url
+            })
+
+        return JsonResponse({
+            "comments": comments_data,
+            "has_more": tournament.comment_set.count() > len(comments) + 3
+        })
+
     return JsonResponse({"error": "Invalid request"}, status=400)
-
-

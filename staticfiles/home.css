@@ -1,30 +1,36 @@
+:root {
+    --primary-green: #1e911e;
+    --hover-green: #2db628;
+    --light-green-bg: rgb(129, 209, 127);
+    --dark-text: #0a0a0a;
+    --light-text: #ffffff;
+}
+
 /* Tournament Card Styling */
 .tournament {
-    background-color: rgb(129, 209, 127); /* Alternative: darkolivegreen */
-    width: 100%;
-    max-width: 550px;
-    margin: 20px auto;
+    background-color: var(--light-green-bg);
     border-radius: 10px;
     box-shadow: 0px 5px 5px rgba(6, 39, 13, 0.822);
-    padding: 15px;
     font-family: Arial, sans-serif;
-    
 }
 
 .tournament h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 10px;
-    color: #0a0a0a;
+    color: var(--dark-text);
+    text-shadow: 0 0 3px #fff, 0 0 10px lime;
 }
+
+
 
 .tournament p {
     font-size: 1rem;
     margin: 5px 0;
-    color: #0c0c0c;
+    color: var(--dark-text);
 }
 
 /* Tournament Image */
-.tournament img {
+.tournament img.tournament-image {
     width: 100%;
     max-width: 500px;
     display: block;
@@ -35,26 +41,32 @@
 /* Button Group */
 .tournament .button-group {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     margin-top: 15px;
 }
 
-.tournament .button-group a {
+.tournament .button-group a,
+.tournament .button-group button {
     padding: 8px 16px;
-    background-color: #1e911e;
-    color: white;
+    background-color: var(--primary-green);
+    color: var(--light-text);
     text-decoration: none;
+    border: none;
     border-radius: 7px;
     font-weight: bold;
     text-align: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
-.tournament .button-group a:hover {
+.tournament .button-group a:hover,
+.tournament .button-group button:hover {
     background-color: #fcfdfc;
-    color: rgb(45, 182, 40);
-    border: 1px solid rgb(45, 182, 40);
+    color: var(--hover-green);
+    border: 1px solid var(--hover-green);
+    transform: scale(1.05);
 }
 
 /* Like Button */
@@ -73,21 +85,58 @@
     background-color: #e84118;
 }
 
-/* General Layout */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
-    margin: 0;
-    padding: 0;
+/* Comment Picture */
+.commentpic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
-/* Select Container */
-.select-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px;
+/* Comments section styling */
+.comments-section {
+    margin-top: 10px;
 }
+
+.comments-section p {
+    margin-bottom: 5px;
+}
+
+.comment {
+    font-weight: bold;
+    color: #062103;
+}
+
+/* Comment textarea */
+textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 5px;
+    border: 1px solid #1d1d1d;
+    resize: vertical;
+    font-size: 1rem;
+}
+
+/* Submit comment button */
+textarea + button {
+    margin-top: 5px;
+    padding: 6px 12px;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+textarea + button:hover {
+    background-color: var(--hover-green);
+}
+
+
 
 /* Individual Select Styling */
 select {
@@ -120,24 +169,57 @@ option {
     padding: 10px;
 }
 
-/* Form Wrapper */
-form {
+
+
+/* Profile Picture */
+.propic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Align profile + name */
+.namepic {
     display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
 }
 
-/* Button Group Container */
-.button-group {
-    margin-top: 20px;
-    text-align: center;
+/* See More Button */
+.see-more-btn {
+    background-color: #ddd;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 5px;
 }
 
-.propic{
-    width: 50px;  /* Adjust size as needed */
-    height: 50px; /* Ensure width and height are the same */
-    border-radius: 50%; /* Makes it circular */
-    object-fit: cover; /* Ensures the image fits within the circle */
-    border: 2px solid #ddd; /* Optional: Adds a border */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a shadow */
+.see-more-btn:hover {
+    background-color: #c1f7c5;
 }
+
+
+
+
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+

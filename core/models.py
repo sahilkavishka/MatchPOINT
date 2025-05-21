@@ -91,16 +91,9 @@ class TeamMembers(models.Model):
 class Registration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
-    registered_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        constraints = [
-            UniqueConstraint(fields=['user', 'tournament'], name='unique_registration')
-        ]
-        ordering = ['-registered_at']  # Default order: newest registrations first
-
-    def __str__(self):
-        return f"{self.user.username} - {self.tournament.name}"
+    team = models.ForeignKey(CreateTeam, on_delete=models.CASCADE)
+    members = models.TextField()
+    registered_at = models.DateTimeField(auto_now_add=True)  # optional
 
 
 class Like(models.Model):

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color:rgba(19, 160, 31, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.78);
+}
+
+h2 {
+    text-align: center;
+    color: black;
+    margin-bottom: 30px;
+}
+
+.team-box {
+    background-color:rgba(17, 221, 44, 0.58);
+    border: 1px solid black;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+
+.team-box strong {
+    font-size: 18px;
+    color:rgb(13, 13, 14);
+}
+
+.team-box p {
+    margin: 5px 0;
+    color: black;
+}
+
+.team-members {
+    list-style-type: circle;
+    margin-left: 20px;
+    color: black;
+}
+
+.no-registrations {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+</style>
+
+<div class="container">
+    <h2>Registered Teams for {{ tournament.name }}</h2>
+
+    {% if registrations %}
+        {% for reg in registrations %}
+            <div class="team-box">
+                <strong>{{ reg.team.name }}</strong><br>
+                <p>Registered by: {{ reg.user.username }}</p>
+                <p>Members:</p>
+                <ul class="team-members">
+                    {% for member in reg.team.members.all %}
+                        <li>{{ member.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-registrations">No teams have registered for this tournament yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

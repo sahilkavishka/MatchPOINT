@@ -26,8 +26,9 @@ urlpatterns = [
     path('team/delete/<int:team_id>/', views.delete_team, name='delete_team'),
     path('tournament/<int:tournament_id>/register/', register_tournament, name='register_tournament'),
     path('tournament/<int:tournament_id>/delete/', delete_tournament, name='delete_tournament'),
+    path('get-team-members/<int:team_id>/', views.get_team_members, name='get_team_members'),
+    path('tournament/<int:tournament_id>/registrations/', views.tournament_registrations, name='tournament_registrations'),
 
-    
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset.html'), name='password_reset'),
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
