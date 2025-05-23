@@ -153,19 +153,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 APPEND_SLASH = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 AUTH_USER_MODEL = 'core.User'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'kavudaboy1@gmail.com'
-EMAIL_HOST_PASSWORD = '11111'  # Use your App Password, not your real password
+EMAIL_HOST_PASSWORD = 'ljoq pffm wgct kzzv'  # Use your App Password, not your real password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
+# settings.py
+PASSWORD_RESET_TIMEOUT = 86400 * 7  # 7 days in seconds
 # Enable debugging
 import logging
 logging.basicConfig(level=logging.DEBUG)

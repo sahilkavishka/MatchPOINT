@@ -12,7 +12,7 @@ class TournamentForm(forms.ModelForm):
         ]
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
-            'rules': forms.Textarea(attrs={'rows': 5}),
+            'rules': forms.Textarea(attrs={'rows': 5, 'placeholder': "1) Rule 01\n2) Rule 02\n3) Rule 03"}),
             'contact_details': forms.TextInput(attrs={'placeholder': 'Phone or Email'}),
             'champions_prize': forms.NumberInput(attrs={'placeholder': 'Add 1st place prize'}),
             'runners_up_prize': forms.NumberInput(attrs={'placeholder': 'Add 2nd place prize'}),

@@ -26,6 +26,7 @@
         </select>
     </div>
 </form>
+
     <div class='allhome'>
     {% for tournament in tournaments %}
     
@@ -129,13 +130,7 @@
 
 <link rel="stylesheet" href="{% static 'home.css' %}">
 
-<!-- Modal (optional if using) -->
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div id="modal-content"></div>
-    </div>
-</div>
+
 
 <!-- JS for See More Comments -->
 <script>

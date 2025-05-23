@@ -7,7 +7,7 @@
     border-radius:20px;
     max-width: 400px;
     width:600px;
-    height:300px;
+    height:370px;
     margin-left:620px;
     margin-top:10px;
     margin-bottom:100px;
@@ -28,7 +28,7 @@ select {
     width: 100%;
     padding: 8px;
     border-radius: 14px;
-    border: 1px solid rgb(28, 175, 65);
+    border: 1px solid rgb(27, 107, 47);
 }
 
 #members-area {
@@ -46,7 +46,7 @@ select {
     font-size: 16px;
     background-color:rgb(16, 119, 25);
     color: white;
-    border: 1px solid white ;
+    border: 1px solid black ;
     border-radius: 15px;
     cursor: pointer;
 }
@@ -75,8 +75,11 @@ select {
     </div>
 
     <button class="reg" type="submit">Register</button>
+    <button class="reg" type="reset">Reset</button>
     <button class="reg" onclick="history.back()">Back</button>
 </form>
+{%else%}
+    <p><center>only players can registation</center></p>
 {%endif%}
 <script>
 function loadTeamMembers() {

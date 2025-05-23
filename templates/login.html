@@ -77,8 +77,10 @@ a:hover {
         <input type="password" name="password" id="password" required>
         <button type="submit">Login</button>
     </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p><br>
-    <p>reset password?<a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+   <!-- templates/login.html (or your login template) -->
+<p>Forgot password? <a href="{% url 'password_reset' %}">Reset it here</a></p>
+
 
     
 </body>

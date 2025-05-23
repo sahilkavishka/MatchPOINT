@@ -1,138 +1,109 @@
 <!DOCTYPE html>
-<html >
+<html>
 <head>
-    <style type="text/css">
-        /* General page styling */
-       /* General page styling */
-/* General page styling */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color:rgb(27, 27, 27);
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin: 0;
-  
-}
+    <title>Register</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: rgb(129, 209, 127);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 1000px;
+            margin-top:10px;
+            color:black;
+        }
 
-/* Container to center the form */
-.container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-}
+        form {
+            
+            background-color: rgba(10, 10, 10, 0.56);
+            padding: 30px;
+            border-radius: 20px;
+            color: black;
+            width: 400px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        }
 
-/* Title */
-h3 {
-    font-size: 24px;
-    color:rgb(242, 244, 247);
-    
-}
-h2{
-    color:rgb(238, 242, 245);
-    text-align:center;
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color:black;
+        }
 
-/* Style the form */
-form {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: rgb(25, 105, 42);
-    color: white;
-    border-radius: 35px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height:800px
-}
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
 
-/* Style form labels */
-label {
-    font-weight: 600;
-    text-align: left;
-    display: block;
-    margin: 10px 0 5px;
-}
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid rgb(3, 3, 3);
+            border-radius: 10px;
+            background-color: #fff;
+            font-size: 14px;
+        }
 
-/* Style input fields */
-input , select{
-    padding: 12px;
-    border-radius: 16px;
-    border: 1px solid #ccc;
-    width: 50%;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background:  rgb(52, 219, 80);
+            color: black;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-/* Input focus effect */
-input:focus {
-    border-color: #3498db;
-    outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.4);
-}
+        button:hover {
+            background: linear-gradient(135deg, rgb(8, 92, 12), #1c658c);
+        }
 
-/* Style the register button */
-button {
-    margin-top: 15px;
-    padding: 12px;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-/* Button hover effect */
-button:hover {
-    background: linear-gradient(135deg, #2980b9, #1c658c);
-}
-
-/* Style links */
-p {
-    font-size: 14px;
-    margin-top: 15px;
-}
-
-a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Responsive Design */
-@media (max-width: 400px) {
-    .container {
-        width: 90%;
-        padding: 20px;
-    }
-}
-
-
-    </style>    
-    
-    <title>sign up</title>
+        .back-button {
+            background-color: #444;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 
-<form method="post">
-    <h2>create account </h2>
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    <h2>Create Account</h2>
+
+    <label for="id_username">Username</label>
+    {{ form.username }}
+
+    <label for="id_email">Email</label>
+    {{ form.email }}
+
+    <label for="id_password1">Password</label>
+    {{ form.password1 }}
+
+    <label for="id_password2">Confirm Password</label>
+    {{ form.password2 }}
+
+    <label for="id_role">Role</label>
+    {{ form.role }}
+
+    <label for="id_contact_number">Contact Number</label>
+    {{ form.contact_number }}
+
+    <label for="id_profile_picture">Profile Picture</label>
+    {{ form.profile_picture }}
+
     <button type="submit">Register</button>
+    <button type="reset" class="back-button">Reset</button>
+    <button onclick="history.back()" class="back-button">Back</button>
+
+    <p style="text-align:center; margin-top:10px;">
+        Already have an account? <a href="{% url 'login' %}" style="color:lightblue;">Login here</a>
+    </p>
 </form>
-<p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
 
-
+</body>
 </html>
