@@ -1,87 +1,137 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-form {
-    background: rgb(25, 168, 68)
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin: 20px auto;
+/* Container for form section */
+.addmem {
+   background-color: rgb(129, 209, 127);
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.67);
+    border:solid 1px rgba(0, 0, 0, 0.42);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body{
+    background-color:rgba(15, 104, 22, 0.56);
 }
 
-h2 {
+/* Heading */
+.addmem h2 {
     text-align: center;
+    font-size: 28px;
+    color:rgb(7, 7, 7);
+    margin-bottom: 25px;
+}
+
+/* Paragraph message */
+.addmem p {
+    text-align: center;
+    font-size: 16px;
+    color:rgb(8, 8, 8);
+    font-weight: bold;
+    
+}
+
+/* Form styling */
+.memform {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Inputs & Textareas */
+.memform input[type="text"],
+.memform input[type="number"],
+.memform input[type="file"],
+.memform select,
+.memform textarea {
+    width: 400px;
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 1px solid #c8f0d4;
+    border-radius: 10px;
+    background-color: #fafffc;
     color: #333;
+    transition: all 0.3s ease;
 }
 
-p {
-    text-align: center;
-    font-size: 16px;
-    color: green;
+.memform input:focus,
+.memform select:focus,
+.memform textarea:focus {
+    border-color:rgba(30, 215, 95, 0.73);
+    box-shadow: 0 0 6px rgba(12, 12, 12, 0.3);
+    outline: none;
+}
+
+/* Submit Button */
+.add {
+    background-color:rgb(36, 177, 43);
+    color: white;
+    border: none;
     font-weight: bold;
-}
-
-
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-/* Buttons */
-.btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
     font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: background 0.3s ease;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
-.btn-primary {
-    background-color:rgb(30, 236, 82);
-    color: white;
-    border: none;
+.add:hover {
+    background-color:rgb(15, 104, 47);
 }
 
-.btn-primary:hover {
-    background-color:rgb(16, 124, 34);
-}
-
-.btn-secondary {
+/* Back Button */
+.back {
+    display: block;
+    text-align: center;
     background-color: #6c757d;
     color: white;
     border: none;
-    margin-top: 10px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-decoration: none;
+    margin: 20px auto 0;
+    width: 100%;
+    transition: background-color 0.3s ease;
 }
 
-.btn-secondary:hover {
-    background-color:rgb(34, 133, 72);
+.back:hover {
+    background-color: #495057;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+    .addmem {
+        padding: 30px 20px;
+        width: 90%;
+    }
+
+    .add, .back {
+        width: 100%;
+    }
 }
 </style>
 
+<br><br><br><br><br>
+<div class="addmem">
 {% if user.is_authenticated %}
     {% if  user.role == "Player" %}
-    <div class="addmem">
+    
     <h2 >Add Team Member</h2>  
-        <form method="post" enctype="multipart/form-data">
+        <form class="memform" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}  
-            <button type="submit" class="btn btn-primary">Add Member</button>
+            <button class="add" type="submit" class="btn btn-primary">Add Member</button>
         </form>
     {% else %}
         <p style="color: red;">Only players can add team members.</p>
     {% endif %}
-    <a href="{% url 'team_detail' team.id %}" class="btn btn-secondary">Back</a></div>
+    <a class="back" href="{% url 'team_detail' team.id %}" class="btn btn-secondary">Back</a></div>
 {% endif %}
 
 {% endblock %}
-
+</div>

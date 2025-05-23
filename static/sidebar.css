@@ -1,14 +1,11 @@
 .sidebar {
-    width: 250px;
-    height: 575px;
+    
     position: fixed;
-    left: 0;
-    top: 0;
+ 
     background-color: #306633;
     padding: 10px;
     color: white;
     box-shadow: 0px 5px 10px rgba(6, 39, 13, 0.822);
-   
 }
 
 /* Sidebar Header */

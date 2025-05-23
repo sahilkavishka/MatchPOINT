@@ -43,12 +43,13 @@ def home_view(request):
     })
 
 def register_view(request):
-    form = UserRegistrationForm(request.POST or None)
+    form = UserRegistrationForm(request.POST, request.FILES)
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.success(request, 'Account created successfully! You can now log in.')
         return redirect('login')
     return render(request, 'signup.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -129,16 +130,13 @@ def add_team_member(request, team_id):
 
     return render(request, 'add_team_member.html', {'form': form, 'team': team}) 
 
+
 def delete_team_member(request, member_id):
     member = get_object_or_404(TeamMembers, id=member_id)
-    if request.user == member.team.created_by:
-        member.delete()
-        messages.success(request,"Member removed successfully.")
-    else:
-        messages.error(request, "You are not authorized to remove this member.")
-    
-    return redirect('team_detail')  
-
+    team_id = member.team.id
+    member.delete()
+    messages.success(request, "Team member deleted successfully.")
+    return redirect('team_detail', team_id=team_id)
 
 def get_team_members(request, team_id):
     team = get_object_or_404(CreateTeam, id=team_id)

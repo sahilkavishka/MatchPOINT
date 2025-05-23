@@ -11,10 +11,10 @@
   background-color: #1d8b26;
   display: flex;
   align-items: center;
-  position: sticky;
-  z-index: 10;
+  position: fixed;
   box-shadow: 0px 5px 10px rgba(6, 39, 13, 0.822);
-  margin-bottom: 10px;
+  z-index: 1000;
+ 
 }
 
 .NavBarLeft {
@@ -159,6 +159,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  bottom: 100px;
 }
 
 .sidebar {
@@ -171,6 +172,7 @@ body {
   color: white;
   padding-top: 60px;
   transition: 0.4s ease-in-out;
+  z-index: 100;
 }
 
 .sidebar.open {

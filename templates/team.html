@@ -9,22 +9,25 @@
         gap: 10px;
         flex-wrap: wrap;
         padding: 20px;
+        background-color:rgba(15, 104, 22, 0.56);
+        
     }
 
     .team-card {
-        background: rgb(25, 165, 37);
+        background-color: rgb(129, 209, 127);
         border-radius: 10px;
-        box-shadow: 2px 4px 3px rgba(0, 0, 0, 0.1);
+        box-shadow: 2px 4px 3px rgba(0, 0, 0, 0.4);
         padding: 15px;
         text-align: center;
         width: 200px;
         transition: transform 0.3s, box-shadow 0.3s;
+        margin-top:100px;
     }
 
     .team-card:hover {
         transform: translateY(-10px);
         box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.7);
-        background: rgb(5, 80, 18);
+        background: rgb(21, 167, 45);
     }
 
     .teamlogo {
@@ -48,8 +51,11 @@
 </style>
 
 <div class="teams-container">
+    
     {% for team in teams %}
+    
         <div class="team-card">
+   
             <a href="{% url 'team_detail' team.id %}">
                 {% if team.logo %}
                     <img class="teamlogo" src="{{ team.logo.url }}" alt="{{ team.name }}">

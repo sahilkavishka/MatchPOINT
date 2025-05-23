@@ -1,92 +1,112 @@
 <html>
-    <head>
-        <title>add tournament</title>
-        <style type="text/css">
-           /* General body styling */
-/* General body styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: rgb(43, 41, 41);
-    margin: 0;
-    padding: 0;
-}
+<head>
+    <title>Add Tournament</title>
+    <style type="text/css">
+        /* Reset default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Center the form on the page */
-form {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: rgb(25, 105, 42);
-    color: white;
-    border-radius: 35px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color:rgb(8, 8, 8);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
 
-/* Form heading */
-h2 {
-    text-align: center;
-    color: #333;
-    font-size: 24px;
-}
+        form {
+            background-color:rgb(39, 100, 52);
+            padding: 30px 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
 
-/* Paragraph text */
-p {
-    text-align: left;
-    color: rgb(255, 255, 255);
-}
+        form:hover {
+            transform: scale(1.01);
+        }
 
-/* Form input fields */
-input[type="text"],
-input[type="date"],
-input[type="Number"],
-select,
-input[type="file"] {
-    width: 50%; /* Make input fields 100% width of the form */
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid rgb(12, 12, 12);
-    border-radius: 20px;
-    box-sizing: border-box;
-    font-size: 16px;
-    margin-right:auto;
-    
-}
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+            color:rgb(15, 15, 15);
+            letter-spacing: 1px;
+        }
 
-/* Submit button */
-button[type="submit"] {
-    width: 100%; /* Make button 100% width of the form */
-    padding: 12px;
-    background-color: rgb(31, 196, 31);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-}
+        p {
+            margin-bottom: 20px;
+        }
 
-button[type="submit"]:hover {
-    background-color: #4cae4c;
-}
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color:rgb(15, 15, 15);
+        }
 
-/* Add spacing between form elements */
-form > p {
-    margin-bottom: 15px;
-    margin-left: 150px;
-}
-form h2{
-    color:rgb(252, 252, 252)
-}
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: none;
+            background-color:rgb(41, 148, 49);
+            color: #fff;
+            font-size: 15px;
+            transition: background-color 0.3s;
+        }
 
-        </style>
-    </head>
-    <body> 
+        input:focus,
+        select:focus,
+        textarea:focus {
+            background-color:rgba(40, 114, 47, 0.64);
+            outline: none;
+            color:black;
+        }
 
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color:rgb(16, 207, 41);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #1e8449;
+        }
+
+        /* CSRF + Django form fields container fix */
+        form > p {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
     <form method="POST" enctype="multipart/form-data">
-      <h2> Add tournament </h2>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add</button>
-</form>
+        <h2>Add Tournament</h2>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add</button>
+    </form>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <style>
 .container {
     max-width: 800px;
-    margin: 40px auto;
+    margin-left:450px;
     padding: 20px;
     background-color:rgba(19, 160, 31, 0.7);
     border-radius: 10px;
@@ -51,7 +51,7 @@ h2 {
     color: #888;
 }
 </style>
-
+<br><br><br><br><br>
 <div class="container">
     <h2>Registered Teams for {{ tournament.name }}</h2>
 
@@ -71,6 +71,7 @@ h2 {
     {% else %}
         <p class="no-registrations">No teams have registered for this tournament yet.</p>
     {% endif %}
-</div>
+
 
 {% endblock %}
+</div>

@@ -4,21 +4,22 @@
 
 <style>
 .formm {
-    max-width: 600px;
-    margin: 40px auto;
+    
+    max-width: 400px;
+    margin-left:620px;
+    margin-top:10px;
+    margin-bottom:100px;
     padding: 20px;
     background-color:rgba(24, 146, 30, 0.59);
     border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(12, 12, 12, 0.93);
+    box-shadow: 10px 4px 12px rgb(7, 7, 7);
 }
 
 h2 {
     text-align: center;
     color: #333;
-    margin-bottom: 20px;
+    margin-top:100px;
 }
-
-
 
 select {
     width: 100%;
@@ -37,7 +38,6 @@ select {
 .reg {
     display: block;
     width: 100%;
-    margin-top: 20px;
     padding: 10px;
     font-size: 16px;
     background-color:rgb(16, 119, 25);
@@ -46,11 +46,18 @@ select {
     border-radius: 5px;
     cursor: pointer;
 }
+.regg {
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+    background-color:rgba(48, 117, 34, 0.57);
+    
+}
 button:hover {
     background-color:rgb(20, 189, 57);
 }
 </style>
-
+<div class='regg'>
 <h2>Register for {{ tournament.name }}</h2>
 {% if user.role == "Player" %}
 <form class="formm" method="POST">
@@ -96,3 +103,4 @@ function loadTeamMembers() {
 </script>
 
 {% endblock %}
+</div>
