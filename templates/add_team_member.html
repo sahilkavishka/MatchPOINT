@@ -9,7 +9,7 @@
     padding: 40px 30px;
     border-radius: 20px;
     box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.67);
-    border:solid 1px rgba(0, 0, 0, 0.42);
+    border:solid 1px rgba(10, 9, 9, 0.42);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body{
@@ -49,10 +49,9 @@ body{
     width: 400px;
     padding: 12px 14px;
     font-size: 15px;
-    border: 1px solid #c8f0d4;
-    border-radius: 10px;
+    border: 1px solid rgb(40, 156, 24);
+    border-radius: 15px;
     background-color: #fafffc;
-    color: #333;
     transition: all 0.3s ease;
 }
 
@@ -60,48 +59,33 @@ body{
 .memform select:focus,
 .memform textarea:focus {
     border-color:rgba(30, 215, 95, 0.73);
-    box-shadow: 0 0 6px rgba(12, 12, 12, 0.3);
+    box-shadow: 0 0 6px rgba(12, 12, 12, 0.61);
     outline: none;
 }
 
-/* Submit Button */
-.add {
+
+.btn1,.btn2 {
     background-color:rgb(36, 177, 43);
     color: white;
-    border: none;
-    font-weight: bold;
+    
+    font-weight:bold;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 15px;
+    
     font-size: 16px;
-    margin-top: 10px;
+    text-align: center;
     transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
-.add:hover {
+.btn2:hover {
+    background-color:rgb(15, 104, 47);
+}
+.btn1:hover {
     background-color:rgb(15, 104, 47);
 }
 
-/* Back Button */
-.back {
-    display: block;
-    text-align: center;
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    font-weight: bold;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 16px;
-    text-decoration: none;
-    margin: 20px auto 0;
-    width: 100%;
-    transition: background-color 0.3s ease;
-}
 
-.back:hover {
-    background-color: #495057;
-}
 
 /* Responsive tweaks */
 @media (max-width: 640px) {
@@ -124,14 +108,16 @@ body{
     <h2 >Add Team Member</h2>  
         <form class="memform" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}  
-            <button class="add" type="submit" class="btn btn-primary">Add Member</button>
+            {{ form.as_p }} 
+        
+            <button  class="btn1" type="submit" >Add Member</button>
+            <button class="btn2" onclick="history.back()">BACK </button>
+        
         </form>
     {% else %}
         <p style="color: red;">Only players can add team members.</p>
     {% endif %}
-    <a class="back" href="{% url 'team_detail' team.id %}" class="btn btn-secondary">Back</a></div>
 {% endif %}
-
+    
 {% endblock %}
 </div>

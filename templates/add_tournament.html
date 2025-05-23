@@ -11,7 +11,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e1e;
+            background-color:rgba(15, 104, 22, 0.56);
             color:rgb(8, 8, 8);
             min-height: 100vh;
             display: flex;
@@ -21,9 +21,11 @@
         }
 
         form {
-            background-color:rgb(39, 100, 52);
+            background-color: rgb(129, 209, 127);
             padding: 30px 40px;
             border-radius: 20px;
+            border: solid 2px rgb(35, 128, 40);
+
             max-width: 600px;
             width: 100%;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -62,9 +64,7 @@
             width: 100%;
             padding: 12px 15px;
             border-radius: 10px;
-            border: none;
-            background-color:rgb(41, 148, 49);
-            color: #fff;
+            border: solid 2px rgb(22, 180, 43);
             font-size: 15px;
             transition: background-color 0.3s;
         }
@@ -77,12 +77,12 @@
             color:black;
         }
 
-        button[type="submit"] {
+        button {
             width: 100%;
             padding: 14px;
-            background-color:rgb(16, 207, 41);
-            border: none;
-            border-radius: 8px;
+            background-color:rgb(23, 151, 40);
+            border: solid 2px rgb(246, 247, 246);
+            border-radius: 18px;
             color: white;
             font-size: 16px;
             font-weight: bold;
@@ -91,7 +91,7 @@
             margin-top: 10px;
         }
 
-        button[type="submit"]:hover {
+        button:hover {
             background-color: #1e8449;
         }
 
@@ -106,7 +106,9 @@
         <h2>Add Tournament</h2>
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Add</button>
+        <button type="submit">ADD</button>
+        <button type="reset">RESET</button>
+        <button onclick="history.back()">BACK </button>
     </form>
 </body>
 </html>

@@ -1,60 +1,58 @@
-{% extends 'base.html' %}
+
 
 {% block content %}
 
 <style>
 .formm {
-    
+    border-radius:20px;
     max-width: 400px;
+    width:600px;
+    height:300px;
     margin-left:620px;
     margin-top:10px;
     margin-bottom:100px;
-    padding: 20px;
-    background-color:rgba(24, 146, 30, 0.59);
-    border-radius: 15px;
+    padding: 10px;
+    background-color: rgb(129, 209, 127);
     box-shadow: 10px 4px 12px rgb(7, 7, 7);
 }
-
+body{
+    background-color:rgba(15, 104, 22, 0.56);
+}
 h2 {
     text-align: center;
-    color: #333;
+    color: black;
     margin-top:100px;
 }
 
 select {
     width: 100%;
     padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    border-radius: 14px;
+    border: 1px solid rgb(28, 175, 65);
 }
 
 #members-area {
     background-color: #fff;
     padding: 10px;
-    border-radius: 5px;
-    border: 1px dashed #bbb;
+    border-radius: 15px;
+    border: 1px solid rgb(39, 165, 34);
     margin-top: 10px;
 }
 .reg {
-    display: block;
-    width: 100%;
+    
+    width: 98%;
     padding: 10px;
+    margin:10px;
     font-size: 16px;
     background-color:rgb(16, 119, 25);
     color: white;
-    border: none;
-    border-radius: 5px;
+    border: 1px solid white ;
+    border-radius: 15px;
     cursor: pointer;
 }
-.regg {
-    display: block;
-    padding: 10px;
-    font-size: 16px;
-    background-color:rgba(48, 117, 34, 0.57);
-    
-}
-button:hover {
-    background-color:rgb(20, 189, 57);
+
+.reg:hover {
+    background-color:rgba(17, 170, 50, 0.72);
 }
 </style>
 <div class='regg'>
@@ -77,6 +75,7 @@ button:hover {
     </div>
 
     <button class="reg" type="submit">Register</button>
+    <button class="reg" onclick="history.back()">Back</button>
 </form>
 {%endif%}
 <script>
