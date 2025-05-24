@@ -24,7 +24,7 @@ form {
     background-color: #171717;
     padding: 40px;
     border-radius: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(21, 172, 33, 0.68);
     width: 300px;
     
 }
@@ -78,8 +78,8 @@ a:hover {
         <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-   <!-- templates/login.html (or your login template) -->
-<p>Forgot password? <a href="{% url 'password_reset' %}">Reset it here</a></p>
+  
+   <p>Forgot password? <a href="{% url 'forgot_password' %}">Forgot Password?</a></p>
 
 
     

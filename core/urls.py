@@ -1,5 +1,5 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
+
 from django.conf.urls.static import static
 from sports_manager import settings
 from .views import (
@@ -23,40 +23,18 @@ urlpatterns = [
     path('team/<int:team_id>/add_member/', views.add_team_member, name='add_team_member'),
     path('member/<int:member_id>/delete/', views.delete_team_member, name='delete_team_member'),
     path('teams/', views.team_list, name='team_list'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('send-reset-otp/', views.send_resetOTP, name='send_resetOTP'),
+    path('verify-otp/', views.verify_resetOTP, name='verify_resetOTP'),
+    path('reset-password/', views.reset_password, name='reset_password'),
     path('team/delete/<int:team_id>/', views.delete_team, name='delete_team'),
     path('tournament/<int:tournament_id>/register/', register_tournament, name='register_tournament'),
     path('tournament/<int:tournament_id>/delete/', delete_tournament, name='delete_tournament'),
     path('get-team-members/<int:team_id>/', views.get_team_members, name='get_team_members'),
     path('tournament/<int:tournament_id>/registrations/', views.tournament_registrations, name='tournament_registrations'),
-     path('password_reset/', 
-        auth_views.PasswordResetView.as_view(
-            template_name='password_reset_single.html',
-            email_template_name='password_reset_email.html',
-            subject_template_name='password_reset_subject.txt',
-            success_url='done/'
-        ), 
-        name='password_reset'),
-    
-    path('password_reset/done/', 
-        auth_views.PasswordResetDoneView.as_view(
-            template_name='password_reset_single.html'
-        ), 
-        name='password_reset_done'),
-    
-    path('reset/<uidb64>/<token>/', 
-        auth_views.PasswordResetConfirmView.as_view(
-            template_name='password_reset_single.html',
-            success_url='/reset/done/'
-        ), 
-        name='password_reset_confirm'),
-    
-    path('reset/done/', 
-        auth_views.PasswordResetCompleteView.as_view(
-            template_name='password_reset_single.html'
-        ), 
-        name='password_reset_complete'),
-]
 
+    
+]
 
 
 if settings.DEBUG:

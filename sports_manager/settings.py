@@ -129,7 +129,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production, after run
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 STATIC_URL = '/static/'
@@ -142,7 +142,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
  
-LOGIN_URL = 'login'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
@@ -158,15 +158,14 @@ APPEND_SLASH = True
 AUTH_USER_MODEL = 'core.User'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # ← Must change this!
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'kavudaboy1@gmail.com'
-EMAIL_HOST_PASSWORD = 'ljoq pffm wgct kzzv'  # Use your App Password, not your real password
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# settings.py
-PASSWORD_RESET_TIMEOUT = 86400 * 7  # 7 days in seconds
+EMAIL_HOST_PASSWORD = 'yvby peah wmda sqnd'  # Your app password
+DEFAULT_FROM_EMAIL = 'kavudaboy1@gmail.com'
+PASSWORD_RESET_TIMEOUT = 604800  # 7 days
 # Enable debugging
 import logging
 logging.basicConfig(level=logging.DEBUG)

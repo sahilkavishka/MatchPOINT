@@ -11,6 +11,9 @@ from .models import City, CreateTeam, Like,  Tournament, Registration, Sport, Co
 from django.shortcuts import render
 from .models import Tournament, Sport, City, CreateTeam
 from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model, update_session_auth_hash
+
 def home_view(request):
     search_query = request.GET.get('q', '')  
     sport_id = request.GET.get('sport', '')  
@@ -60,7 +63,7 @@ def login_view(request):
         messages.error(request, 'Invalid username or password.')
     return render(request, 'login.html')
 
-# Logout View
+
 def logout_view(request):
     logout(request)
     return redirect('login')
@@ -265,24 +268,117 @@ def load_more_comments(request, tournament_id):
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 
-def send_resetOTP(request):
-    Email = request.POST['email'];
-    SelectedUser = User.objects.filter(email = Email)
-    if SelectedUser.exists():
-        user = SelectedUser.first()
+# def send_resetOTP(request):
+#     Email = request.POST['email'];
+#     SelectedUser = User.objects.filter(email = Email)
+#     if SelectedUser.exists():
+#         user = SelectedUser.first()
 
-        otp_code = str(random.randint((100000,999999)))
+#         otp_code = str(random.randint((100000,999999)))
 
-        request.session['otp_code'] = otp_code
+#         request.session['otp_code'] = otp_code
 
-        subject = "MatchPoint - Verification OTP"
+#         subject = "MatchPoint - Verification OTP"
 
-        message = f"""Your OTP is : {otp_code} """
-        sender_email = "kavudaboy1@gmail.com"
+#         message = f"""Your OTP is : {otp_code} """
+#         sender_email = "kavudaboy1@gmail.com"
 
-        send_mail(subject,message,sender_email, [Email], fail_silently=False)
+#         send_mail(subject,message,sender_email, [Email], fail_silently=False)
 
-        return render(request,"otp_verification.html")
+#         return render(request,"otp_verification.html")
     
-    def verify_OTP(request):
+#     else:
+#         print("Invalid input")
+
+User = get_user_model()
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email').strip()
+        if User.objects.filter(email=email).exists():
+            request.session['reset_email'] = email
+            request.session.modified = True  # Force session save
+            return redirect('send_resetOTP')
+        messages.error(request, 'No account found with this email')
+    return render(request, 'forgot_password.html')
+
+def send_resetOTP(request):
+    # Ensure email exists in session
+    if not request.session.get('reset_email'):
+        return redirect('forgot_password')
+    
+    email = request.session['reset_email']
+    
+    # Generate and store OTP
+    otp_code = str(random.randint(100000, 999999))
+    request.session['reset_otp'] = otp_code
+    request.session.set_expiry(300)  # 5 minutes
+    request.session.modified = True  # Force save
+    
+    # Send email
+    try:
+        send_mail(
+            "MatchPoint - Password Reset OTP",
+            f"Your OTP: {otp_code}\nExpires in 5 minutes.",
+            "kavudaboy1@gmail.com",
+            [email],
+            fail_silently=False
+        )
+        messages.success(request, 'OTP sent successfully!')
+        return redirect('verify_resetOTP')  # Changed to redirect
+    except Exception as e:
+        messages.error(request, f'Failed to send OTP: {str(e)}')
+        return redirect('forgot_password')
+
+def verify_resetOTP(request):
+    # Session validation
+    if not request.session.get('reset_email'):
+        messages.error(request, 'Session expired')
+        return redirect('forgot_password')
+    
+    if request.method == 'POST':
+        user_otp = request.POST.get('otp', '').strip()
+        stored_otp = request.session.get('reset_otp')
         
+        if user_otp == stored_otp:
+            request.session['otp_verified'] = True
+            request.session.modified = True
+            return redirect('reset_password')
+        messages.error(request, 'Invalid OTP')
+    
+    return render(request, 'otp_verification.html', {
+        'email': request.session.get('reset_email')
+    })
+
+def reset_password(request):
+    if not request.session.get('otp_verified'):
+        messages.error(request, 'OTP verification required')
+        return redirect('forgot_password')
+    
+    if request.method == 'POST':
+        email = request.session.get('reset_email')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        if new_password != confirm_password:
+            messages.error(request, 'Passwords do not match')
+            return render(request, 'reset_password.html')
+        
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(new_password)
+            user.save()
+            
+            # Clear session
+            for key in ['reset_otp', 'reset_email', 'otp_verified']:
+                request.session.pop(key, None)
+            
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Password updated!')
+            return redirect('login')
+        except User.DoesNotExist:
+            messages.error(request, 'User not found')
+            return redirect('forgot_password')
+    
+    return render(request, 'reset_password.html')
+
