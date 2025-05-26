@@ -179,32 +179,40 @@ def team_detail(request, team_id=None):
 def register_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
 
-    # ✅ Get all teams 
-    teams = CreateTeam.objects.all()
-
+    # Show only teams created by this user
+    teams = CreateTeam.objects.filter(created_by=request.user)
 
     if request.method == 'POST':
         team_id = request.POST.get('team')
-        members = request.POST.get('members')
+        member_names = request.POST.getlist('members[]')  # Fetch list of selected members
 
-        if team_id and members:
+        if team_id and member_names:
             team = get_object_or_404(CreateTeam, id=team_id)
 
-            # Save the registration
-            Registration.objects.create(
+            # Prevent duplicate registration
+            if Registration.objects.filter(team=team, tournament=tournament).exists():
+                messages.warning(request, "This team is already registered.")
+                return redirect('home')
+
+            # Save registration (modify based on your model structure)
+            registration = Registration.objects.create(
                 user=request.user,
                 team=team,
-                tournament=tournament,
-                members=members
+                tournament=tournament
             )
 
+            # If your model supports storing members, do it here.
+            # Otherwise, log them or show them in the front-end only.
+
+            messages.success(request, "Successfully registered!")
             return redirect("home")
+        else:
+            messages.error(request, "Please select a team and members.")
+
     return render(request, 'register.html', {
         'tournament': tournament,
         'teams': teams
     })
-
-
 
 
 def tournament_registrations(request, tournament_id):
@@ -268,27 +276,6 @@ def load_more_comments(request, tournament_id):
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 
-# def send_resetOTP(request):
-#     Email = request.POST['email'];
-#     SelectedUser = User.objects.filter(email = Email)
-#     if SelectedUser.exists():
-#         user = SelectedUser.first()
-
-#         otp_code = str(random.randint((100000,999999)))
-
-#         request.session['otp_code'] = otp_code
-
-#         subject = "MatchPoint - Verification OTP"
-
-#         message = f"""Your OTP is : {otp_code} """
-#         sender_email = "kavudaboy1@gmail.com"
-
-#         send_mail(subject,message,sender_email, [Email], fail_silently=False)
-
-#         return render(request,"otp_verification.html")
-    
-#     else:
-#         print("Invalid input")
 
 User = get_user_model()
 

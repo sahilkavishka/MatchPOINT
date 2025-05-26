@@ -1,6 +1,6 @@
 
 
-{% block content %}
+
 
 <style>
 .formm {
@@ -19,7 +19,8 @@ body{
     background-color:rgba(15, 104, 22, 0.56);
 }
 h2 {
-    text-align: center;
+    width:600px;
+    margin-left:660px;
     color: black;
     margin-top:100px;
 }
@@ -55,8 +56,9 @@ select {
     background-color:rgba(17, 170, 50, 0.72);
 }
 </style>
-<div class='regg'>
+{% block content %}
 <h2>Register for {{ tournament.name }}</h2>
+
 {% if user.role == "Player" %}
 <form class="formm" method="POST">
     {% csrf_token %}
@@ -76,11 +78,12 @@ select {
 
     <button class="reg" type="submit">Register</button>
     <button class="reg" type="reset">Reset</button>
-    <button class="reg" onclick="history.back()">Back</button>
+    <button class="reg" type="button" onclick="history.back()">Back</button>
 </form>
-{%else%}
-    <p><center>only players can registation</center></p>
-{%endif%}
+{% else %}
+    <p><center>Only players can register</center></p>
+{% endif %}
+
 <script>
 function loadTeamMembers() {
     const teamId = document.getElementById("team").value;
@@ -88,21 +91,25 @@ function loadTeamMembers() {
 
     if (teamId) {
         fetch(`/get-team-members/${teamId}/`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.json();
+            })
             .then(data => {
                 if (data.members.length > 0) {
                     membersArea.innerHTML = data.members.map(member =>
-                        `<label><input type="checkbox" name="members" value="${member}"> ${member}</label><br>`
+                        `<label><input type="checkbox" name="members[]" value="${member}"> ${member}</label><br>`
                     ).join('');
                 } else {
                     membersArea.innerHTML = "<p>No members found.</p>";
                 }
+            })
+            .catch(error => {
+                membersArea.innerHTML = `<p>Error loading members: ${error.message}</p>`;
             });
     } else {
         membersArea.innerHTML = "<p>Select a team to load members...</p>";
     }
 }
 </script>
-
 {% endblock %}
-</div>

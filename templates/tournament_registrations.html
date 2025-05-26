@@ -1,11 +1,9 @@
-{% extends 'base.html' %}
-
 {% block content %}
 
 <style>
 .container {
-    max-width: 800px;
-    margin-left:450px;
+    max-width: 500px;
+    margin: 0 auto;
     padding: 20px;
     background-color: rgb(129, 209, 127);
     border-radius: 25px;
@@ -17,23 +15,22 @@ h2 {
     color: black;
     margin-bottom: 30px;
 }
-body{
-    background-color:rgba(15, 104, 22, 0.56);
+body {
+    background-color: rgba(15, 104, 22, 0.56);
 }
+
 .team-box {
-    background-color:rgba(17, 221, 44, 0.58);
+    background-color: rgba(17, 221, 44, 0.58);
     border: 1px solid black;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 18px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-
 
 .team-box strong {
     font-size: 18px;
-    color:rgb(13, 13, 14);
+    color: rgb(13, 13, 14);
 }
 
 .team-box p {
@@ -53,6 +50,7 @@ body{
     color: black;
 }
 </style>
+
 <br><br><br><br><br>
 <div class="container">
     <h2>Registered Teams for {{ tournament.name }}</h2>
@@ -73,7 +71,6 @@ body{
     {% else %}
         <p class="no-registrations">No teams have registered for this tournament yet.</p>
     {% endif %}
-
+</div>
 
 {% endblock %}
-</div>
