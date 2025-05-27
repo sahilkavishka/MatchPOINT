@@ -46,8 +46,8 @@ urlpatterns = [
     path('reset-password/', views.reset_password, name='reset_password'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+urlpatterns = [
+    # your other urls...
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+
 {% block content %}
 <style>
 /* Container for form section */
@@ -100,7 +100,7 @@ body{
 }
 </style>
 
-<br><br><br><br><br>
+
 <div class="addmem">
 {% if user.is_authenticated %}
     {% if  user.role == "Player" %}
@@ -111,7 +111,8 @@ body{
             {{ form.as_p }} 
         
             <button  class="btn1" type="submit" >Add Member</button>
-            <button class="btn2" onclick="history.back()">BACK </button>
+            <button class="btn1" type="reset">Reset</button>
+            <button class="btn2" onclick="history.back()">Back </button>
         
         </form>
     {% else %}
