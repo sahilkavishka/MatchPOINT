@@ -62,10 +62,11 @@ body {
                 <p>Registered by: {{ reg.user.username }}</p>
                 <p>Members:</p>
                 <ul class="team-members">
-                    {% for member in reg.team.members.all %}
-                        <li>{{ member.name }}</li>
-                    {% endfor %}
-                </ul>
+                 {% for name in reg.member_names%}
+                <li>{{ name }}</li>
+                {% endfor %}
+</ul>
+
             </div>
         {% endfor %}
     {% else %}

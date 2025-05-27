@@ -174,45 +174,43 @@ def team_detail(request, team_id=None):
     return render(request, 'team.html', {'teams': teams, 'team': team, 'members': members})
 
 
-
 @login_required
 def register_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-
-    # Show only teams created by this user
     teams = CreateTeam.objects.filter(created_by=request.user)
 
     if request.method == 'POST':
+        print("POST request received")  
         team_id = request.POST.get('team')
-        member_names = request.POST.getlist('members[]')  # Fetch list of selected members
+        member_names = request.POST.getlist('members')
+        print("Members selected:", member_names)  # Debugging
 
         if team_id and member_names:
             team = get_object_or_404(CreateTeam, id=team_id)
 
-            # Prevent duplicate registration
             if Registration.objects.filter(team=team, tournament=tournament).exists():
                 messages.warning(request, "This team is already registered.")
-                return redirect('home')
+                return redirect('tournament_registrations', tournament_id=tournament.id)
 
-            # Save registration (modify based on your model structure)
-            registration = Registration.objects.create(
+            joined_names = ", ".join(member_names)
+
+            Registration.objects.create(
                 user=request.user,
                 team=team,
-                tournament=tournament
+                tournament=tournament,
+                member_names=joined_names
             )
 
-            # If your model supports storing members, do it here.
-            # Otherwise, log them or show them in the front-end only.
-
-            messages.success(request, "Successfully registered!")
-            return redirect("home")
+            messages.success(request, "Team successfully registered!")
+            return redirect('tournament_registrations', tournament_id=tournament.id)
         else:
-            messages.error(request, "Please select a team and members.")
+            messages.error(request, "Please select a team and at least one member.")
 
     return render(request, 'register.html', {
         'tournament': tournament,
         'teams': teams
     })
+
 
 
 def tournament_registrations(request, tournament_id):
@@ -223,6 +221,12 @@ def tournament_registrations(request, tournament_id):
         'tournament': tournament,
         'registrations': registrations
     })
+
+def get_team_members(request, team_id):
+    team = get_object_or_404(CreateTeam, id=team_id)
+    members = team.members.values_list('name', flat=True)
+    return JsonResponse({'members': list(members)})
+
 def delete_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
     if request.user != tournament.created_by:

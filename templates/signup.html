@@ -296,14 +296,6 @@
             <form method="post" enctype="multipart/form-data" novalidate id="registrationForm">
                 {% csrf_token %}
                 
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="success-message">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                
                 <div class="form-header">
                     <h2>Create Account</h2>
                 </div>

@@ -102,8 +102,8 @@
                 
                     <form action="{% url 'comment_tournament' tournament.id %}" method="POST">
                         {% csrf_token %}
-                        <textarea name="content" placeholder="Write a comment..." required></textarea>
-                        <button type="submit"><i class="material-icons">send</i></button><br>
+                        <textarea name="content" placeholder="Write a comment..." required></textarea>                
+                        <button  type="submit"><i class="material-icons">send</i></button><br>
                         
                     </form>
                     <a href="{% url 'register_tournament' tournament.id %}" > Register</a>

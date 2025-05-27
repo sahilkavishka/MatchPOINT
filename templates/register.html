@@ -62,7 +62,7 @@ select {
 {% if user.role == "Player" %}
 <form class="formm" method="POST">
     {% csrf_token %}
-
+    
     <label for="team">Team Name:</label>
     <select name="team" id="team" required onchange="loadTeamMembers()">
         <option value="">Select</option>
@@ -91,14 +91,11 @@ function loadTeamMembers() {
 
     if (teamId) {
         fetch(`/get-team-members/${teamId}/`)
-            .then(response => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 if (data.members.length > 0) {
                     membersArea.innerHTML = data.members.map(member =>
-                        `<label><input type="checkbox" name="members[]" value="${member}"> ${member}</label><br>`
+                        `<label><input type="checkbox" name="members" value="${member}"> ${member}</label><br>`
                     ).join('');
                 } else {
                     membersArea.innerHTML = "<p>No members found.</p>";

@@ -92,9 +92,13 @@ class Registration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     team = models.ForeignKey(CreateTeam, on_delete=models.CASCADE)
-    members = models.TextField()
+    member_names = models.TextField()
     registered_at = models.DateTimeField(auto_now_add=True)  # optional
 
+
+    def get_member_list(self):
+        # helper to get list of names
+        return self.member_names.split(",") if self.member_names else []
 
 class Like(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
