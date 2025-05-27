@@ -151,7 +151,7 @@
                                 
                                 <strong>{{ member.name }}</strong>
                                 <span>{{ member.age }} years old</span>
-                                <span>{{ member.height }} tall</span>
+                                <span>{{ member.height }}cm  tall</span>
                                 <span>Position: {{ member.position }}</span>
                                 {% if request.user == team.created_by %}
                                 <a href="{% url 'delete_team_member' member.id %}" onclick="return confirm('Are you sure you want to remove this member?');">
