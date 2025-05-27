@@ -44,10 +44,4 @@ urlpatterns = [
     path('send-reset-otp/', views.send_resetOTP, name='send_resetOTP'),
     path('verify-otp/', views.verify_resetOTP, name='verify_resetOTP'),
     path('reset-password/', views.reset_password, name='reset_password'),
-]
-
-urlpatterns = [
-    # your other urls...
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,7 @@
     justify-content: center;
     gap: 5px;
     flex-wrap: wrap;
-    background-color:rgba(15, 104, 22, 0.56);
+    background: linear-gradient(135deg,rgb(15, 15, 15), #14532d);
     margin-top: 10px;
    
     
@@ -15,9 +15,10 @@
 
 
 .tournament {
-    background-color: rgb(129, 209, 127);
+    background-color: rgb(14, 105, 44);
     border-radius: 30px;
-    box-shadow: 0px 5px 5px rgba(6, 39, 13, 0.822);
+    border: flex 10px rgb(12, 15, 12);
+    box-shadow: 0px 0 25px rgba(14, 202, 55, 0.925);
     padding: 20px;
     font-family: Arial, sans-serif;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -33,7 +34,7 @@
 
 .tournament:hover {
     transform: translateY(80px) translateX(80px) scale(50.02);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 12px 25px rgba(12, 185, 26, 0.788);
     background-color: rgba(52, 194, 47, 0.637);
     transform: scale(1.01);
     
@@ -190,14 +191,14 @@
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
-     background-color:rgba(15, 104, 22, 0.56);
+     background-color:rgba(21, 87, 27, 0.849);
     margin-bottom: -10px;
     margin-top: -10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 select {
-    background-color: #ffffff;
+    background-color: #175531;
     border: 2px solid #26cc20;
     border-radius: 8px;
     padding: 10px 20px;
@@ -210,13 +211,13 @@ select {
 select:hover {
     border-color: #06f84e;
     color: rgb(12, 12, 12);
-    background-color: #0da53b8c;
+    background-color: #081d0e8c;
     box-shadow: 0 4px 8px rgba(32, 139, 41, 0.2);
 }
 
 select:focus {
     outline: none;
-    border-color: #00ff40;
+    border-color: #051409;
     box-shadow: 0 0 10px rgba(13, 92, 3, 0.2);
 }
 

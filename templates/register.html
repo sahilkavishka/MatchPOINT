@@ -1,87 +1,191 @@
-
-
-
-
-<style>
-.formm {
-    border-radius:20px;
-    max-width: 400px;
-    width:600px;
-    height:370px;
-    margin-left:620px;
-    margin-top:10px;
-    margin-bottom:100px;
-    padding: 10px;
-    background-color: rgb(129, 209, 127);
-    box-shadow: 10px 4px 12px rgb(7, 7, 7);
-}
-body{
-    background-color:rgba(15, 104, 22, 0.56);
-}
-h2 {
-    width:600px;
-    margin-left:660px;
-    color: black;
-    margin-top:100px;
-}
-
-select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 14px;
-    border: 1px solid rgb(27, 107, 47);
-}
-
-#members-area {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 15px;
-    border: 1px solid rgb(39, 165, 34);
-    margin-top: 10px;
-}
-.reg {
-    
-    width: 98%;
-    padding: 10px;
-    margin:10px;
-    font-size: 16px;
-    background-color:rgb(16, 119, 25);
-    color: white;
-    border: 1px solid black ;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-.reg:hover {
-    background-color:rgba(17, 170, 50, 0.72);
-}
-</style>
 {% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap');
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(circle at 20% 20%, #0a1e12, #0e0e0e);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        color: #ffffff;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 30px;
+        margin: 90px auto 40px;
+        color: #b8f6c3;
+        text-shadow: 0 0 10px rgba(0, 255, 123, 0.5);
+        animation: fadeIn 1.2s ease-out;
+    }
+
+    .formm {
+        max-width: 600px;
+        margin: 0 auto 80px;
+        padding: 30px;
+        background: rgba(26, 46, 34, 0.75);
+        backdrop-filter: blur(8px);
+        border-radius: 25px;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        border: 1px solid rgba(0, 255, 150, 0.2);
+        animation: pulseBox 3s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseBox {
+        0% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+        100% { box-shadow: 0 0 35px rgba(0, 255, 136, 0.7); }
+    }
+
+    label {
+        font-size: 16px;
+        font-weight: 500;
+        color: #c3ffe4;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    select, #members-area {
+        width: 100%;
+        padding: 10px;
+        border-radius: 14px;
+        border: 1px solid #2eff88;
+        font-size: 15px;
+        background-color: #0f2518;
+        color: #e0ffe3;
+        margin-bottom: 16px;
+        transition: box-shadow 0.3s;
+    }
+
+    select:hover {
+        box-shadow: 0 0 12px rgba(0, 255, 170, 0.4);
+    }
+
+    select:focus {
+        outline: none;
+        box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+    }
+
+    #members-area {
+        background-color: rgba(15, 34, 20, 0.75);
+        padding: 10px;
+        border-radius: 12px;
+        animation: fadeIn 0.7s ease-in-out;
+    }
+
+    #members-area label {
+        display: block;
+        margin: 6px 0;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .reg {
+        position: relative;
+        width: 31%;
+        margin: 15px 1% 0;
+        padding: 10px;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: #0dc95c;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .reg:hover {
+        background-color: #1ff17b;
+        transform: translateY(-2px);
+        box-shadow: 0 0 16px rgba(0, 255, 170, 0.4);
+    }
+
+    .reg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+        transform: skewX(-20deg);
+        transition: left 0.5s;
+    }
+
+    .reg:hover::before {
+        left: 130%;
+    }
+
+    .reg:active {
+        transform: scale(0.97);
+    }
+
+    p.center-note {
+        text-align: center;
+        color: #aaffc6;
+        margin-top: 50px;
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media screen and (max-width: 768px) {
+        .formm {
+            width: 90%;
+            padding: 20px;
+        }
+
+        .reg {
+            width: 100%;
+            margin: 10px 0 0;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 60px;
+        }
+    }
+</style>
+
 <h2>Register for {{ tournament.name }}</h2>
 
 {% if user.role == "Player" %}
 <form class="formm" method="POST">
     {% csrf_token %}
-    
+
     <label for="team">Team Name:</label>
     <select name="team" id="team" required onchange="loadTeamMembers()">
         <option value="">Select</option>
         {% for team in teams %}
             <option value="{{ team.id }}">{{ team.name }}</option>
         {% endfor %}
-    </select><br><br>
+    </select>
 
     <label for="members">Team Members:</label>
     <div id="members-area">
         <p>Select a team to load members...</p>
     </div>
 
-    <button class="reg" type="submit">Register</button>
-    <button class="reg" type="reset">Reset</button>
-    <button class="reg" type="button" onclick="history.back()">Back</button>
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+        <button class="reg" type="submit">Register</button>
+        <button class="reg" type="reset">Reset</button>
+        <button class="reg" type="button" onclick="history.back()">Back</button>
+    </div>
 </form>
 {% else %}
-    <p><center>Only players can register</center></p>
+    <p class="center-note">Only players can register.</p>
 {% endif %}
 
 <script>
@@ -89,13 +193,15 @@ function loadTeamMembers() {
     const teamId = document.getElementById("team").value;
     const membersArea = document.getElementById("members-area");
 
+    membersArea.innerHTML = "<p style='opacity: 0.6;'>Loading...</p>";
+
     if (teamId) {
         fetch(`/get-team-members/${teamId}/`)
             .then(response => response.json())
             .then(data => {
                 if (data.members.length > 0) {
                     membersArea.innerHTML = data.members.map(member =>
-                        `<label><input type="checkbox" name="members" value="${member}"> ${member}</label><br>`
+                        `<label><input type="checkbox" name="members" value="${member}"> ${member}</label>`
                     ).join('');
                 } else {
                     membersArea.innerHTML = "<p>No members found.</p>";
