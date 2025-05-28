@@ -96,25 +96,10 @@
         padding-left: 20px;
         font-size: 14px;
         color: #d2ffe7;
-        line-height: 1.6;
+        
     }
 
-    .team-members span {
-        display: block;
-        margin-left: 10px;
-        position: relative;
-        padding-left: 16px;
-        animation: flashIn 0.7s ease;
-    }
-
-    .team-members span::before {
-        content: '⚡';
-        position: absolute;
-        left: 0;
-        color: #00ff95;
-        font-size: 13px;
-        animation: tickPulse 1.2s infinite;
-    }
+  
 
     .no-registrations {
         text-align: center;
@@ -193,7 +178,7 @@
                 <p>Members:</p>
                 <div class="team-members">
                     {% for name in reg.member_names %}
-                        <span>{{ name }}</span>
+                       {{ name }}
                     {% endfor %}
                 </div>
             </div>

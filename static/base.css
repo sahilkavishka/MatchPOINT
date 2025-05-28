@@ -73,8 +73,8 @@
   list-style: none;
   display: flex;
   gap: 25px;
-  margin: 0;
-  padding: 0;
+  
+   
 }
 
 .nav-links li {
@@ -85,6 +85,7 @@
   cursor: pointer;
   user-select: none;
   transition: color 0.25s ease, transform 0.25s ease;
+  
 }
 
 .nav-links a {
@@ -92,6 +93,8 @@
   text-decoration: none;
   transition: color 0.25s ease;
   text-align: center;
+  
+  
 }
 
 .nav-links a:hover,
@@ -187,7 +190,7 @@ body {
   top: 0;
   width: 250px;
   height: 100%;
-  background: #2e5d2f;
+  background: #123d13;
   color: #e6f0d9;
   padding-top: 60px;
   transition: left 0.4s ease-in-out;
@@ -227,7 +230,7 @@ body {
 .sidebar ul li:hover {
   background-color: #0eaf1391;
   color: #f0f9e9;
-  transform: scale(1.2);
+  transform: scale(1.1);
   box-shadow: 0 0 10px #0ef006f3;
 }
 

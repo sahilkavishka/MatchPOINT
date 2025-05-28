@@ -59,7 +59,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, #050505fb 50%, #053616 100%);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #0a2c0cfb 50%, #053616 100%);
     background-attachment: fixed;
     color: var(--text-primary);
     line-height: 1.6;
@@ -442,15 +442,15 @@ body::before {
 .button-group button:hover {
     background: linear-gradient(135deg, var(--primary-green-light), var(--primary-green));
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 25px rgba(8, 206, 51, 0.692);
 }
 
 .button-group button[type="submit"]:nth-of-type(1) {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+    background: linear-gradient(135deg, #44ef86, #26dc4e);
 }
 
 .button-group button[type="submit"]:nth-of-type(1):hover {
-    background: linear-gradient(135deg, #f87171, #ef4444);
+    background: linear-gradient(135deg, #71f89a, #44ef5b);
 }
 
 /* Like button special styling */
@@ -493,7 +493,7 @@ body::before {
     background: var(--primary-green);
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 8px 25px rgba(16, 185, 67, 0.575);
 }
 
 /* === Textarea === */
