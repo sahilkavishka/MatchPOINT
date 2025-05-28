@@ -1,341 +1,680 @@
-/* Main Layout */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-.allhome{
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    flex-wrap: wrap;
-    background: linear-gradient(135deg,rgb(15, 15, 15), #14532d);
-    margin-top: 10px;
-   
+/* === CSS Variables === */
+:root {
+    /* Green Theme Colors */
+    --primary-green: #10b981;
+    --primary-green-light: #34d399;
+    --primary-green-dark: #059669;
+    --accent-green: #6ee7b7;
+    --success-green: #22c55e;
     
-}
-
-/* Tournament Card Styling */
-
-
-.tournament {
-    background-color: rgb(14, 105, 44);
-    border-radius: 30px;
-    border: flex 10px rgb(12, 15, 12);
-    box-shadow: 0px 0 25px rgba(14, 202, 55, 0.925);
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 400px;
-    max-width:700px;
-    margin-left: 50px;
-    position:static;
-    margin-bottom: 80px;
-    margin-top: 30px;
-    animation: fadeIn 0.5s ease forwards;
-}
-
-
-.tournament:hover {
-    transform: translateY(80px) translateX(80px) scale(50.02);
-    box-shadow: 0 12px 25px rgba(12, 185, 26, 0.788);
-    background-color: rgba(52, 194, 47, 0.637);
-    transform: scale(1.01);
+    /* Background Colors */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --bg-glass: rgba(16, 185, 129, 0.05);
+    --bg-overlay: rgba(0, 0, 0, 0.6);
     
-}   
-
-
-
-.tournament span {
-    margin-right: auto;
-    font-size: 24px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: normal;
-
-}
-
-.namepic {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 15px;
-}
-
-/* Tournament Heading */
-.tournament h3 {
-    font-size: 1.5rem;
-    color: rgb(255, 254, 254);
-    transition: all 0.3s ease;
-    position: relative;
-    padding-right: 160px;
-}
-
-/* Tournament Details */
-.tournament p {
-    font-size: 1rem;
-    margin: 5px 0;
-    color: rgb(255, 255, 255);
-    line-height: 1.4;
-    width: 300px;
+    /* Text Colors */
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-accent: #10b981;
     
-   
-}
-
-/* Button Group */
-.button-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
+    /* Border & Effects */
+    --border-glass: rgba(16, 185, 129, 0.2);
+    --shadow-glow: 0 0 30px rgba(16, 185, 129, 0.15);
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 20px 40px rgba(16, 185, 129, 0.2);
     
-}
-
-.button-group button {
-  text-align: center;
-   margin-top: 25px;
-    border-radius: 50%;
-    object-fit: cover;
-    width: 40px;
-    height: 40px;
-    cursor:pointer;
-    background-color: #13b913;
-    color: rgb(248, 250, 248);
-    border: solid 1px rgb(13, 145, 13);
-    box-shadow: 0px 5px 10px rgba(6, 39, 13, 0.822);
-
-}
-
-.button-group button:hover {
-    background-color: #fcfdfc;
-    color: #2db628;
-}
-
-.button-group a {
-    padding: 8px 8px;
-    color: rgb(8, 8, 8);
-    text-decoration: none;
-    border: solid 2px rgb(18, 148, 18);
-    border-radius: 17px;
-    text-align: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(18, 150, 29, 0.822);
-    font-size: 14px;
-   
-}
-
-.button-group a:hover {
-    background-color: #fcfdfc;
-    color: #2db628;
-    border: 1px solid #2db628;
-}
-
-.button-group textarea {
-    border-radius: 20px;
-    border: 1px solid #0da53a;
-    padding: 3px 15px;
-    width: 180px;
-    margin-top: 25px;
-    margin-right: 25px;
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
     
-    box-shadow: 0px 5px 10px rgba(6, 39, 13, 0.822);
+    /* Border Radius */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-2xl: 2rem;
+    
+    /* Transitions */
+    --transition-fast: 0.15s ease-out;
+    --transition-medium: 0.3s ease-out;
+    --transition-slow: 0.5s ease-out;
 }
 
-/* Comments Section */
-.comments-section {
-    gap: 10px; /* Space between input and button */
-    margin: 20px auto; /* Center the search bar and add spacing */
-    width: auto;
-    height: auto;
-    max-width: 400px; /* Limit the width */
-    text-align: center;
-    color: #0d0e0d;
-
+/* === Base Styles === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.comment {
-    padding: 8px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    text-align: center;
-    color: #0d0e0d;
-
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #050505fb 50%, #053616 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.see-more-btn {
-    background-color: #0b9128;
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 17px;
-    transition: all 0.3s ease;
-    display: block;
-    margin-left: auto;
+/* Animated background particles */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+    animation: float 15s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
 }
 
-.see-more-btn:hover {
-    background-color: #f6f7f8;
-    color: #0db637;
-    border: 1px solid #00ff40;
+@keyframes float {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(180deg); }
 }
 
-.commentpic {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* Filter Form */
+/* === Filter Form === */
 .select-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-     background-color:rgba(21, 87, 27, 0.849);
-    margin-bottom: -10px;
-    margin-top: -10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    gap: var(--space-lg);
+    margin: var(--space-2xl) auto;
+    padding: var(--space-xl);
+    max-width: 600px;
+    background: rgb(10, 78, 25);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-xl);
+    box-shadow:0 0 25px rgb(10, 223, 56);
 }
 
-select {
-    background-color: #175531;
-    border: 2px solid #26cc20;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    min-width: 200px;
-    text-align: center;
-}
-
-select:hover {
-    border-color: #06f84e;
-    color: rgb(12, 12, 12);
-    background-color: #081d0e8c;
-    box-shadow: 0 4px 8px rgba(32, 139, 41, 0.2);
-}
-
-select:focus {
+.select-container select {
+    background: rgb(3, 44, 12);
+    border: 1px solid rgb(11, 248, 62);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    min-width: 180px;
     outline: none;
-    border-color: #051409;
-    box-shadow: 0 0 10px rgba(13, 92, 3, 0.2);
 }
 
-/* Profile Picture */
-.profile {
-    
-    width: 50px;
-    height: 50px;
+.select-container select:hover {
+    border-color:rgb(3, 44, 12);
+    background:rgb(7, 194, 47);
+    transform: translateY(-2px);
+}
+
+.select-container select:focus {
+    border-color:rgb(10, 78, 25);
+    box-shadow: 0 0 0 3px rgba(16, 185, 44, 0.2);
+}
+
+.select-container select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: var(--space-sm);
+}
+
+/* === Main Container === */
+.allhome {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-2xl);
+    padding: var(--space-2xl);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* === Tournament Card === */
+.tournament {
+    background: rgba(13, 63, 20, 0.692);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-xl);
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+
+.tournament::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, rgb(9, 146, 39));
+    border-radius: var(--radius-2xl);
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+    z-index: -1;
+}
+
+.tournament:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+}
+
+.tournament:hover::before {
+    opacity: 0.3;
+}
+
+/* === Profile Section === */
+.namepic {
+    display: flex;
+    height: 10px;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-lg);
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(16, 185, 129, 0.1);
+}
+
+.propic {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid  #ddd;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--primary-green);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transition: transform var(--transition-fast);
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
-    .allhome {
-        flex-direction: column;
-    }
-    
-    .sidebar {
-        width: 100%;
-        position: static;
-        height: auto;
-    }
-    
-    .main-content {
-        margin-left: 0;
-    }
-    
-    .select-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    select {
-        width: 100%;
-    }
+.propic:hover {
+    transform: scale(1.1) rotate(5deg);
 }
 
-@media (max-width: 576px) {
-    .tournaments-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .button-group {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .button-group a, 
-    .button-group button {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .button-group button {
-        border-radius: 17px;
-    }
+.namepic span {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-left: var(--space-sm);
 }
 
-/* Animation for tournament cards */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+.namepic hr {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+    margin-left: var(--space-lg);
 }
 
-
-
-/* Hover effect for tournament container */
+/* === Tournament Container === */
 .tournament-container {
-    position:sticky;
+    position: relative;
+    border-radius: var(--radius-xl);
     overflow: hidden;
-    border-radius: 20px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-   
+    margin-bottom: var(--space-xl);
+    min-height: 300px;
+    background: var(--bg-secondary);
 }
-
-
 
 .tournament-image {
-    width: 400px;
-    height: 500px;
-    max-width: 700px;
-    position: absolute;
+    width: 100%;
+    height: 300px;
     object-fit: cover;
-    transition: all 0.3s ease;
-    
+    transition: all var(--transition-slow);
 }
 
 .tournament-container:hover .tournament-image {
-    filter: blur(3px) brightness(0.7);
-    
+    filter: blur(3px) brightness(0.4);
+    transform: scale(1.05);
 }
 
 .tournament-container .content {
     position: absolute;
-    margin-left: 60px;
-    width: 500px;
-    height: 500px;
-    max-width: 500px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--space-xl);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: all var(--transition-slow);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
-    
-    opacity: 0;
-    transition: all 0.3s ease;
     text-align: center;
-   
+    overflow-y: auto;
 }
 
 .tournament-container:hover .content {
-    opacity: 5;
-  
-    
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.8);
 }
 
+.tournament-container .content h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    margin-bottom: var(--space-lg);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tournament-container .content p {
+    font-size: 0.95rem;
+    margin-bottom: var(--space-sm);
+    color: var(--text-secondary);
+}
+
+.tournament-container .content p strong {
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+/* === Likes Section === */
+.tournament > strong {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 1rem;
+    color: var(--text-accent);
+    margin-bottom: var(--space-lg);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: var(--radius-sm);
+}
+
+.tournament > strong::before {
+    content: '❤️';
+    font-size: 1.2rem;
+}
+
+/* === Comments Section === */
+.tournament h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: var(--space-xl) 0 var(--space-lg) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.tournament h4::before {
+    content: '💬';
+    font-size: 1.2rem;
+}
+
+.comments-section {
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.comments-section p {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary-green);
+    transition: all var(--transition-fast);
+}
+
+.comments-section p:hover {
+    background: rgba(16, 185, 129, 0.1);
+    transform: translateX(5px);
+}
+
+.commentpic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-green);
+    flex-shrink: 0;
+}
+
+.comment {
+    color: var(--primary-green) !important;
+    font-weight: 600 !important;
+    margin-right: var(--space-sm) !important;
+}
+
+.see-more-btn {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+    color: white;
+    border: none;
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    display: block;
+    margin: var(--space-lg) auto;
+}
+
+.see-more-btn:hover {
+    background: linear-gradient(135deg, var(--primary-green-light), var(--primary-green));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* === Button Group === */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.button-group form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    flex: 1;
+    min-width: 200px;
+}
+
+.button-group button {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+    color: white;
+    border: none;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.button-group button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--transition-slow);
+}
+
+.button-group button:hover::before {
+    left: 100%;
+}
+
+.button-group button:hover {
+    background: linear-gradient(135deg, var(--primary-green-light), var(--primary-green));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.button-group button[type="submit"]:nth-of-type(1) {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.button-group button[type="submit"]:nth-of-type(1):hover {
+    background: linear-gradient(135deg, #f87171, #ef4444);
+}
+
+/* Like button special styling */
+.button-group form:first-child button {
+    background: linear-gradient(135deg, #e11d48, #be185d);
+}
+
+.button-group form:first-child button:hover {
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
+}
+
+/* Delete button styling */
+.button-group form:last-child button {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.button-group form:last-child button:hover {
+    background: linear-gradient(135deg, #f87171, #ef4444);
+}
+
+.button-group a {
+    background: transparent;
+    border: 2px solid var(--primary-green);
+    color: var(--primary-green);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all var(--transition-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    flex: 1;
+    min-width: 150px;
+}
+
+.button-group a:hover {
+    background: var(--primary-green);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+/* === Textarea === */
+textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: var(--space-md);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    transition: all var(--transition-medium);
+    margin-bottom: var(--space-sm);
+}
+
+textarea::placeholder {
+    color: var(--text-muted);
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    background: var(--bg-primary);
+}
+
+/* === Material Icons === */
+.material-icons {
+    font-size: 1.2rem;
+}
+
+/* === Scrollbar Styling === */
+.comments-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comments-section::-webkit-scrollbar-track {
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 3px;
+}
+
+.comments-section::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 3px;
+}
+
+.comments-section::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green-light);
+}
+
+/* === Loading States === */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* === Responsive Design === */
+@media (max-width: 768px) {
+    .select-container {
+        flex-direction: column;
+        gap: var(--space-md);
+        margin: var(--space-lg) var(--space-md);
+        padding: var(--space-lg);
+    }
+    
+    .select-container select {
+        min-width: unset;
+    }
+    
+    .allhome {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+        padding: var(--space-lg);
+    }
+    
+    .tournament {
+        padding: var(--space-lg);
+    }
+    
+    .namepic {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-sm);
+    }
+    
+    .namepic hr {
+        margin: var(--space-sm) 0;
+        width: 100%;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .button-group form,
+    .button-group a {
+        min-width: unset;
+    }
+    
+    .tournament-container .content {
+        padding: var(--space-lg);
+    }
+    
+    .tournament-container .content h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .allhome {
+        padding: var(--space-md);
+        gap: var(--space-lg);
+    }
+    
+    .tournament {
+        padding: var(--space-md);
+    }
+    
+    .propic {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .tournament-container .content {
+        padding: var(--space-md);
+    }
+    
+    .tournament-container .content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .tournament-container .content p {
+        font-size: 0.85rem;
+    }
+}
+
+/* === Accessibility === */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    body::before {
+        animation: none;
+    }
+}
+
+/* Focus indicators */
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+/* === Dark mode support === */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #020617;
+        --bg-secondary: #0f2a13;
+    }
+}

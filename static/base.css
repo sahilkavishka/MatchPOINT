@@ -108,7 +108,8 @@
 
 /* Footer */
 .footer {
-  background: #263824;
+  background: #1b4d223b;
+  z-index: 100px; 
   color: #dcedc8;
   text-align: center;
   padding: 15px 0;

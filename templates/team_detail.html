@@ -10,7 +10,7 @@
        margin: 30px;
    }
    body{
-    background-color:rgba(11, 87, 18, 0.9);
+    background: linear-gradient(135deg,rgb(24, 82, 47),rgb(23, 24, 23));
     color:rgb(247, 243, 243)
    }
 
@@ -105,6 +105,7 @@
         border: none;
         border-radius: 6px;
         text-decoration: none;
+        box-shadow: 0 0 5px rgb(97, 247, 68);
         margin-top: 20px;
         font-weight: 500;
         transition: background-color 0.3s ease;
@@ -135,7 +136,7 @@
             <div><strong>Created Date:</strong> {{ team.created_date }}</div>
             <div><strong>Rules:</strong> <p>{{ team.rules }}</p></div>
           
-             <a class="btn" href="{% url 'add_team_member' team.id %}" class="btn btn-success"><i class="material-icons">add</i>Add Member</a>
+             <a class="btn" href="{% url 'add_team_member' team.id %}"><i class="material-icons">add</i>Add Member</a>
             
             <!-- ✅ Members List -->
             <h3>Team Members</h3>
