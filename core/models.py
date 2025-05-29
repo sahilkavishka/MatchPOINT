@@ -11,7 +11,7 @@ class User(AbstractUser):
         ('Player', 'Player'),
         ('Spectator', 'Spectator'),
     ]
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Spectator')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES,default='Spectator')
     contact_number = models.CharField(max_length=15, null=True, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     groups = models.ManyToManyField(Group, related_name="custom_user_groups", blank=True)
