@@ -1,3 +1,4 @@
+from .models import Match
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Registration, TeamMembers, Tournament, User, CreateTeam
@@ -89,3 +90,18 @@ class UserRegistrationForm(UserCreationForm):
         if contact_number and len(contact_number) not in [10, 11, 12]:  
             raise forms.ValidationError("Enter a valid contact number.")
         return contact_number
+
+
+
+
+class MatchForm(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = ['team_a', 'team_b', 'team_a_score', 'team_b_score', 'date']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        team_a = cleaned_data.get("team_a")
+        team_b = cleaned_data.get("team_b")
+        if team_a and team_b and team_a == team_b:
+            raise forms.ValidationError("A team cannot play against itself.")

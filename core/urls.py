@@ -44,4 +44,8 @@ urlpatterns = [
     path('send-reset-otp/', views.send_resetOTP, name='send_resetOTP'),
     path('verify-otp/', views.verify_resetOTP, name='verify_resetOTP'),
     path('reset-password/', views.reset_password, name='reset_password'),
+
+    path('matches/', views.match_list, name='match_list'),
+    path('matches/create/', views.create_match, name='create_match'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,5 @@
 
+from .models import Match
 import random
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -6,13 +7,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db.models import Q
-from .forms import  UserRegistrationForm, TournamentForm,TeamMemberForm 
+from .forms import   MatchForm, UserRegistrationForm, TournamentForm,TeamMemberForm 
 from .models import City, CreateTeam, Like,  Tournament, Registration, Sport, Comment  ,TeamMembers, User
 from django.shortcuts import render
 from .models import Tournament, Sport, City, CreateTeam
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model, update_session_auth_hash
+
 
 def home_view(request):
     search_query = request.GET.get('q', '')  
@@ -373,3 +375,17 @@ def reset_password(request):
     
     return render(request, 'reset_password.html')
 
+
+def match_list(request):
+    matches = Match.objects.all()
+    return render(request, 'match_list.html', {'matches': matches})
+
+def create_match(request):
+    if request.method == 'POST':
+        form = MatchForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('match_list')
+    else:
+        form = MatchForm()
+    return render(request, 'create_match.html', {'form': form})

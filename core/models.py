@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.db.models import UniqueConstraint
+
 from django.utils import timezone
 from sports_manager import settings
 
@@ -123,3 +124,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username}: {self.content[:30]}{'...' if len(self.content) > 30 else ''}"
+
+
+class Match(models.Model):
+    team_a = models.ForeignKey(CreateTeam, related_name='team_a_matches', on_delete=models.CASCADE)
+    team_b = models.ForeignKey(CreateTeam, related_name='team_b_matches', on_delete=models.CASCADE)
+    team_a_score = models.IntegerField(default=0)
+    team_b_score = models.IntegerField(default=0)
+    date = models.DateTimeField()
+
+    def __str__(self):
+        return f"{self.team_a.name} vs {self.team_b.name}"
