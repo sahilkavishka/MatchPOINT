@@ -45,6 +45,6 @@ urlpatterns = [
     path('verify-otp/', views.verify_resetOTP, name='verify_resetOTP'),
     path('reset-password/', views.reset_password, name='reset_password'),
 
-     path('add-result/', add_match_result, name='add_match_result'),
-   
+    
+     path('tournament/<int:tournament_id>/add_result/', views.add_match_result, name='add_match_result'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

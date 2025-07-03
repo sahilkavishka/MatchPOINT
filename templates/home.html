@@ -120,6 +120,9 @@
                         {% csrf_token %}
                         <button type="submit"><i class="material-icons">delete</i></button>
                     </form>
+                    
+                     <a href="{% url 'add_match_result' tournament.id %}" class="btn btn-sm btn-success mt-2">Add Result</a>
+  
                 {% endif %}
             </div>
         </div>

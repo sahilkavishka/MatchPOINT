@@ -1,57 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 style="text-align:center; margin-top:30px; color:#00ff99;">Add Tournament Results</h2>
+<h2 class="text-center mt-4" style="color:#00ff99;">Add Result - {{ tournament.name }}</h2>
 
 <div class="container" style="max-width:600px; margin:40px auto; background:#102820; padding:30px; border-radius:10px; color:white;">
-    <form method="POST" id="match-form">
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
         {% csrf_token %}
         
-        <label for="tournament">Select Tournament:</label>
-        <select name="tournament" id="tournament-select" class="form-control" required>
-            <option value="">-- Choose Tournament --</option>
-            {% for t in tournaments %}
-                <option value="{{ t.id }}">{{ t.name }}</option>
-            {% endfor %}
-        </select><br>
+        <div class="form-group mb-3">
+            <label for="winner">Select Winner Team:</label>
+            <select name="winner" id="winner-select" class="form-control" required>
+                <option value="" disabled selected>-- Choose Winner --</option>
+                {% for team in teams %}
+                    <option value="{{ team.id }}">{{ team.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <label for="winner">Select Winner Team:</label>
-        <select name="winner" id="winner-select" class="form-control" required>
-            <option value="">-- Choose Winner --</option>
-        </select><br>
+        <div class="form-group mb-4">
+            <label for="runner_up">Select Runner-Up Team:</label>
+            <select name="runner_up" id="runner-up-select" class="form-control" required>
+                <option value="" disabled selected>-- Choose Runner-Up --</option>
+                {% for team in teams %}
+                    <option value="{{ team.id }}">{{ team.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <label for="runner_up">Select Runner-Up Team:</label>
-        <select name="runner_up" id="runner-up-select" class="form-control" required>
-            <option value="">-- Choose Runner-Up --</option>
-        </select><br>
-
-        <button type="submit" class="btn btn-success">Submit Result</button>
+        <button type="submit" class="btn btn-success w-100">Submit Result</button>
     </form>
 </div>
-
-<script>
-document.getElementById("tournament-select").addEventListener("change", function() {
-    const tournamentId = this.value;
-
-    // Clear previous options
-    document.getElementById("winner-select").innerHTML = '<option value="">-- Choose Winner --</option>';
-    document.getElementById("runner-up-select").innerHTML = '<option value="">-- Choose Runner-Up --</option>';
-
-    if (tournamentId) {
-        fetch(`/get_teams_by_tournament/${tournamentId}/`)
-            .then(res => res.json())
-            .then(data => {
-                data.teams.forEach(team => {
-                    const option1 = document.createElement("option");
-                    option1.value = team.id;
-                    option1.textContent = team.name;
-
-                    const option2 = option1.cloneNode(true);
-
-                    document.getElementById("winner-select").appendChild(option1);
-                    document.getElementById("runner-up-select").appendChild(option2);
-                });
-            });
-    }
-});
-</script>
 {% endblock %}

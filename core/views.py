@@ -1,7 +1,8 @@
 
+from unittest import result
 from .models import Match
 import random
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -377,21 +378,34 @@ def reset_password(request):
 
 
 
-def add_match_result(request):
-    tournaments = Tournament.objects.filter(created_by=request.user)
+def add_match_result(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id)
+    
+    # Get the Registration instance related to this tournament
+    registration = get_object_or_404(Registration, tournament=tournament)
+    
+    teams = CreateTeam.objects.filter(registration=registration)
 
     if request.method == 'POST':
-        form = MatchForm(request.POST)
-        if form.is_valid():
-            # Ensure only one result per tournament
-            tournament = form.cleaned_data['tournament']
-            if Match.objects.filter(tournament=tournament).exists():
-                messages.error(request, "Result already added for this tournament.")
-            else:
-                form.save()
-                messages.success(request, "Match result saved successfully.")
-                return redirect('home')
-    else:
-        form = MatchForm()
+        winner_id = request.POST.get('winner')
+        runner_up_id = request.POST.get('runner_up')
 
-    return render(request, 'add_match_result.html', {'form': form, 'tournaments': tournaments})
+        if winner_id == runner_up_id:
+            return render(request, 'add_match_result.html', {
+                'tournament': tournament,
+                'teams': teams,
+                'error': 'Winner and Runner-Up cannot be the same team.'
+            })
+
+        result.objects.create(
+            tournament=tournament,
+            winner_id=winner_id,
+            runner_up_id=runner_up_id
+        )
+
+        return redirect('home')
+
+    return render(request, 'add_match_result.html', {
+        'tournament': tournament,
+        'teams': teams
+    })
