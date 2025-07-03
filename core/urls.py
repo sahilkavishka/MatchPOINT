@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from sports_manager import settings
 from .views import (
-    create_team, delete_tournament, load_more_comments, register_view, login_view, 
+    add_match_result, create_team, delete_tournament, load_more_comments, register_view, login_view, 
     logout_view, home_view, add_tournament, register_tournament
 )
 from core import views
@@ -45,7 +45,6 @@ urlpatterns = [
     path('verify-otp/', views.verify_resetOTP, name='verify_resetOTP'),
     path('reset-password/', views.reset_password, name='reset_password'),
 
-    path('matches/', views.match_list, name='match_list'),
-    path('matches/create/', views.create_match, name='create_match'),
-
+     path('add-result/', add_match_result, name='add_match_result'),
+   
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

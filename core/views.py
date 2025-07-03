@@ -376,16 +376,22 @@ def reset_password(request):
     return render(request, 'reset_password.html')
 
 
-def match_list(request):
-    matches = Match.objects.all()
-    return render(request, 'match_list.html', {'matches': matches})
 
-def create_match(request):
+def add_match_result(request):
+    tournaments = Tournament.objects.filter(created_by=request.user)
+
     if request.method == 'POST':
         form = MatchForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('match_list')
+            # Ensure only one result per tournament
+            tournament = form.cleaned_data['tournament']
+            if Match.objects.filter(tournament=tournament).exists():
+                messages.error(request, "Result already added for this tournament.")
+            else:
+                form.save()
+                messages.success(request, "Match result saved successfully.")
+                return redirect('home')
     else:
         form = MatchForm()
-    return render(request, 'create_match.html', {'form': form})
+
+    return render(request, 'add_match_result.html', {'form': form, 'tournaments': tournaments})

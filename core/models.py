@@ -127,11 +127,9 @@ class Comment(models.Model):
 
 
 class Match(models.Model):
-    team_a = models.ForeignKey(CreateTeam, related_name='team_a_matches', on_delete=models.CASCADE)
-    team_b = models.ForeignKey(CreateTeam, related_name='team_b_matches', on_delete=models.CASCADE)
-    team_a_score = models.IntegerField(default=0)
-    team_b_score = models.IntegerField(default=0)
-    date = models.DateTimeField()
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    winner = models.ForeignKey(CreateTeam, related_name='won_matches', on_delete=models.CASCADE)
+    runner_up = models.ForeignKey(CreateTeam, related_name='runner_up_matches', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.team_a.name} vs {self.team_b.name}"
+        return f"{self.winner.name} vs {self.runner_up.name}"

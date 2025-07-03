@@ -97,11 +97,12 @@ class UserRegistrationForm(UserCreationForm):
 class MatchForm(forms.ModelForm):
     class Meta:
         model = Match
-        fields = ['team_a', 'team_b', 'team_a_score', 'team_b_score', 'date']
+        fields = ['tournament', 'winner', 'runner_up']
 
     def clean(self):
         cleaned_data = super().clean()
-        team_a = cleaned_data.get("team_a")
-        team_b = cleaned_data.get("team_b")
-        if team_a and team_b and team_a == team_b:
-            raise forms.ValidationError("A team cannot play against itself.")
+        winner = cleaned_data.get('winner')
+        runner_up = cleaned_data.get('runner_up')
+
+        if winner == runner_up:
+            raise forms.ValidationError("Winner and runner-up cannot be the same team.")

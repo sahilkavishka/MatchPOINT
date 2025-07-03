@@ -46,6 +46,7 @@
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'add_tournament' %}"><i class="material-icons">add</i> Add Tournament</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
+                    <li><a href="{% url 'add_match_result' %}">View Matches</a></li>
                 </ul>
             {% elif user.role == "Player" %}
                 <h3>Player Features</h3>
