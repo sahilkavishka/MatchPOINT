@@ -47,4 +47,7 @@ urlpatterns = [
 
     
      path('tournament/<int:tournament_id>/add_result/', views.add_match_result, name='add_match_result'),
+
+     path('leaderboard/', views.team_leaderboard, name='team_leaderboard'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

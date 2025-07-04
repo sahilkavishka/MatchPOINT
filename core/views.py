@@ -380,10 +380,7 @@ def reset_password(request):
 
 def add_match_result(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-    
-    # Get the Registration instance related to this tournament
     registration = get_object_or_404(Registration, tournament=tournament)
-    
     teams = CreateTeam.objects.filter(registration=registration)
 
     if request.method == 'POST':
@@ -391,21 +388,36 @@ def add_match_result(request, tournament_id):
         runner_up_id = request.POST.get('runner_up')
 
         if winner_id == runner_up_id:
-            return render(request, 'add_match_result.html', {
+            return render(request, 'add_result.html', {
                 'tournament': tournament,
                 'teams': teams,
                 'error': 'Winner and Runner-Up cannot be the same team.'
             })
 
-        result.objects.create(
+        # ✅ Create the match result
+        Match.objects.create(
             tournament=tournament,
             winner_id=winner_id,
             runner_up_id=runner_up_id
         )
 
+        # ✅ Give points
+        winner_team = CreateTeam.objects.get(id=winner_id)
+        runner_up_team = CreateTeam.objects.get(id=runner_up_id)
+
+        winner_team.points += 2
+        runner_up_team.points += 1
+
+        winner_team.save()
+        runner_up_team.save()
+
         return redirect('home')
 
-    return render(request, 'add_match_result.html', {
+    return render(request, 'add_result.html', {
         'tournament': tournament,
         'teams': teams
     })
+
+def team_leaderboard(request):
+    teams = CreateTeam.objects.all().order_by('-points', 'name')  # Sort by points descending
+    return render(request, 'team_leaderboard.html', {'teams': teams})

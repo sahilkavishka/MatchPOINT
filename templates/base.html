@@ -46,6 +46,7 @@
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'add_tournament' %}"><i class="material-icons">add</i> Add Tournament</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
+                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> leaderboard</a></li>
                     
                 </ul>
             {% elif user.role == "Player" %}
@@ -61,12 +62,14 @@
                         </a>
                     </li>
                     {% endif %}
+                     <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> leaderboard</a></li>
                 </ul>
             {% elif user.role == "Spectator" %}
                 <h3>Spectator Features</h3>
                 <ul>
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
+                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> leaderboard</a></li>
                 </ul>
             {% else %}
                 <p>Role not recognized.</p>

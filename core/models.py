@@ -68,7 +68,7 @@ class CreateTeam(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="create_team")
     created_date = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to='team/', null=True, blank=True)
-
+    points = models.IntegerField(default=0) 
     class Meta:
         ordering = ['-created_date']  # Default order: newest teams first
 
