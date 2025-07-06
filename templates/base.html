@@ -1,7 +1,7 @@
 {% load static %} 
 
 <!DOCTYPE html>
-<html >
+<html>
 <head>
     <title>MatchPOINT</title>
     <link rel="stylesheet" href="{% static 'base.css' %}">
@@ -13,7 +13,7 @@
             <span class="logo">MatchPOINT</span>
         </div>
         <div class="NavBarCenter">
-            <form method="get" class="searchbar">
+            <form method="get" class="searchbar" role="search" aria-label="Site search">
                 <input type="text" name="q" placeholder="Search" value="{{ search_query }}">
                 <button type="submit">Search</button>
             </form>
@@ -21,21 +21,30 @@
         <div class="NavBarRight">
             <ul class="nav-links">
                 {% if user.is_authenticated %}
-                    <li>
-                        <a href="{% url 'logout' %}">
-                            <i class="material-icons">logout</i>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{% url 'notifications' %}" aria-label="Notifications">
+                        🔔 
+                        {% if unread_count > 0 %}
+                            <span class="badge">{{ unread_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}" aria-label="Logout">
+                        <i class="material-icons">logout</i>
+                    </a>
+                </li>
                 {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Signup</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Signup</a></li>
                 {% endif %}
             </ul>
-                <img class="propic" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}https://www.w3schools.com/w3images/avatar2.png{% endif %}" alt="Profile Picture" >    
+            <img class="propic" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}https://www.w3schools.com/w3images/avatar2.png{% endif %}" alt="Profile Picture" >    
         </div>
     </nav> 
+
     <!-- Toggle Button -->
-    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    <button class="toggle-btn" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar"><br><br>
@@ -46,8 +55,7 @@
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'add_tournament' %}"><i class="material-icons">add</i> Add Tournament</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
-                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> leaderboard</a></li>
-                    
+                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> Leaderboard</a></li>
                 </ul>
             {% elif user.role == "Player" %}
                 <h3>Player Features</h3>
@@ -56,20 +64,22 @@
                     <li><a href="{% url 'create_team' %}"><i class="material-icons">create</i> Create Team</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
                     {% if user.create_team.exists %}
-                    <li>
-                        <a href="{% url 'team_detail' team_id=user.create_team.first.id %}">
-                            <i class="material-icons">group_add</i> My Team
-                        </a>
-                    </li>
+                        {% with user.create_team.first as first_team %}
+                        <li>
+                            <a href="{% url 'team_detail' team_id=first_team.id %}">
+                                <i class="material-icons">group_add</i> My Team
+                            </a>
+                        </li>
+                        {% endwith %}
                     {% endif %}
-                     <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> leaderboard</a></li>
+                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> Leaderboard</a></li>
                 </ul>
             {% elif user.role == "Spectator" %}
                 <h3>Spectator Features</h3>
                 <ul>
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
-                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> leaderboard</a></li>
+                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> Leaderboard</a></li>
                 </ul>
             {% else %}
                 <p>Role not recognized.</p>
@@ -84,17 +94,18 @@
         {% endblock %}
     </div>
 
-<footer class="footer ">
-                <p>About SportsSite</p>
-                <i>Your premier destination for sports management and tournament organization.</i>
-                <h3>Contact Us</h3>
-                <ul >
-                    <li > Colombo, Sri Lanka</li>
-                    <li > +94 7057391963</li>
-                    <li> sahilkavishka428@gmail.com</li>
-                </ul>
-            <p >&copy; 2025 <strong>SportsSite</strong>. All rights reserved.  
-</footer>
+    <footer class="footer">
+        <p>About SportsSite</p>
+        <i>Your premier destination for sports management and tournament organization.</i>
+        <h3>Contact Us</h3>
+        <ul>
+            <li>Colombo, Sri Lanka</li>
+            <li>+94 7057391963</li>
+            <li>sahilkavishka428@gmail.com</li>
+        </ul>
+        <p>&copy; 2025 <strong>SportsSite</strong>. All rights reserved.</p>
+    </footer>
+
     <!-- JavaScript -->
     <script>
         function toggleSidebar() {

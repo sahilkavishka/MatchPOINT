@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #f0fdf4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .notifications-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #e6fff2;
+    border: 2px solid #00cc66;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 128, 0, 0.2);
+  }
+
+  h2 {
+    text-align: center;
+    color: #006633;
+    margin-bottom: 30px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    background: #dfffec;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-left: 5px solid #00cc66;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+  }
+
+  li.unread {
+    font-weight: bold;
+    background-color: #c7ffdd;
+  }
+
+  li a {
+    color: #006633;
+    font-weight: bold;
+    float: right;
+    text-decoration: none;
+  }
+
+  li a:hover {
+    text-decoration: underline;
+  }
+
+  .no-notes {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+  }
+</style>
+
+<div class="notifications-container">
+  <h2>Your Notifications</h2>
+  <ul>
+    {% for note in notifications %}
+      <li class="{% if not note.is_read %}unread{% endif %}">
+        {{ note.message }} — <small>{{ note.timestamp|date:"M d, Y H:i" }}</small>
+        {% if note.link %}
+          <a href="{{ note.link }}">View</a>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li class="no-notes">No notifications yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

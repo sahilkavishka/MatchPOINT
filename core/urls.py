@@ -2,10 +2,11 @@ from django.urls import path
 from django.conf.urls.static import static
 from sports_manager import settings
 from .views import (
-    add_match_result, create_team, delete_tournament, load_more_comments, register_view, login_view, 
-    logout_view, home_view, add_tournament, register_tournament
+    add_match_result, create_team, delete_tournament, load_more_comments,
+    register_view, login_view, logout_view, home_view, add_tournament,
+    register_tournament
 )
-from core import views
+from core import views  # you imported views from core as well — be careful to avoid conflicts
 
 urlpatterns = [
     # Auth
@@ -30,8 +31,11 @@ urlpatterns = [
     # Teams
     path('create_team/', create_team, name='create_team'),
     path('teams/', views.team_list, name='team_list'),
-    path('team/<int:team_id>/', views.team_detail_view, name='team_detail'),  
-    path('team/<int:team_id>/', views.team_detail, name='team'),  
+
+    # Avoid duplicate URLs for team detail:
+    path('team/<int:team_id>/', views.team_detail_view, name='team_detail'),
+    # Removed the duplicate `team/<int:team_id>/` for views.team_detail
+    
     path('team/<int:team_id>/add_member/', views.add_team_member, name='add_team_member'),
     path('member/<int:member_id>/delete/', views.delete_team_member, name='delete_team_member'),
     path('team/delete/<int:team_id>/', views.delete_team, name='delete_team'),
@@ -45,9 +49,15 @@ urlpatterns = [
     path('verify-otp/', views.verify_resetOTP, name='verify_resetOTP'),
     path('reset-password/', views.reset_password, name='reset_password'),
 
-    
-     path('tournament/<int:tournament_id>/add_result/', views.add_match_result, name='add_match_result'),
+    # Match Result
+    path('tournament/<int:tournament_id>/add_result/', views.add_match_result, name='add_match_result'),
 
-     path('leaderboard/', views.team_leaderboard, name='team_leaderboard'),
+    # Notifications
+    path('notifications/', views.user_notifications, name='notifications'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Leaderboard
+    path('leaderboard/', views.team_leaderboard, name='team_leaderboard'),
+]
+
+# Serving media files during development
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

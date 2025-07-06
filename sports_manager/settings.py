@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'core',
 ]
 
+AUTH_USER_MODEL = 'core.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -154,8 +156,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 APPEND_SLASH = True
 
 
-
-AUTH_USER_MODEL = 'core.User'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # ← Must change this!

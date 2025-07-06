@@ -1,21 +1,24 @@
 
-from unittest import result
-from .models import Match
+from urllib import request
+
+from django.urls import reverse
+
+from core.utils import notify_user
+from .models import Match, Notification
 import random
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import  JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db.models import Q
-from .forms import   MatchForm, UserRegistrationForm, TournamentForm,TeamMemberForm 
+from .forms import    UserRegistrationForm, TournamentForm,TeamMemberForm 
 from .models import City, CreateTeam, Like,  Tournament, Registration, Sport, Comment  ,TeamMembers, User
 from django.shortcuts import render
 from .models import Tournament, Sport, City, CreateTeam
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model, update_session_auth_hash
-
 
 def home_view(request):
     search_query = request.GET.get('q', '')  
@@ -40,14 +43,22 @@ def home_view(request):
         Q(sport__name__icontains=search_query)
     ).distinct() if search_query else CreateTeam.objects.all()
 
+    # ✅ Add unread notification count
+    unread_count = 0
+    if request.user.is_authenticated:
+     unread_count = request.user.notifications.filter(is_read=False).count()
+
+
     return render(request, 'home.html', {
         'tournaments': tournaments,
         'teams': teams,
         'sports': Sport.objects.all(),
         'cities': City.objects.all(),
         'search_query': search_query,
-        'selected_city': city_id
+        'selected_city': city_id,
+        'unread_count': unread_count  # 👈 pass to template
     })
+
 
 def register_view(request):
     form = UserRegistrationForm(request.POST or None)
@@ -177,16 +188,16 @@ def team_detail(request, team_id=None):
     return render(request, 'team.html', {'teams': teams, 'team': team, 'members': members})
 
 
+
+
 @login_required
 def register_tournament(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
     teams = CreateTeam.objects.filter(created_by=request.user)
 
     if request.method == 'POST':
-        print("POST request received")  
         team_id = request.POST.get('team')
         member_names = request.POST.getlist('members')
-        print("Members selected:", member_names)  # Debugging
 
         if team_id and member_names:
             team = get_object_or_404(CreateTeam, id=team_id)
@@ -202,6 +213,12 @@ def register_tournament(request, tournament_id):
                 team=team,
                 tournament=tournament,
                 member_names=joined_names
+            )
+
+            notify_user(
+                user=request.user,
+                message=f"You have successfully registered for the tournament: {tournament.name}",
+                link=reverse('tournament_detail', args=[tournament.id])
             )
 
             messages.success(request, "Team successfully registered!")
@@ -421,3 +438,10 @@ def add_match_result(request, tournament_id):
 def team_leaderboard(request):
     teams = CreateTeam.objects.all().order_by('-points', 'name')  # Sort by points descending
     return render(request, 'team_leaderboard.html', {'teams': teams})
+
+
+
+@login_required
+def user_notifications(request):  # ✅ renamed the view
+    notes = Notification.objects.filter(user=request.user).order_by('-timestamp')
+    return render(request, 'notifications.html', {'notifications': notes})
