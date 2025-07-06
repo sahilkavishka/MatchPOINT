@@ -59,5 +59,5 @@ urlpatterns = [
     path('leaderboard/', views.team_leaderboard, name='team_leaderboard'),
 ]
 
-# Serving media files during development
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

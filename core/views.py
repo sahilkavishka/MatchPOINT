@@ -1,5 +1,4 @@
 
-from urllib import request
 
 from django.urls import reverse
 
@@ -61,11 +60,13 @@ def home_view(request):
 
 
 def register_view(request):
-    form = UserRegistrationForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        messages.success(request, 'Account created successfully! You can now log in.')
-        return redirect('login')
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # redirect to login or homepage
+    else:
+        form = UserRegistrationForm()
     return render(request, 'signup.html', {'form': form})
 
 def login_view(request):
