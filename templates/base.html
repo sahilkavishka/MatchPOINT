@@ -23,7 +23,7 @@
                 {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'notifications' %}" aria-label="Notifications">
-                        🔔 
+                         <i class="material-icons">notifications</i> 
                         {% if unread_count > 0 %}
                             <span class="badge">{{ unread_count }}</span>
                         {% endif %}
@@ -50,15 +50,15 @@
     <div class="sidebar" id="sidebar"><br><br>
         {% if user.is_authenticated %}
             {% if user.role == "Organizer" %}
-                <h3>Organizer Features</h3>
+                <h3>Organizer Features</h3><hr>
                 <ul>
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'add_tournament' %}"><i class="material-icons">add</i> Add Tournament</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>
-                    <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> Leaderboard</a></li>
+                    <li><a href="{% url 'team_leaderboard' %}"><i class="material-icons">leaderboard</i> Leaderboard</a></li>
                 </ul>
             {% elif user.role == "Player" %}
-                <h3>Player Features</h3>
+                <h3>Player Features</h3><hr>
                 <ul>
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'create_team' %}"><i class="material-icons">create</i> Create Team</a></li>
@@ -75,7 +75,7 @@
                     <li><a href="{% url 'team_leaderboard' %}"><i class="leaderboard-icons">group</i> Leaderboard</a></li>
                 </ul>
             {% elif user.role == "Spectator" %}
-                <h3>Spectator Features</h3>
+                <h3>Spectator Features</h3><hr>
                 <ul>
                     <li><a href="{% url 'home' %}"><i class="material-icons">home</i> Home</a></li>
                     <li><a href="{% url 'team_list' %}"><i class="material-icons">group</i> Team</a></li>

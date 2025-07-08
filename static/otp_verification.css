@@ -1,0 +1,126 @@
+
+    /* Main Container */
+    .otp-container {
+        max-width: 500px;
+        margin: 3rem auto;
+        animation: fadeIn 0.5s ease-in-out;
+        
+    }
+    body{
+        background-color: #202020;
+    }
+
+    /* Card Styling */
+    .otp-card {
+        border: none;
+        border-radius: 22px;
+        box-shadow: 0 6px 20px rgba(20, 170, 45, 0.57);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        background-color: #171717;
+        color:white;
+    }
+
+    .otp-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .otp-card-body {
+        padding: 2.5rem;
+        color:white;
+    }
+
+    /* Header */
+    .otp-header {
+        color:rgb(243, 244, 245);
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 1.8rem;
+    }
+
+    /* Form Elements */
+    .otp-form-label {
+        font-weight: 600;
+        color:rgb(96, 197, 104);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .otp-form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 18px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        transition: all 0.3s;
+        width:400px;
+    }
+
+    .otp-form-control:focus {
+        border-color:rgb(16, 95, 29);
+        box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    }
+
+    /* Button Styling */
+    .otp-btn {
+        background-color:rgb(34, 172, 46);
+        border: none;
+        border-radius: 18px;
+        padding: 12px 24px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        width: 150px;
+        transition: all 0.3s;
+        text-transform: uppercase;
+    }
+
+    .otp-btn:hover {
+        background-color:rgb(19, 129, 16);
+        transform: translateY(-2px);
+    }
+
+    .otp-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Resend Link */
+    .otp-resend {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+    .otp-resend a {
+        color:rgb(18, 214, 35);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .otp-resend a:hover {
+        color:rgb(15, 133, 11);
+        text-decoration: underline;
+    }
+
+    /* Alert Messages */
+    .otp-alert {
+        border-radius: 8px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+        .otp-card-body {
+            padding: 1.5rem;
+        }
+        
+        .otp-header {
+            font-size: 1.5rem;
+        }
+    }

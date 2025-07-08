@@ -1,0 +1,115 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;600&display=swap');
+
+body {
+    background: linear-gradient(135deg,rgb(16, 17, 16),rgb(12, 82, 27));
+    font-family: 'Roboto', sans-serif;
+    color: #e8f5e9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.addmem {
+    background-color:rgba(55, 146, 59, 0.47);
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 45px 35px;
+    border-radius: 30px;
+    box-shadow: 0 0px 30px rgba(10, 223, 20, 0.97);
+    border: 1px solid #406245;
+    transition: transform 0.3s ease;
+}
+.addmem:hover {
+    transform: translateY(-5px);
+}
+
+/* Heading */
+.addmem h2 {
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+    color: #a5d6a7;
+    text-shadow: 1.5px 1.5px 4px #1a2e18;
+    user-select: none;
+}
+
+/* Paragraph message */
+.addmem p {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #f8fdf9;
+}
+
+/* Form structure */
+.memform {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+}
+
+/* Inputs */
+.memform input[type="text"],
+.memform input[type="number"],
+.memform input[type="file"],
+.memform select,
+.memform textarea {
+    width: 100%;
+    max-width: 420px;
+    padding: 12px 15px;
+    font-size: 15px;
+    border-radius: 12px;
+    border: 2px solid #4caf50;
+    background-color: #f1f8f1;
+    color: #2e5230;
+    font-weight: 600;
+    box-shadow: inset 0 2px 6px rgba(46, 82, 48, 0.3);
+    transition: all 0.3s ease;
+}
+
+.memform input:focus,
+.memform select:focus,
+.memform textarea:focus {
+    outline: none;
+    background-color: #e8f5e9;
+    box-shadow: 0 0 8px 2px #81c784aa;
+    border-color: #81c784;
+    color: #1b3a2a;
+}
+
+/* Buttons */
+.btn1, .btn2 {
+    width: 100%;
+    max-width: 420px;
+    padding: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-color: #4caf50;
+    color: #1b3a2a;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(46, 82, 48, 0.7);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn1:hover, .btn2:hover {
+    background-color: #81c784;
+    transform: scale(1.03);
+}
+.btn1:active, .btn2:active {
+    transform: scale(0.95);
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+    .addmem {
+        padding: 30px 20px;
+        width: 90%;
+    }
+}

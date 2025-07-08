@@ -1,0 +1,69 @@
+
+/* Container style */
+.container {
+    background-color: #e6f4ea; /* Light green background */
+    border-radius: 8px;
+    padding: 30px 25px;
+    box-shadow: 0 0 10px rgba(0, 128, 0, 0.2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Form group spacing */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #2f5d3c; /* Dark green */
+    margin-bottom: 8px;
+}
+
+/* Inputs */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #66bb6a;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #388e3c;
+    outline: none;
+    box-shadow: 0 0 8px rgba(56, 142, 60, 0.3);
+}
+
+/* Error messages */
+.text-danger {
+    font-size: 0.875rem;
+}
+
+/* Submit button */
+.btn-success {
+    background-color: #4caf50;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #388e3c;
+}
+
+/* Centered heading */
+h2.text-center {
+    color: #2e7d32;
+    font-weight: 700;
+    margin-bottom: 25px;
+}

@@ -3,18 +3,24 @@
   50%   { color: #e8f5e9; }
   100%  { color: #14320f; }
 }
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 /* Navbar */
 .NavBarBox {
   height: 70px;
+  top: 0;
   width: 100%;
+  justify-content: space-between;
   background-color: #1b4d22; /* darker forest green */
   display: flex;
   align-items: center;
-  position: fixed;
+  position:sticky;
   box-shadow: 0 4px 10px rgba(0, 40, 0, 0.7);
   z-index: 1000;
-  padding: 0 40px;
+  margin-top: -20px;
   font-family: 'Oswald', Arial, sans-serif;
 }
 
@@ -64,63 +70,53 @@
   margin-right: 20px;
   transition: box-shadow 0.3s ease;
 }
-.propic:hover {
-  box-shadow: 0 0 12px #8fc68c;
-}
 
-/* Navigation Links */
 .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 25px;
-  
-   
-}
-
-.nav-links li {
-  font-weight: 700;
-  font-size: 1.3rem;
-  padding: 6px 8px;
-  color: #dcedc8;
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.25s ease, transform 0.25s ease;
-  
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    margin: 0;
+    align-items: center;
 }
 
 .nav-links a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.25s ease;
-  text-align: center;
-  
-  
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    
 }
 
-.nav-links a:hover,
-.nav-links li:hover {
-  color: #17ce35;
-  transform: scale(1.15);
-  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.795);
+.nav-links a:hover {
+    color: rgb(22, 117, 3);
+    transform: scale(4);
 }
-
-/* Active link */
-.nav-links a:active {
-  color: #0fda3b;
-}
-
 /* Footer */
 .footer {
-  background: #1b4d223b;
-  z-index: 100px; 
-  color: #dcedc8;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: 20px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  font-size: 1rem;
-  box-shadow: inset 0 1px 5px #3a5c2a;
+    background: linear-gradient(135deg, #1a4d1a 0%, #2d5a27 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+    position:sticky;
+    margin-bottom: 1000px;
+    
+}
+
+.footer h3 {
+    color: #4CAF50;
+    margin: 1rem 0;
+}
+
+.footer ul {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.footer li {
+    margin: 0.5rem 0;
 }
 
 /* Searchbar */

@@ -1,0 +1,114 @@
+
+   .namepic {
+       display: flex;
+       align-items: center;
+       gap: 30px;
+       margin: 30px;
+   }
+   body{
+    background: linear-gradient(135deg,rgb(24, 82, 47),rgb(23, 24, 23));
+    color:rgb(247, 243, 243)
+   }
+
+   .teamlogo {
+       width: 100px;
+       height: 100px;
+       border-radius: 50%;
+       object-fit: cover;
+       border: 3px solid rgb(255, 255, 255);
+       box-shadow: 5px 5px 5px rgba(8, 8, 8, 0.86);
+   }
+
+   .teambody {
+       background-color: rgba(9, 10, 9, 0.45);
+       width: 100%;
+       max-width: 600px;
+       border-radius: 30px;
+       box-shadow: 0px 0px 30px rgba(7, 247, 59, 0.94);
+       padding: 15px;
+       font-family: Arial, sans-serif;
+       margin-left:500px;
+       
+       
+       
+   }
+
+   h1 {
+       font-size: 35px;
+   }
+
+   .details {
+       margin-top: 70px;
+       text-align: left;
+       line-height: 2;
+       padding: 0 20px;
+   }
+
+   .membercard {
+       max-width:100%;
+       
+ 
+       
+   }
+
+
+   .membercard ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+    gap: 2px; /* Optional spacing between cards */
+    justify-content: center; /* Center the items horizontally */
+}
+
+.membercard li {
+    display: flex;
+    flex-direction:column;
+    flex: 0 1 calc(33.333% - 20px); /* 3 items per row with spacing */
+    border: 1px solid rgb(23, 156, 40);
+    padding: 10px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+
+   .membercard img {
+       width: 150px;
+       height: 150px;
+       border-radius: 20px;
+       border: 2px solid rgb(22, 109, 41);
+       margin-bottom: 10px;
+      
+   }
+
+   .membercard i {
+       color: rgb(247, 7, 7);
+       background:none;
+       cursor:pointer;
+   }
+   .membercard button {
+    background:none;
+    border:none;
+   }
+   .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background-color: #28a745;
+        color: white;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+        box-shadow: 0 0 5px rgb(97, 247, 68);
+        margin-top: 20px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #218838;
+        transform: translateY(-10px);
+    }
+

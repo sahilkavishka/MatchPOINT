@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
+<link rel="stylesheet" href="{% static 'signup.css' %}">
+
 <div class="container mt-5" style="max-width: 600px;">
     <h2 class="text-center">Register</h2>
     <form method="post" enctype="multipart/form-data">
@@ -17,3 +20,4 @@
     </form>
 </div>
 {% endblock %}
+
