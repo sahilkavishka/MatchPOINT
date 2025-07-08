@@ -4,58 +4,133 @@
 
 <link rel="stylesheet" href="{% static 'home.css' %}">
 
-<form  method="get" action="{% url 'home' %}">
-    <div class="select-container">
-        <select name="sport" id="sport" onchange="this.form.submit()">
-            <option value="">Select</option>
-            {% for sport in sports %}
-                <option value="{{ sport.id }}" {% if sport.id|stringformat:"s" == selected_sport %}selected{% endif %}>
-                    {{ sport.name }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <select name="city" id="city" onchange="this.form.submit()">
-            <option value="">Select </option>
-            {% for city in cities %}
-                <option value="{{ city.id }}" {% if city.id|stringformat:"s" == selected_city %}selected{% endif %}>
-                    {{ city.name }}
-                </option>
-            {% endfor %}
-        </select>
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">🏆 MATCH POINT</h1>
+            <p class="hero-subtitle">Discover and join exciting sports tournaments in your area</p>
+        </div>
     </div>
-</form>
+</div>
 
-     <div class="tournament-list">
+<div class="filters-section">
+    <div class="container">
+        <div class="filter-container">
+            <select class="filter-select" id="sportFilter">
+                <option value="">🏃‍♂️ All Sports</option>
+                {% for sport in sports %}
+                <option value="{{ sport.name }}">{{ sport.name }}</option>
+                {% endfor %}
+            </select>
+            
+            <select class="filter-select" id="cityFilter">
+                <option value="">🏙️ All Cities</option>
+                {% for city in cities %}
+                <option value="{{ city.name }}">{{ city.name }}</option>
+                {% endfor %}
+            </select>
+            
+            <select class="filter-select" id="dateFilter">
+                <option value="">📅 All Dates</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="tournaments-grid">
         {% for tournament in tournaments %}
-            <a href="{% url 'tournament_detail' tournament.id %}" class="tournament-link">
-                <div class="tournament-card">
-                    <div class="user-info">
-                        <img class="user-pic"
-                             src="{% if tournament.created_by.profile_picture %}
-                                      {{ tournament.created_by.profile_picture.url }}
-                                  {% else %}
-                                      https://www.w3schools.com/w3images/avatar2.png
-                                  {% endif %}"
-                             alt="Profile Picture">
-                        <span class="username">{{ tournament.created_by.username }}</span>
-                    </div>
-
-                    <h3>{{ tournament.name }}</h3>
-                    <p><strong>Sport:</strong> {{ tournament.sport }}</p>
-                    <p><strong>City:</strong> {{ tournament.city }}</p>
-                    <p><strong>Date:</strong> {{ tournament.date }}</p>
-                    <p><strong>Likes:</strong> {{ tournament.like_set.count }}</p>
+        <div class="tournament-card">
+            <div class="tournament-header">
+                <div>
+                    <h3 class="tournament-title">{{ tournament.name }}</h3>
+                    <span class="sport-badge">{{ tournament.sport }}</span>
                 </div>
-            </a>
+                <div class="tournament-creator">
+                    {{ tournament.created_by.username }}
+                </div>
+            </div>
+            
+            <div class="tournament-details">
+                <div class="detail-item">
+                    <div class="detail-icon">🏆</div>
+                    <span><strong>Sport:</strong> {{ tournament.sport }}</span>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">📍</div>
+                    <span><strong>Location:</strong> {{ tournament.city }}</span>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">📅</div>
+                    <span><strong>Date:</strong> {{ tournament.date }}</span>
+                </div>
+            </div>
+            
+            <div class="tournament-footer">
+                <div class="likes-count">
+                    <span class="like-icon">❤️</span>
+                    <span>{{ tournament.like_set.count }} likes</span>
+                </div>
+                <a href="{% url 'tournament_detail' tournament.id %}" class="sport-badge">View Details</a>
+
+            </div>
+        </div>
         {% empty %}
-            <p style="text-align: center; color: gray;">No tournaments available.</p>
+        <div class="no-tournaments">
+            <div class="no-tournaments-icon">🏆</div>
+            <h3>No tournaments available</h3>
+            <p>Be the first to create an exciting tournament!</p>
+        </div>
         {% endfor %}
     </div>
+</div>
 
-{%endblock%}
+<script>
+// Simple filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const sportFilter = document.getElementById('sportFilter');
+    const cityFilter = document.getElementById('cityFilter');
+    const dateFilter = document.getElementById('dateFilter');
+    const tournamentCards = document.querySelectorAll('.tournament-card');
+    
+    function filterTournaments() {
+        const selectedSport = sportFilter.value.toLowerCase();
+        const selectedCity = cityFilter.value.toLowerCase();
+        const selectedDate = dateFilter.value;
+        
+        tournamentCards.forEach(card => {
+            const cardSport = card.querySelector('.sport-badge').textContent.toLowerCase();
+            const cardCity = card.querySelector('.detail-item:nth-child(2) span').textContent.toLowerCase();
+            
+            const sportMatch = !selectedSport || cardSport.includes(selectedSport);
+            const cityMatch = !selectedCity || cardCity.includes(selectedCity);
+            
+            if (sportMatch && cityMatch) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    sportFilter.addEventListener('change', filterTournaments);
+    cityFilter.addEventListener('change', filterTournaments);
+    dateFilter.addEventListener('change', filterTournaments);
+    
+    // Add hover effects to cards
+    tournamentCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
 
-
-
-
-
+{% endblock %}

@@ -177,7 +177,7 @@ def team_detail(request, team_id=None):
 
 def tournament_detail(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-    return render(request, 'tournament_details.html', {'tournament': tournament})
+    return render(request, 'tournament_details.html',  {'tournament': tournament})
 
 
 
