@@ -25,40 +25,27 @@ def home_view(request):
     city_id = request.GET.get('city', '')  
 
     tournaments = Tournament.objects.all().order_by('-date')
+
     if search_query:
         tournaments = tournaments.filter(
             Q(name__icontains=search_query) |
             Q(city__name__icontains=search_query) |
             Q(sport__name__icontains=search_query)
         ).distinct()
+
     if sport_id:
         tournaments = tournaments.filter(sport__id=sport_id)
+
     if city_id:
         tournaments = tournaments.filter(city__id=city_id)
 
-    teams = CreateTeam.objects.filter(
-        Q(name__icontains=search_query) |
-        Q(city__name__icontains=search_query) |
-        Q(sport__name__icontains=search_query)
-    ).distinct() if search_query else CreateTeam.objects.all()
-
-    # ✅ Add unread notification count
-    unread_count = 0
-    if request.user.is_authenticated:
-     unread_count = request.user.notifications.filter(is_read=False).count()
-
-
     return render(request, 'home.html', {
         'tournaments': tournaments,
-        'teams': teams,
         'sports': Sport.objects.all(),
         'cities': City.objects.all(),
-        'search_query': search_query,
         'selected_city': city_id,
-        'unread_count': unread_count  # 👈 pass to template
+        'selected_sport': sport_id,
     })
-
-
 def register_view(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST, request.FILES)
@@ -188,6 +175,9 @@ def team_detail(request, team_id=None):
     members = team.members.all() if team else None  
     return render(request, 'team.html', {'teams': teams, 'team': team, 'members': members})
 
+def tournament_detail(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id)
+    return render(request, 'tournament_details.html', {'tournament': tournament})
 
 
 

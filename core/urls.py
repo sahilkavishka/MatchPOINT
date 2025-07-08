@@ -57,6 +57,11 @@ urlpatterns = [
 
     # Leaderboard
     path('leaderboard/', views.team_leaderboard, name='team_leaderboard'),
+
+    #tournament details
+    path('tournament/<int:tournament_id>/', views.tournament_detail, name='tournament_detail'),
+
+
 ]
 
 if settings.DEBUG:

@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'home.css' %}">
+
 <form  method="get" action="{% url 'home' %}">
     <div class="select-container">
         <select name="sport" id="sport" onchange="this.form.submit()">
@@ -24,147 +26,36 @@
     </div>
 </form>
 
-    <div class='allhome'>
-    {% for tournament in tournaments %}
-    
-        <div class="tournament">
-            <div class="namepic">
-                
-                <img class="propic"
-                src="{% if tournament.created_by.profile_picture %}
-                         {{ tournament.created_by.profile_picture.url }}
-                     {% else %}
-                         https://www.w3schools.com/w3images/avatar2.png
-                     {% endif %}"
-                alt="Profile Picture" width="100">
-           
-                <span>{{ tournament.created_by }}</span>
-                <hr>
-            </div>
+     <div class="tournament-list">
+        {% for tournament in tournaments %}
+            <a href="{% url 'tournament_detail' tournament.id %}" class="tournament-link">
+                <div class="tournament-card">
+                    <div class="user-info">
+                        <img class="user-pic"
+                             src="{% if tournament.created_by.profile_picture %}
+                                      {{ tournament.created_by.profile_picture.url }}
+                                  {% else %}
+                                      https://www.w3schools.com/w3images/avatar2.png
+                                  {% endif %}"
+                             alt="Profile Picture">
+                        <span class="username">{{ tournament.created_by.username }}</span>
+                    </div>
 
-            <div class="tournament-container">
-                {% if tournament.image %}
-                    <img class="tournament-image" src="{{ tournament.image.url }}" alt="{{ tournament.name }}">
-                {% endif %}
-
-                <div class="content">
-                
                     <h3>{{ tournament.name }}</h3>
                     <p><strong>Sport:</strong> {{ tournament.sport }}</p>
-                    <p><strong>Venue:</strong> {{ tournament.venue }}</p>
                     <p><strong>City:</strong> {{ tournament.city }}</p>
                     <p><strong>Date:</strong> {{ tournament.date }}</p>
-                    <p><strong>Capacity:</strong> {{ tournament.capacity }} teams</p>
-                    <p><strong>Champion Prize:</strong>Rs.{{ tournament.champions_prize }}</p>
-                    <p><strong>Runner-up Prize:</strong>Rs.{{ tournament.runners_up_prize }}</p>
-                    <p><strong>Registration Fee:</strong>Rs.{{ tournament.registration_fee }}</p>
-                    <p><strong>Contact:</strong> {{ tournament.contact_details }}</p>
-                    <p><strong>Rules:</strong></p>
-                    <p>{{ tournament.rules }}</p>
+                    <p><strong>Likes:</strong> {{ tournament.like_set.count }}</p>
                 </div>
-            </div>
-
-            
-                <strong>Likes:</strong> {{ tournament.like_set.count }}
-
-                {% if user.is_authenticated %}
-                    <h4>Comments:</h4>
-                    <div class="comments-section" id="comments-{{ tournament.id }}">
-                        {% for comment in tournament.comment_set.all|dictsortreversed:"id"|slice:":2" %}
-                            <p>
-                                {% if comment.user.profile_picture %}
-                                    <img class="commentpic" src="{{ comment.user.profile_picture.url }}" alt="Profile Picture">
-                                {% endif %}
-                                <strong class="comment">{{ comment.user.username }}:</strong> {{ comment.content }}
-                            </p>
-                        {% empty %}
-                            No comments yet.
-                        {% endfor %}
-                    </div>
-                    {% if tournament.comment_set.count > 2 %}
-                        <button class="see-more-btn" data-tournament-id="{{ tournament.id }}">See More</button>
-                    {% endif %}
-                {% endif %}
-            
-
-            <div class="button-group">
-                <form action="{% url 'like_tournament' tournament.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit"><i class="material-icons">favorite</i></button>
-                </form>
-
-                {% if user.is_authenticated %}
-                
-                  
-                
-                    <form action="{% url 'comment_tournament' tournament.id %}" method="POST">
-                        {% csrf_token %}
-                        <textarea name="content" placeholder="Write a comment..." required></textarea>                
-                        <button  type="submit"><i class="material-icons">send</i></button><br>
-                        
-                    </form>
-                    <a href="{% url 'register_tournament' tournament.id %}" > Register</a>
-                {% else %}
-                    <a href="{% url 'login' %}?next={% url 'register_tournament' tournament.id %}">Register</a>
-                
-                
-                  
-                {% endif %}
-                 <a href="{% url 'tournament_registrations' tournament.id %}">View Registered Teams</a>
-                
-                {% if user == tournament.created_by %}
-                    <form action="{% url 'delete_tournament' tournament.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this tournament?');">
-                        {% csrf_token %}
-                        <button type="submit"><i class="material-icons">delete</i></button>
-                    </form>
-                    
-                     <a href="{% url 'add_match_result' tournament.id %}" class="btn btn-sm btn-success mt-2">Add Result</a>
-  
-                {% endif %}
-            </div>
-        </div>
-    
-    {% endfor %}
+            </a>
+        {% empty %}
+            <p style="text-align: center; color: gray;">No tournaments available.</p>
+        {% endfor %}
     </div>
-</div>
 
-<link rel="stylesheet" href="{% static 'home.css' %}">
-
+{%endblock%}
 
 
-<!-- JS for See More Comments -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".see-more-btn").forEach(button => {
-        button.addEventListener("click", function() {
-            const tournamentId = this.getAttribute("data-tournament-id");
-            const commentsDiv = document.getElementById("comments-" + tournamentId);
 
-            fetch(`/load_more_comments/${tournamentId}/`, {
-                method: "GET",
-                headers: { "X-Requested-With": "XMLHttpRequest" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.comments) {
-                    data.comments.forEach(comment => {
-                        const html = `
-                            <p>
-                                ${comment.user_profile_picture ? `<img class="commentpic" src="${comment.user_profile_picture}" alt="Profile Picture">` : ''}
-                                <strong class="comment">${comment.user}:</strong> ${comment.content}
-                            </p>
-                        `;
-                        commentsDiv.innerHTML += html;
-                    });
 
-                    if (!data.has_more) {
-                        button.style.display = "none";
-                    }
-                }
-            })
-            .catch(error => console.error("Error loading comments:", error));
-        });
-    });
-});
-</script>
-{% endblock %}
+

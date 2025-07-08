@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'tournament_details.css' %}">
+
+<div class="container" style="max-width: 800px; margin: 30px auto;">
+    <div class="tournament-detail-card">
+        <div class="organizer-info">
+            <img class="organizer-pic"
+                 src="{% if tournament.created_by.profile_picture %}
+                        {{ tournament.created_by.profile_picture.url }}
+                      {% else %}
+                        https://www.w3schools.com/w3images/avatar2.png
+                      {% endif %}"
+                 alt="Profile Picture">
+            <span class="organizer-name">{{ tournament.created_by.username }}</span>
+        </div>
+
+        {% if tournament.image %}
+            <img class="tournament-image" src="{{ tournament.image.url }}" alt="{{ tournament.name }}">
+        {% endif %}
+        
+        <h2 style="margin-top: 20px;">{{ tournament.name }}</h2>
+
+        <p><strong>Sport:</strong> {{ tournament.sport }}</p>
+        <p><strong>Venue:</strong> {{ tournament.venue }}</p>
+        <p><strong>City:</strong> {{ tournament.city }}</p>
+        <p><strong>Date:</strong> {{ tournament.date }}</p>
+        <p><strong>Capacity:</strong> {{ tournament.capacity }} teams</p>
+        <p><strong>Champion Prize:</strong> Rs.{{ tournament.champions_prize }}</p>
+        <p><strong>Runner-up Prize:</strong> Rs.{{ tournament.runners_up_prize }}</p>
+        <p><strong>Registration Fee:</strong> Rs.{{ tournament.registration_fee }}</p>
+        <p><strong>Contact:</strong> {{ tournament.contact_details }}</p>
+        <p><strong>Rules:</strong></p>
+        <p>{{ tournament.rules }}</p>
+
+        <p><strong>Total Likes:</strong> {{ tournament.like_set.count }}</p>
+
+        {% if user.is_authenticated %}
+            <form action="{% url 'like_tournament' tournament.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success mt-2">❤️ Like</button>
+            </form>
+
+            <h4 class="mt-4">Comments:</h4>
+            <div class="comments-section">
+                {% for comment in tournament.comment_set.all %}
+                    <p>
+                        {% if comment.user.profile_picture %}
+                            <img class="comment-pic" src="{{ comment.user.profile_picture.url }}" alt="Profile Picture">
+                        {% endif %}
+                        <strong>{{ comment.user.username }}:</strong> {{ comment.content }}
+                    </p>
+                {% empty %}
+                    <p style="color: gray;">No comments yet.</p>
+                {% endfor %}
+            </div>
+
+            <form action="{% url 'comment_tournament' tournament.id %}" method="POST" style="margin-top: 20px;">
+                {% csrf_token %}
+                <textarea name="content" placeholder="Write a comment..." required style="width:100%; padding:10px; border-radius:6px;"></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Send Comment</button>
+            </form>
+
+            <a href="{% url 'register_tournament' tournament.id %}" class="btn btn-outline-primary mt-3">Register for Tournament</a>
+        {% else %}
+            <p><a href="{% url 'login' %}?next={% url 'tournament_detail' tournament.id %}">Log in to like, comment, or register</a></p>
+        {% endif %}
+
+        <a href="{% url 'tournament_registrations' tournament.id %}" class="btn btn-outline-secondary mt-3">View Registered Teams</a>
+
+        {% if user == tournament.created_by %}
+            <form action="{% url 'delete_tournament' tournament.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this tournament?');" class="mt-4">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete Tournament</button>
+            </form>
+            <a href="{% url 'add_match_result' tournament.id %}" class="btn btn-success mt-2">Add Match Result</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
