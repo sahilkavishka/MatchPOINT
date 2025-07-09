@@ -4,14 +4,6 @@
 
 <link rel="stylesheet" href="{% static 'home.css' %}">
 
-<div class="hero-section">
-    <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-title">🏆 MATCH POINT</h1>
-            <p class="hero-subtitle">Discover and join exciting sports tournaments in your area</p>
-        </div>
-    </div>
-</div>
 
 <div class="filters-section">
     <div class="container">
@@ -88,49 +80,6 @@
     </div>
 </div>
 
-<script>
-// Simple filtering functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const sportFilter = document.getElementById('sportFilter');
-    const cityFilter = document.getElementById('cityFilter');
-    const dateFilter = document.getElementById('dateFilter');
-    const tournamentCards = document.querySelectorAll('.tournament-card');
-    
-    function filterTournaments() {
-        const selectedSport = sportFilter.value.toLowerCase();
-        const selectedCity = cityFilter.value.toLowerCase();
-        const selectedDate = dateFilter.value;
-        
-        tournamentCards.forEach(card => {
-            const cardSport = card.querySelector('.sport-badge').textContent.toLowerCase();
-            const cardCity = card.querySelector('.detail-item:nth-child(2) span').textContent.toLowerCase();
-            
-            const sportMatch = !selectedSport || cardSport.includes(selectedSport);
-            const cityMatch = !selectedCity || cardCity.includes(selectedCity);
-            
-            if (sportMatch && cityMatch) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-    
-    sportFilter.addEventListener('change', filterTournaments);
-    cityFilter.addEventListener('change', filterTournaments);
-    dateFilter.addEventListener('change', filterTournaments);
-    
-    // Add hover effects to cards
-    tournamentCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-});
-</script>
+
 
 {% endblock %}

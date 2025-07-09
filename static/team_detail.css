@@ -1,114 +1,316 @@
+/* Team Detail Page - Emerald Theme */
+.teambody {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+    min-height: 100vh;
+    color: #065f46;
+}
 
-   .namepic {
-       display: flex;
-       align-items: center;
-       gap: 30px;
-       margin: 30px;
-   }
-   body{
-    background: linear-gradient(135deg,rgb(24, 82, 47),rgb(23, 24, 23));
-    color:rgb(247, 243, 243)
-   }
-
-   .teamlogo {
-       width: 100px;
-       height: 100px;
-       border-radius: 50%;
-       object-fit: cover;
-       border: 3px solid rgb(255, 255, 255);
-       box-shadow: 5px 5px 5px rgba(8, 8, 8, 0.86);
-   }
-
-   .teambody {
-       background-color: rgba(9, 10, 9, 0.45);
-       width: 100%;
-       max-width: 600px;
-       border-radius: 30px;
-       box-shadow: 0px 0px 30px rgba(7, 247, 59, 0.94);
-       padding: 15px;
-       font-family: Arial, sans-serif;
-       margin-left:500px;
-       
-       
-       
-   }
-
-   h1 {
-       font-size: 35px;
-   }
-
-   .details {
-       margin-top: 70px;
-       text-align: left;
-       line-height: 2;
-       padding: 0 20px;
-   }
-
-   .membercard {
-       max-width:100%;
-       
- 
-       
-   }
-
-
-   .membercard ul {
+/* Team Name and Logo Section */
+.namepic {
     display: flex;
-    flex-wrap: wrap;
-    padding: 0;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    color: white;
+}
+
+.teamlogo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.teamlogo:hover {
+    transform: scale(1.1);
+}
+
+.namepic h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, #10b981, #34d399, #10b981);
+    margin: 30px 0;
+    border-radius: 2px;
+}
+
+/* Details Section */
+.details {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.details > div {
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #f0fdf4;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+    font-size: 1.1rem;
+}
+
+.details strong {
+    color: #065f46;
+    font-weight: 600;
+}
+
+.details p {
+    margin: 10px 0 0 0;
+    line-height: 1.6;
+    color: #374151;
+}
+
+/* Add Member Button */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    margin-bottom: 30px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+.btn i {
+    font-size: 18px;
+}
+
+/* Team Members Section */
+h3 {
+    color: #065f46;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #10b981;
+    display: inline-block;
+}
+
+.membercard {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.membercard ul {
     list-style: none;
-    gap: 2px; /* Optional spacing between cards */
-    justify-content: center; /* Center the items horizontally */
+    padding: 0;
+    margin: 0;
 }
 
 .membercard li {
     display: flex;
-    flex-direction:column;
-    flex: 0 1 calc(33.333% - 20px); /* 3 items per row with spacing */
-    border: 1px solid rgb(23, 156, 40);
-    padding: 10px;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border-radius: 12px;
+    border: 2px solid #d1fae5;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.membercard li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+}
+
+.membercard li:last-child {
+    margin-bottom: 0;
+}
+
+.membercard img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #10b981;
+    flex-shrink: 0;
+}
+
+.membercard strong {
+    color: #065f46;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.membercard span {
+    background: #10b981;
+    color: white;
+    padding: 4px 12px;
     border-radius: 20px;
-    box-sizing: border-box;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+/* Delete Member Icon */
+.membercard a[href*="delete_team_member"] {
+    margin-left: auto;
+    color: #dc2626;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: rgba(220, 38, 38, 0.1);
+}
+
+.membercard a[href*="delete_team_member"]:hover {
+    background: rgba(220, 38, 38, 0.2);
+    transform: scale(1.1);
+}
+
+.membercard a[href*="delete_team_member"] i {
+    font-size: 20px;
+}
+
+/* No Members Message */
+.membercard p {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    margin: 20px 0;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 2px dashed #d1d5db;
+}
+
+/* Delete Team Form */
+form[action*="delete_team"] {
+    margin-top: 30px;
     text-align: center;
 }
 
+form[action*="delete_team"] button {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
 
-   .membercard img {
-       width: 150px;
-       height: 150px;
-       border-radius: 20px;
-       border: 2px solid rgb(22, 109, 41);
-       margin-bottom: 10px;
-      
-   }
+form[action*="delete_team"] button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+}
 
-   .membercard i {
-       color: rgb(247, 7, 7);
-       background:none;
-       cursor:pointer;
-   }
-   .membercard button {
-    background:none;
-    border:none;
-   }
-   .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        background-color: #28a745;
-        color: white;
-        padding: 8px 14px;
-        border: none;
-        border-radius: 6px;
-        text-decoration: none;
-        box-shadow: 0 0 5px rgb(97, 247, 68);
-        margin-top: 20px;
-        font-weight: 500;
-        transition: background-color 0.3s ease;
+form[action*="delete_team"] button i {
+    font-size: 18px;
+}
+
+/* Team Not Found Message */
+.teambody > p {
+    text-align: center;
+    color: #6b7280;
+    font-size: 1.2rem;
+    margin-top: 50px;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .teambody {
+        padding: 15px;
     }
-
-    .btn:hover {
-        background-color: #218838;
-        transform: translateY(-10px);
+    
+    .namepic {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        padding: 20px;
     }
+    
+    .namepic h1 {
+        font-size: 2rem;
+    }
+    
+    .teamlogo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .membercard li {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .membercard li strong {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+    
+    .membercard span {
+        margin: 2px;
+    }
+    
+    .details {
+        padding: 20px;
+    }
+    
+    .details > div {
+        font-size: 1rem;
+    }
+}
 
+@media (max-width: 480px) {
+    .namepic h1 {
+        font-size: 1.8rem;
+    }
+    
+    .teamlogo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .membercard {
+        padding: 15px;
+    }
+    
+    .membercard li {
+        padding: 15px;
+    }
+}

@@ -21,7 +21,7 @@ form {
     background-color: #171717;
     padding: 40px;
     border-radius: 30px;
-    box-shadow: 0 4px 8px rgba(21, 172, 33, 0.68);
+    box-shadow: 0 4px 8px #059669;
     width: 300px;
     
 }
@@ -36,7 +36,7 @@ input {
 /* Style the login button */
 button {
     padding: 10px;
-    background-color:rgb(30, 206, 39);
+    background-color:#059669;
     color: white;
     border: none;
     border-radius: 5px;
@@ -47,13 +47,13 @@ button {
 
 /* Style the button on hover */
 button:hover {
-    background-color:rgb(2, 247, 2);
+    background-color:#0f6449;
     
 }
 
 /* Style links */
 a {
-    color:rgb(30, 255, 0);
+    color:#059669;
     text-decoration: none;
 }
 

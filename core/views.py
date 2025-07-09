@@ -19,13 +19,24 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model, update_session_auth_hash
 
+
+
+from datetime import timedelta
+from django.utils.timezone import now
+from django.db.models import Q
+from django.shortcuts import render
+from .models import Tournament, Sport, City, CreateTeam
+
 def home_view(request):
-    search_query = request.GET.get('q', '')  
-    sport_id = request.GET.get('sport', '')  
-    city_id = request.GET.get('city', '')  
+    search_query = request.GET.get('q', '')  # Optional search query (if you want)
+    sport_id = request.GET.get('sport', '')  # Sport filter (by ID)
+    city_id = request.GET.get('city', '')  # City filter (by ID)
+    date_filter = request.GET.get('date', '')  # Date filter (today, week, month)
 
     tournaments = Tournament.objects.all().order_by('-date')
+    today = now().date()
 
+    # Text search (optional)
     if search_query:
         tournaments = tournaments.filter(
             Q(name__icontains=search_query) |
@@ -33,19 +44,51 @@ def home_view(request):
             Q(sport__name__icontains=search_query)
         ).distinct()
 
+    # Filter by sport id (if provided)
     if sport_id:
         tournaments = tournaments.filter(sport__id=sport_id)
 
+    # Filter by city id (if provided)
     if city_id:
         tournaments = tournaments.filter(city__id=city_id)
 
-    return render(request, 'home.html', {
+    # Filter by date
+    if date_filter == 'today':
+        tournaments = tournaments.filter(date=today)
+    elif date_filter == 'week':
+        week_start = today - timedelta(days=7)
+        tournaments = tournaments.filter(date__gte=week_start, date__lte=today)
+    elif date_filter == 'month':
+        month_start = today - timedelta(days=30)
+        tournaments = tournaments.filter(date__gte=month_start, date__lte=today)
+
+    # Optional: get teams list (searchable or all)
+    teams = CreateTeam.objects.filter(
+        Q(name__icontains=search_query) |
+        Q(city__name__icontains=search_query) |
+        Q(sport__name__icontains=search_query)
+    ).distinct() if search_query else CreateTeam.objects.all()
+
+    # Notification unread count (if user logged in)
+    unread_count = 0
+    if request.user.is_authenticated:
+        unread_count = request.user.notifications.filter(is_read=False).count()
+
+    context = {
         'tournaments': tournaments,
+        'teams': teams,
         'sports': Sport.objects.all(),
         'cities': City.objects.all(),
+        'search_query': search_query,
         'selected_city': city_id,
         'selected_sport': sport_id,
-    })
+        'selected_date': date_filter,
+        'unread_count': unread_count,
+    }
+
+    return render(request, 'home.html', context)
+
+
 def register_view(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST, request.FILES)
