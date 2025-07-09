@@ -17,6 +17,8 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES,default='Spectator')
     contact_number = models.CharField(max_length=15, null=True, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    email = models.EmailField(unique=True)
+
    
 
     def __str__(self):
@@ -70,6 +72,7 @@ class CreateTeam(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to='team/', null=True, blank=True)
     points = models.IntegerField(default=0) 
+    
     class Meta:
         ordering = ['-created_date']  # Default order: newest teams first
 

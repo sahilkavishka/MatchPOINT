@@ -21,7 +21,7 @@ from django.contrib.auth import get_user_model, update_session_auth_hash
 
 
 
-from datetime import timedelta
+from datetime import timedelta, timezone
 from django.utils.timezone import now
 from django.db.models import Q
 from django.shortcuts import render
@@ -429,45 +429,48 @@ def reset_password(request):
 
 
 
+@login_required
 def add_match_result(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-    registration = get_object_or_404(Registration, tournament=tournament)
-    teams = CreateTeam.objects.filter(registration=registration)
+    teams = CreateTeam.objects.filter(tournament=tournament)
 
     if request.method == 'POST':
         winner_id = request.POST.get('winner')
         runner_up_id = request.POST.get('runner_up')
 
         if winner_id == runner_up_id:
-            return render(request, 'add_result.html', {
+            return render(request, 'add_match_result.html', {
                 'tournament': tournament,
                 'teams': teams,
-                'error': 'Winner and Runner-Up cannot be the same team.'
+                'error': "Winner and Runner-up cannot be the same team."
             })
 
-        # ✅ Create the match result
+        winner = CreateTeam.objects.get(id=winner_id)
+        runner_up = CreateTeam.objects.get(id=runner_up_id)
+
+        # Create match record
         Match.objects.create(
             tournament=tournament,
-            winner_id=winner_id,
-            runner_up_id=runner_up_id
+            team_a=winner,
+            team_b=runner_up,
+            winner=winner,
+            runner_up=runner_up,
+            date=timezone.now()
         )
 
-        # ✅ Give points
-        winner_team = CreateTeam.objects.get(id=winner_id)
-        runner_up_team = CreateTeam.objects.get(id=runner_up_id)
+        # Update points
+        winner.points += 2
+        runner_up.points += 1
+        winner.save()
+        runner_up.save()
 
-        winner_team.points += 2
-        runner_up_team.points += 1
+        return redirect('team_leaderboard')  # Make sure this URL name exists
 
-        winner_team.save()
-        runner_up_team.save()
-
-        return redirect('home')
-
-    return render(request, 'add_result.html', {
+    return render(request, 'add_match_result.html', {
         'tournament': tournament,
         'teams': teams
     })
+
 
 def team_leaderboard(request):
     teams = CreateTeam.objects.all().order_by('-points', 'name')  # Sort by points descending

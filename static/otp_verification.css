@@ -14,7 +14,7 @@
     .otp-card {
         border: none;
         border-radius: 22px;
-        box-shadow: 0 6px 20px rgba(20, 170, 45, 0.57);
+        box-shadow: 0 6px 20px #065f46;
         overflow: hidden;
         transition: transform 0.3s ease;
         background-color: #171717;
@@ -42,7 +42,7 @@
     /* Form Elements */
     .otp-form-label {
         font-weight: 600;
-        color:rgb(96, 197, 104);
+        color:#065f46;
         margin-bottom: 0.5rem;
         display: block;
     }
@@ -57,13 +57,13 @@
     }
 
     .otp-form-control:focus {
-        border-color:rgb(16, 95, 29);
+        border-color:#065f46;
         box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
     }
 
     /* Button Styling */
     .otp-btn {
-        background-color:rgb(34, 172, 46);
+        background-color:#065f46;
         border: none;
         border-radius: 18px;
         padding: 12px 24px;
@@ -75,7 +75,7 @@
     }
 
     .otp-btn:hover {
-        background-color:rgb(19, 129, 16);
+        background-color:#1b7e62;
         transform: translateY(-2px);
     }
 
@@ -90,14 +90,14 @@
     }
 
     .otp-resend a {
-        color:rgb(18, 214, 35);
+        color:#17926f;
         font-weight: 600;
         text-decoration: none;
         transition: all 0.2s;
     }
 
     .otp-resend a:hover {
-        color:rgb(15, 133, 11);
+        color:#2fa785;
         text-decoration: underline;
     }
 

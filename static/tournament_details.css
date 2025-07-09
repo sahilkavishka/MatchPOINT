@@ -1,25 +1,84 @@
-/* Tournament Detail Page Styles */
+/* Sports Vibe Tournament Details CSS - Emerald Theme */
 
-/* Container */
-.container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 0 20px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Tournament Detail Card */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(90deg, #10b9818a, #07a77981,);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 40% 60%, rgba(6, 120, 95, 0.1) 0%, transparent 40%);
+    z-index: -1;
+    animation: backgroundMove 20s ease-in-out infinite;
+}
+
+@keyframes backgroundMove {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(20px) translateY(-20px); }
+    50% { transform: translateX(-20px) translateY(20px); }
+    75% { transform: translateX(20px) translateY(20px); }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
 .tournament-detail-card {
-    background: #ffffff;
-    border: 2px solid #c8e6c9; /* softer green border */
-    border-radius: 15px;
-    padding: 30px 35px;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.15); /* subtle green shadow */
-    transition: box-shadow 0.3s ease;
-    margin-bottom: 30px;
+    border-radius: 30px;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(16, 185, 129, 0.534),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(13, 41, 32, 0.63);
+}
+
+.tournament-detail-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #10b981, #059669, #047857, #065f46);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
 }
 
 .tournament-detail-card:hover {
-    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(16, 185, 129, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 /* Organizer Info */
@@ -27,29 +86,32 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #e8f5e9;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+    border-radius: 15px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .organizer-pic {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 3px solid #28a745;
-    box-shadow: 0 0 10px rgba(40, 167, 69, 0.4);
-    transition: transform 0.3s ease;
+    border: 3px solid #10b981;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
 }
 
 .organizer-pic:hover {
     transform: scale(1.1);
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.3);
 }
 
 .organizer-name {
-    font-size: 18px;
-    font-weight: 600;
-    color: #2e7d32;
+    font-weight: bold;
+    color: #064e3b;
+    font-size: 1.1em;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -58,404 +120,301 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 15px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
-    transition: transform 0.3s ease;
+    border: 3px solid #10b981;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s ease;
 }
 
 .tournament-image:hover {
     transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
 }
 
 /* Tournament Title */
-.tournament-detail-card h2 {
-    color: #2e7d32;
-    font-size: 28px;
-    font-weight: 700;
-    margin: 20px 0;
+h2 {
+    color: #064e3b;
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 25px;
     text-align: center;
-    padding: 15px 0;
-    border-bottom: 3px solid #28a745;
-    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-    border-radius: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 2px;
 }
 
 /* Tournament Details */
-.tournament-detail-card p {
-    margin-bottom: 12px;
-    font-size: 16px;
+p {
+    margin-bottom: 15px;
+    color: #374151;
+    font-size: 1.1em;
     line-height: 1.6;
-    color: #2e7d32;
     padding: 8px 0;
-    border-bottom: 1px solid #e8f5e9;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.1);
 }
 
-.tournament-detail-card p:last-of-type {
-    border-bottom: none;
-}
-
-.tournament-detail-card p strong {
-    color: #1b5e20;
+p strong {
+    color: #064e3b;
     font-weight: 600;
-    min-width: 160px;
     display: inline-block;
-    background: #e8f5e9;
-    padding: 4px 8px;
-    border-radius: 4px;
+    min-width: 160px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+    padding: 2px 8px;
+    border-radius: 5px;
     margin-right: 10px;
 }
 
-/* Likes Section */
-.tournament-detail-card p[style*="color: gray"] {
-    color: #6c757d !important;
-    font-style: italic;
+/* Prize Values */
+p:has(strong:contains("Prize")), p:has(strong:contains("Fee")) {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05));
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: 2px solid #10b981;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border: 2px solid #3b82f6;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: #10b981;
+    border: 2px solid #10b981;
+}
+
+.btn-outline-primary:hover {
+    background: #10b981;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    color: #6b7280;
+    border: 2px solid #6b7280;
+}
+
+.btn-outline-secondary:hover {
+    background: #6b7280;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: 2px solid #ef4444;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
 }
 
 /* Comments Section */
 .comments-section {
-    background: #f9fff9;
-    border-left: 5px solid #28a745;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: inset 0 0 8px rgba(40, 167, 69, 0.1);
-    max-height: 250px;
-    overflow-y: auto;
-    font-size: 14.5px;
-    color: #2e7d32;
-    line-height: 1.5;
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: 15px;
+    padding: 20px;
     margin: 20px 0;
+    border: 1px solid rgba(16, 185, 129, 0.1);
 }
 
 .comments-section p {
-    margin-bottom: 12px;
-    padding: 10px;
-    background: #ffffff;
-    border-radius: 6px;
-    border: 1px solid #e8f5e9;
-    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.1);
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #10b981;
     display: flex;
     align-items: flex-start;
     gap: 10px;
 }
 
 .comment-pic {
-    width: 32px;
-    height: 32px;
-    object-fit: cover;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 2px solid #28a745;
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+    border: 2px solid #10b981;
+    object-fit: cover;
     flex-shrink: 0;
 }
 
-.comments-section strong {
-    color: #28a745;
-    font-weight: 600;
-    margin-right: 8px;
-}
-
-/* Scrollbar styling for WebKit browsers */
-.comments-section::-webkit-scrollbar {
-    width: 6px;
-}
-
-.comments-section::-webkit-scrollbar-track {
-    background: #e8f5e9;
-    border-radius: 8px;
-}
-
-.comments-section::-webkit-scrollbar-thumb {
-    background-color: #28a745;
-    border-radius: 8px;
-}
-
-.comments-section::-webkit-scrollbar-thumb:hover {
-    background-color: #1e7e34;
-}
-
-/* Forms */
-form {
-    margin: 15px 0;
-}
-
-/* Textarea */
+/* Comment Form */
 textarea {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #c8e6c9;
-    border-radius: 8px;
+    padding: 15px;
+    border: 2px solid rgba(16, 185, 129, 0.3);
+    border-radius: 10px;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 1em;
     resize: vertical;
     min-height: 100px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    background: #f9fff9;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 textarea:focus {
     outline: none;
-    border-color: #28a745;
-    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
-}
-
-textarea::placeholder {
-    color: #6c757d;
-}
-
-/* Buttons */
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    margin: 5px 5px 5px 0;
-    text-align: center;
-    min-width: 120px;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Button Variants */
-.btn-success {
-    background: #28a745;
-    color: white;
-    border: 2px solid #28a745;
-}
-
-.btn-success:hover {
-    background: #218838;
-    border-color: #1e7e34;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-}
-
-.btn-primary {
-    background: #007bff;
-    color: white;
-    border: 2px solid #007bff;
-}
-
-.btn-primary:hover {
-    background: #0056b3;
-    border-color: #004085;
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-}
-
-.btn-outline-primary {
-    background: transparent;
-    color: #007bff;
-    border: 2px solid #007bff;
-}
-
-.btn-outline-primary:hover {
-    background: #007bff;
-    color: white;
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-}
-
-.btn-outline-secondary {
-    background: transparent;
-    color: #6c757d;
-    border: 2px solid #6c757d;
-}
-
-.btn-outline-secondary:hover {
-    background: #6c757d;
-    color: white;
-    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
-}
-
-.btn-danger {
-    background: #dc3545;
-    color: white;
-    border: 2px solid #dc3545;
-}
-
-.btn-danger:hover {
-    background: #c82333;
-    border-color: #bd2130;
-    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
-}
-
-/* Margin utilities */
-.mt-2 {
-    margin-top: 0.5rem;
-}
-
-.mt-3 {
-    margin-top: 1rem;
-}
-
-.mt-4 {
-    margin-top: 1.5rem;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 /* Headings */
 h4 {
-    color: #2e7d32;
-    font-size: 20px;
+    color: #064e3b;
+    font-size: 1.5em;
+    margin-bottom: 15px;
     font-weight: 600;
-    margin: 25px 0 15px 0;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #28a745;
+    position: relative;
+    display: inline-block;
+}
+
+h4::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #10b981, transparent);
 }
 
 /* Links */
 a {
-    color: #28a745;
+    color: #10b981;
     text-decoration: none;
-    transition: color 0.3s ease;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 a:hover {
-    color: #1e7e34;
+    color: #059669;
     text-decoration: underline;
-}
-
-/* Button Group Layout */
-.tournament-detail-card > form,
-.tournament-detail-card > a {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-/* Action Buttons Container */
-.action-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 2px solid #e8f5e9;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
-        max-width: 100%;
-        margin: 20px auto;
-        padding: 0 15px;
-    }
-    
     .tournament-detail-card {
-        padding: 20px 25px;
+        padding: 20px;
+        margin: 10px;
     }
     
-    .tournament-detail-card h2 {
-        font-size: 24px;
+    h2 {
+        font-size: 2em;
     }
     
-    .tournament-image {
-        height: 200px;
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
     }
     
     .organizer-info {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
     }
     
-    .btn {
-        width: 100%;
-        margin: 5px 0;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 600px) {
     .organizer-pic {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .comments-section {
-        max-height: 180px;
-        font-size: 13px;
-    }
-    
-    .tournament-detail-card {
-        padding: 15px 20px;
-    }
-    
-    .tournament-detail-card p strong {
-        display: block;
-        margin-bottom: 5px;
-        margin-right: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .tournament-detail-card h2 {
-        font-size: 20px;
-    }
-    
-    .tournament-detail-card p {
-        font-size: 14px;
-    }
-    
-    .tournament-image {
-        height: 150px;
+        width: 60px;
+        height: 60px;
     }
 }
 
 /* Loading Animation */
-.loading {
-    opacity: 0.7;
-    pointer-events: none;
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
 }
 
-/* Smooth Transitions */
-* {
-    transition: all 0.3s ease;
+.tournament-detail-card {
+    animation: fadeIn 0.6s ease-out;
 }
 
-/* Success/Error Messages */
-.alert {
-    padding: 12px 20px;
-    border-radius: 8px;
-    margin: 15px 0;
-    border: 1px solid transparent;
-}
-
-.alert-success {
-    background: #d4edda;
-    color: #155724;
-    border-color: #c3e6cb;
-}
-
-.alert-danger {
-    background: #f8d7da;
-    color: #721c24;
-    border-color: #f5c6cb;
-}
-
-/* Hover Effects */
-.tournament-detail-card p:hover {
-    background: #f8fff8;
-    border-radius: 4px;
-    padding: 8px;
-    margin: 2px 0;
-}
-
-/* Print Styles */
-@media print {
-    .btn, form, .action-buttons {
-        display: none;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-    
-    .tournament-detail-card {
-        box-shadow: none;
-        border: 1px solid #000;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
+
+
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
