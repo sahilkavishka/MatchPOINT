@@ -4,36 +4,39 @@
 
 <link rel="stylesheet" href="{% static 'home.css' %}">
 
-
 <div class="filters-section">
     <div class="container">
         <div class="filter-container">
             <select class="filter-select" id="sportFilter">
                 <option value="">🏃‍♂️ All Sports</option>
                 {% for sport in sports %}
-                <option value="{{ sport.name }}">{{ sport.name }}</option>
+                <option value="{{ sport.id }}" {% if selected_sport == sport.id|stringformat:"s" %}selected{% endif %}>
+                    {{ sport.name }}
+                </option>
                 {% endfor %}
             </select>
-            
+
             <select class="filter-select" id="cityFilter">
                 <option value="">🏙️ All Cities</option>
                 {% for city in cities %}
-                <option value="{{ city.name }}">{{ city.name }}</option>
+                <option value="{{ city.id }}" {% if selected_city == city.id|stringformat:"s" %}selected{% endif %}>
+                    {{ city.name }}
+                </option>
                 {% endfor %}
             </select>
-            
+
             <select class="filter-select" id="dateFilter">
                 <option value="">📅 All Dates</option>
-                <option value="today">Today</option>
-                <option value="week">This Week</option>
-                <option value="month">This Month</option>
+                <option value="today" {% if selected_date == 'today' %}selected{% endif %}>Today</option>
+                <option value="week" {% if selected_date == 'week' %}selected{% endif %}>This Week</option>
+                <option value="month" {% if selected_date == 'month' %}selected{% endif %}>This Month</option>
             </select>
         </div>
     </div>
 </div>
 
 <div class="container">
-    <div class="tournaments-grid">
+    <div class="tournaments-grid" id="results">
         {% for tournament in tournaments %}
         <div class="tournament-card">
             <div class="tournament-header">
@@ -41,33 +44,18 @@
                     <h3 class="tournament-title">{{ tournament.name }}</h3>
                     <span class="sport-badge">{{ tournament.sport }}</span>
                 </div>
-                <div class="tournament-creator">
-                    {{ tournament.created_by.username }}
-                </div>
+                <div class="tournament-creator">{{ tournament.created_by.username }}</div>
             </div>
-            
-            <div class="tournament-details">
-                <div class="detail-item">
-                    <div class="detail-icon">🏆</div>
-                    <span><strong>Sport:</strong> {{ tournament.sport }}</span>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-icon">📍</div>
-                    <span><strong>Location:</strong> {{ tournament.city }}</span>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-icon">📅</div>
-                    <span><strong>Date:</strong> {{ tournament.date }}</span>
-                </div>
-            </div>
-            
-            <div class="tournament-footer">
-                <div class="likes-count">
-                    <span class="like-icon">❤️</span>
-                    <span>{{ tournament.like_set.count }} likes</span>
-                </div>
-                <a href="{% url 'tournament_detail' tournament.id %}" class="sport-badge">View Details</a>
 
+            <div class="tournament-details">
+                <div class="detail-item"><div class="detail-icon">🏆</div><span><strong>Sport:</strong> {{ tournament.sport }}</span></div>
+                <div class="detail-item"><div class="detail-icon">📍</div><span><strong>Location:</strong> {{ tournament.city }}</span></div>
+                <div class="detail-item"><div class="detail-icon">📅</div><span><strong>Date:</strong> {{ tournament.date }}</span></div>
+            </div>
+
+            <div class="tournament-footer">
+                <div class="likes-count"><span class="like-icon">❤️</span><span>{{ tournament.like_set.count }} likes</span></div>
+                <a href="{% url 'tournament_detail' tournament.id %}" class="sport-badge">View Details</a>
             </div>
         </div>
         {% empty %}
@@ -80,6 +68,27 @@
     </div>
 </div>
 
+<script>
+function applyFilters() {
+    const date = document.getElementById("dateFilter").value;
+    const sport = document.getElementById("sportFilter").value;
+    const city = document.getElementById("cityFilter").value;
 
+    const url = `/?date=${date}&sport=${sport}&city=${city}`;
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const results = doc.getElementById("results").innerHTML;
+            document.getElementById("results").innerHTML = results;
+        });
+}
+
+document.getElementById("dateFilter").addEventListener("change", applyFilters);
+document.getElementById("sportFilter").addEventListener("change", applyFilters);
+document.getElementById("cityFilter").addEventListener("change", applyFilters);
+</script>
 
 {% endblock %}

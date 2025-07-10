@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import UniqueConstraint
 
@@ -17,7 +17,8 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES,default='Spectator')
     contact_number = models.CharField(max_length=15, null=True, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(max_length=191, unique=True)
+
 
    
 
@@ -72,6 +73,8 @@ class CreateTeam(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to='team/', null=True, blank=True)
     points = models.IntegerField(default=0) 
+    wins = models.IntegerField(default=0)
+    losses = models.IntegerField(default=0)
     
     class Meta:
         ordering = ['-created_date']  # Default order: newest teams first
@@ -134,7 +137,7 @@ class Match(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     winner = models.ForeignKey(CreateTeam, related_name='won_matches', on_delete=models.CASCADE)
     runner_up = models.ForeignKey(CreateTeam, related_name='runner_up_matches', on_delete=models.CASCADE)
-
+    date = models.DateField(auto_now_add=True)
     def __str__(self):
         return f"{self.winner.name} vs {self.runner_up.name}"
     
@@ -148,3 +151,13 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.username}"
+    
+
+class Result(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    team = models.ForeignKey(CreateTeam, on_delete=models.CASCADE)
+    # You can add other fields like match stats if needed
+
+
+    def __str__(self):
+        return f"{self.team.name} - {self.tournament.name}"

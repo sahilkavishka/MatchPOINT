@@ -1,17 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="text-center mt-4" style="color:#00ff99;">Add Result - {{ tournament.name }}</h2>
+
+<h2 class="text-center mt-4" style="color:#00ff99;">
+    Add Match Result - {{ tournament.name }}
+</h2>
 
 <div class="container" style="max-width:600px; margin:40px auto; background:#102820; padding:30px; border-radius:10px; color:white;">
+    
     {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
     {% endif %}
 
     <form method="POST">
         {% csrf_token %}
         
         <div class="form-group mb-3">
-            <label for="winner">Select Winner Team:</label>
+            <label for="winner-select">🏆 Select Winner Team:</label>
             <select name="winner" id="winner-select" class="form-control" required>
                 <option value="" disabled selected>-- Choose Winner --</option>
                 {% for team in teams %}
@@ -21,7 +31,7 @@
         </div>
 
         <div class="form-group mb-4">
-            <label for="runner_up">Select Runner-Up Team:</label>
+            <label for="runner-up-select">🥈 Select Runner-Up Team:</label>
             <select name="runner_up" id="runner-up-select" class="form-control" required>
                 <option value="" disabled selected>-- Choose Runner-Up --</option>
                 {% for team in teams %}
@@ -33,4 +43,24 @@
         <button type="submit" class="btn btn-success w-100">Submit Result</button>
     </form>
 </div>
+
+<script>
+    const winnerSelect = document.getElementById('winner-select');
+    const runnerUpSelect = document.getElementById('runner-up-select');
+    const originalRunnerUpOptions = Array.from(runnerUpSelect.options);
+
+    winnerSelect.addEventListener('change', function () {
+        const selectedWinnerId = this.value;
+
+        // Reset and rebuild runner-up dropdown
+        runnerUpSelect.innerHTML = '';
+
+        originalRunnerUpOptions.forEach(option => {
+            if (option.value !== selectedWinnerId || option.value === '') {
+                runnerUpSelect.appendChild(option.cloneNode(true));
+            }
+        });
+    });
+</script>
+
 {% endblock %}

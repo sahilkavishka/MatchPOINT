@@ -3,7 +3,7 @@
 from django.urls import reverse
 
 from core.utils import notify_user
-from .models import Match, Notification
+from .models import Match, Notification, Result
 import random
 from django.http import  JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -27,11 +27,17 @@ from django.db.models import Q
 from django.shortcuts import render
 from .models import Tournament, Sport, City, CreateTeam
 
+from django.shortcuts import render
+from django.db.models import Q
+from django.utils.timezone import now
+from datetime import timedelta
+from .models import Tournament, Sport, City, CreateTeam
+
 def home_view(request):
-    search_query = request.GET.get('q', '')  # Optional search query (if you want)
-    sport_id = request.GET.get('sport', '')  # Sport filter (by ID)
-    city_id = request.GET.get('city', '')  # City filter (by ID)
-    date_filter = request.GET.get('date', '')  # Date filter (today, week, month)
+    search_query = request.GET.get('q', '')  # Optional search query
+    sport_id = request.GET.get('sport', '')
+    city_id = request.GET.get('city', '')
+    date_filter = request.GET.get('date', '')
 
     tournaments = Tournament.objects.all().order_by('-date')
     today = now().date()
@@ -44,11 +50,11 @@ def home_view(request):
             Q(sport__name__icontains=search_query)
         ).distinct()
 
-    # Filter by sport id (if provided)
+    # Filter by sport
     if sport_id:
         tournaments = tournaments.filter(sport__id=sport_id)
 
-    # Filter by city id (if provided)
+    # Filter by city
     if city_id:
         tournaments = tournaments.filter(city__id=city_id)
 
@@ -56,20 +62,23 @@ def home_view(request):
     if date_filter == 'today':
         tournaments = tournaments.filter(date=today)
     elif date_filter == 'week':
-        week_start = today - timedelta(days=7)
-        tournaments = tournaments.filter(date__gte=week_start, date__lte=today)
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        tournaments = tournaments.filter(date__range=[start_of_week, end_of_week])
     elif date_filter == 'month':
-        month_start = today - timedelta(days=30)
-        tournaments = tournaments.filter(date__gte=month_start, date__lte=today)
+        tournaments = tournaments.filter(date__month=today.month)
 
-    # Optional: get teams list (searchable or all)
-    teams = CreateTeam.objects.filter(
-        Q(name__icontains=search_query) |
-        Q(city__name__icontains=search_query) |
-        Q(sport__name__icontains=search_query)
-    ).distinct() if search_query else CreateTeam.objects.all()
+    # Optional: Teams for sidebar/search
+    if search_query:
+        teams = CreateTeam.objects.filter(
+            Q(name__icontains=search_query) |
+            Q(city__name__icontains=search_query) |
+            Q(sport__name__icontains=search_query)
+        ).distinct()
+    else:
+        teams = CreateTeam.objects.all()
 
-    # Notification unread count (if user logged in)
+    # Notification unread count (if logged in)
     unread_count = 0
     if request.user.is_authenticated:
         unread_count = request.user.notifications.filter(is_read=False).count()
@@ -87,6 +96,7 @@ def home_view(request):
     }
 
     return render(request, 'home.html', context)
+    
 
 
 def register_view(request):
@@ -429,53 +439,55 @@ def reset_password(request):
 
 
 
-@login_required
+from .models import Match, Tournament, CreateTeam, Result  # ensure Result is imported
+
 def add_match_result(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id)
-    teams = CreateTeam.objects.filter(tournament=tournament)
+
+    team_ids = Registration.objects.filter(tournament=tournament).values_list('team_id', flat=True)
+    teams = CreateTeam.objects.filter(id__in=team_ids)
 
     if request.method == 'POST':
         winner_id = request.POST.get('winner')
         runner_up_id = request.POST.get('runner_up')
 
         if winner_id == runner_up_id:
-            return render(request, 'add_match_result.html', {
+            return render(request, 'add_result.html', {
                 'tournament': tournament,
                 'teams': teams,
-                'error': "Winner and Runner-up cannot be the same team."
+                'error': "Winner and Runner-Up cannot be the same team."
             })
 
-        winner = CreateTeam.objects.get(id=winner_id)
-        runner_up = CreateTeam.objects.get(id=runner_up_id)
+        winner = get_object_or_404(CreateTeam, id=winner_id)
+        runner_up = get_object_or_404(CreateTeam, id=runner_up_id)
 
-        # Create match record
+        # Save result
         Match.objects.create(
             tournament=tournament,
-            team_a=winner,
-            team_b=runner_up,
             winner=winner,
-            runner_up=runner_up,
-            date=timezone.now()
+            runner_up=runner_up
         )
 
-        # Update points
+        # Update points and stats
         winner.points += 2
-        runner_up.points += 1
+        winner.wins += 1
         winner.save()
+
+        runner_up.points += 1
+        runner_up.losses += 1
         runner_up.save()
 
-        return redirect('team_leaderboard')  # Make sure this URL name exists
+        messages.success(request, "Match result added successfully.")
+        return redirect('team_leaderboard')  # You can change this
 
-    return render(request, 'add_match_result.html', {
+    return render(request, 'add_result.html', {
         'tournament': tournament,
         'teams': teams
     })
 
-
 def team_leaderboard(request):
-    teams = CreateTeam.objects.all().order_by('-points', 'name')  # Sort by points descending
+    teams = CreateTeam.objects.all().order_by('-points', '-wins')
     return render(request, 'team_leaderboard.html', {'teams': teams})
-
 
 
 @login_required
