@@ -3,7 +3,7 @@
 from django.urls import reverse
 
 from core.utils import notify_user
-from .models import Match, Notification, Result
+from .models import Match, Notification
 import random
 from django.http import  JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
