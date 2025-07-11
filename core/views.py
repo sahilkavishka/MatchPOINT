@@ -480,14 +480,24 @@ def add_match_result(request, tournament_id):
         messages.success(request, "Match result added successfully.")
         return redirect('team_leaderboard')  # You can change this
 
-    return render(request, 'add_result.html', {
+    return render(request, 'add_match_result.html', {
         'tournament': tournament,
         'teams': teams
     })
 
 def team_leaderboard(request):
-    teams = CreateTeam.objects.all().order_by('-points', '-wins')
-    return render(request, 'team_leaderboard.html', {'teams': teams})
+    selected_sport_id = request.GET.get('sport')
+    sports = Sport.objects.all()
+
+    if selected_sport_id:
+        leaderboard = CreateTeam.objects.filter(sport_id=selected_sport_id).order_by('-points')
+    else:
+        leaderboard = []
+
+    return render(request, 'team_leaderboard.html', {
+        'sports': sports,
+        'leaderboard': leaderboard
+    })
 
 
 @login_required

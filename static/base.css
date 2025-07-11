@@ -92,7 +92,7 @@ body {
     z-index: 1;
     max-width: 1200px;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 ;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -105,13 +105,13 @@ body {
     font-size: 3rem;
     font-weight: 800;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 2px 4px #070808;
 }
 
 /* SUBTITLE */
 .hero-subtitle {
     font-size: 1.2rem;
-    opacity: 0.9;
+    color: #055339;
     margin-bottom: 2rem;
 }
 

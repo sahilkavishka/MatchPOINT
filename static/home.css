@@ -12,15 +12,21 @@
     .filters-section {
         background: white;
         padding: 2rem 0;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px -1px #058d60;
         margin-bottom: 2rem;
+        margin-top: -50px;
+        border-radius: 20px;
+       
+       
     }
 
     .filter-container {
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
+        text-align: center;
     }
 
     .filter-select {

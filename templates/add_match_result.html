@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-{% block content %}
+{% load static %}
 
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'add_match_result.css' %}">
 <h2 class="text-center mt-4" style="color:#00ff99;">
     Add Match Result - {{ tournament.name }}
 </h2>
