@@ -29,9 +29,9 @@
         <thead>
             <tr>
                 <th>🏅 Rank</th>
+                <th>Logo</th>
                 <th>Team</th>
                 <th>Sport</th>
-                <th>Logo</th>
                 <th>Points</th>
                 <th>Wins</th>
                 <th>Losses</th>
@@ -41,15 +41,17 @@
             {% for team in leaderboard %}
             <tr>
                 <td>{{ forloop.counter }}</td>
+                <td>
+                 {% if team.logo %}
+                   <img src="{{ team.logo.url }}" alt="logo"
+                            width="40" height="40"
+                            style="border-radius: 50%; object-fit: cover; ">
+                 {% else %}
+                    <span style="background: #444; width: 40px; height: 40px; display: inline-block; border-radius: 50%;"></span>
+                 {% endif %}
+                </td>
                 <td>{{ team.name }}</td>
                 <td>{{ team.sport.name }}</td>
-                <td>
-                    {% if team.logo %}
-                        <img src="{{ team.logo.url }}" alt="logo" width="40" height="40">
-                    {% else %}
-                        <span style="background: #444; width: 40px; height: 40px; display: inline-block; border-radius: 50%;"></span>
-                    {% endif %}
-                </td>
                 <td>{{ team.points }}</td>
                 <td>{{ team.wins }}</td>
                 <td>{{ team.losses }}</td>
