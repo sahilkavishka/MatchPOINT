@@ -41,11 +41,13 @@ class CreateTeamForm(forms.ModelForm):
 
 class TeamMemberForm(forms.ModelForm):
     memberpic = forms.ImageField(required=False)  # Ensuring it's optional
-
+   
     class Meta:
         model = TeamMembers
         fields = ['memberpic', 'name', 'age', 'height', 'position', 'city']
-
+        widgets = {
+            'height': forms.NumberInput(attrs={'placeholder': 'cm'}),
+        }
 
 class RegistrationForm(forms.ModelForm):
     class Meta:

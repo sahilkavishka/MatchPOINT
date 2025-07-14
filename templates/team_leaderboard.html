@@ -11,17 +11,19 @@
 <div class="text-center mb-4 " >
    
     <form method="get" action="{% url 'team_leaderboard' %}">
-          <h2 class="text-center mt-4">Team Leaderboard
+    <h2 class="text-center mt-4">Team Leaderboard</h2>
+    <div class="text-center my-3">
         <select name="sport" class="form-select w-50 mx-auto" onchange="this.form.submit()">
-           
             <option value="">-- Select Sport --</option>
             {% for sport in sports %}
                 <option value="{{ sport.id }}" {% if sport.id|stringformat:"s" == request.GET.sport %}selected{% endif %}>
                     {{ sport.name }}
                 </option>
             {% endfor %}
-        </select></h2>
-    </form>
+        </select>
+    </div>
+</form>
+
  
 </div>
 
