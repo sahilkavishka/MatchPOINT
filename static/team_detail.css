@@ -4,9 +4,11 @@
     margin: 0 auto;
     padding: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+    background: rgba(52, 219, 169, 0.158);
     min-height: 100vh;
     color: #065f46;
+    border-radius: 20px;
+    
 }
 
 /* Team Name and Logo Section */
@@ -107,7 +109,7 @@ hr {
 }
 
 /* Team Members Section */
-h3 {
+details.h3 {
     color: #065f46;
     font-size: 1.8rem;
     margin-bottom: 20px;
@@ -117,7 +119,7 @@ h3 {
 }
 
 .membercard {
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 15px;
     padding: 25px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
