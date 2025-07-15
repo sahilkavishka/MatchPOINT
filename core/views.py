@@ -196,7 +196,7 @@ def delete_team_member(request, member_id):
     else:
         messages.error(request, "You are not authorized to remove this member.")
     
-    return redirect('team_detail')  
+    return redirect('team_detail',team_id=create_team.id)  
 
 
 def get_team_members(request, team_id):

@@ -22,7 +22,12 @@
             <div><strong>Created Date:</strong> {{ team.created_date }}</div>
             <div><strong>Rules:</strong> <p>{{ team.rules }}</p></div>
           
-             <a class="btn" href="{% url 'add_team_member' team.id %}"><i class="material-icons">add</i>Add Member</a>
+             {% if request.user == team.created_by %}
+               <a class="btn" href="{% url 'add_team_member' team.id %}">
+               <i class="material-icons">add</i>Add Member
+               </a>
+             {% endif %}
+
             
             <!-- ✅ Members List -->
             <h3><center>Team Members</center></h3>
