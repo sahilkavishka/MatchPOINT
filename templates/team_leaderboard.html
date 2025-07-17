@@ -29,7 +29,7 @@
 
 <!-- Leaderboard Table -->
 {% if leaderboard %}
-<div class="container mt-4">
+<div class="d-flex justify-content-center mt-4">
     <table class="table table-dark table-bordered">
         <thead>
             <tr>
@@ -50,7 +50,7 @@
                  {% if team.logo %}
                    <img src="{{ team.logo.url }}" alt="logo"
                             width="40" height="40"
-                            style="border-radius: 50%; object-fit: cover; ">
+                            style="border-radius: 50%; object-fit: cover;">
                  {% else %}
                     <span style="background: #444; width: 40px; height: 40px; display: inline-block; border-radius: 50%;"></span>
                  {% endif %}

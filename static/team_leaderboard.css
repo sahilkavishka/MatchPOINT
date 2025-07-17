@@ -18,15 +18,17 @@ h2 {
     padding: 0 1rem;
 }
 
-/* Table styling */
-.table {
-    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); /* Dark emerald gradient */
+table {
+    margin: 40px auto; /* Center horizontally + spacing */
+    width: fit-content; /* Makes table shrink to content, optional */
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
     border: 2px solid #10b981;
     animation: subtle-glow 3s ease-in-out infinite alternate;
 }
+
 
 /* Table header */
 .table thead th {
