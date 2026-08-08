@@ -1,9 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import UniqueConstraint
-
-
-
 from django.utils import timezone
 from sports_manager import settings
 
@@ -19,8 +16,6 @@ class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     email = models.EmailField(max_length=191, unique=True)
 
-
-   
 
     def __str__(self):
         return self.username
